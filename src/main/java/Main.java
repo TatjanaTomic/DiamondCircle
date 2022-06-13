@@ -2,6 +2,7 @@ import model.exception.MissingConfigurationException;
 import model.exception.WrongConfigurationDefinitionException;
 import model.util.Util;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Properties;
 import java.util.logging.FileHandler;
@@ -34,12 +35,10 @@ public class Main {
             DiamondCircleApplication.main(args);
         }
         catch (MissingConfigurationException | WrongConfigurationDefinitionException e) {
-            Logger.getLogger(Main.class.getName()).log(Level.WARNING, e.fillInStackTrace().toString());
-            return;
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, e.fillInStackTrace().toString());
         }
         catch (Exception e) {
-            Logger.getLogger(Main.class.getName()).log(Level.WARNING, e.fillInStackTrace().toString());
-            return;
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, e.fillInStackTrace().toString());
         }
     }
 

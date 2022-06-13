@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
+
+<AnchorPane prefHeight="-Infinity" prefWidth="-Infinity" style="-fx-background-color: #dbc1ac;"
+            xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controller.MainViewController">
+   <VBox prefHeight="-Infinity" prefWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+         AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="75.0" prefWidth="-Infinity">
+         <VBox.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+         </VBox.margin>
+         <Label prefHeight="200.0" prefWidth="250.0" text="Trenutni broj odigranih igara:" textFill="#38220f"
+                wrapText="true">
+            <font>
+               <Font size="16.0"/>
+            </font>
+         </Label>
+         <TextFlow prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS"/>
+         <ImageView fx:id="imgDiamond" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true"/>
+         <Label prefHeight="200.0" prefWidth="250.0" text="DiamondCircle" textAlignment="CENTER"
+                textFill="#38220f">
+            <font>
+               <Font name="Bauhaus 93" size="30.0"/>
+            </font>
+         </Label>
+         <ImageView fx:id="imgDiamond2" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true"
+                    preserveRatio="true"/>
+         <TextFlow prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS"/>
+         <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0"
+                 style="-fx-background-color: #967259;" text="Pokreni / Zaustavi" textFill="#ece0d1">
+            <HBox.margin>
+               <Insets right="10.0" top="10.0"/>
+            </HBox.margin>
+         </Button>
+      </HBox>
+      <HBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="50.0">
+         <TextFlow prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS"/>
+         <Label text="Igrač 1" textAlignment="CENTER">
+            <font>
+               <Font name="System Bold" size="12.0"/>
+            </font>
+         </Label>
+         <TextFlow prefHeight="200.0" prefWidth="200.0"/>
+         <Label text="Igrač 2" textAlignment="CENTER">
+            <font>
+               <Font name="System Bold" size="12.0"/>
+            </font>
+         </Label>
+         <TextFlow prefHeight="200.0" prefWidth="200.0"/>
+         <Label text="Igrač 3" textAlignment="CENTER">
+            <font>
+               <Font name="System Bold" size="12.0"/>
+            </font>
+         </Label>
+         <TextFlow prefHeight="200.0" prefWidth="200.0"/>
+         <Label text="Igrač 4" textAlignment="CENTER">
+            <font>
+               <Font name="System Bold" size="12.0"/>
+            </font>
+         </Label>
+         <TextFlow prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS"/>
+      </HBox>
+      <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
+            minWidth="-Infinity" VBox.vgrow="ALWAYS">
+         <Pane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+               prefWidth="250.0" HBox.hgrow="ALWAYS">
+            <HBox.margin>
+               <Insets/>
+            </HBox.margin>
+         </Pane>
+         <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+            <children>
+               <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS"/>
+               <Pane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
+                     prefHeight="150.0" VBox.vgrow="ALWAYS"/>
+            </children>
+         </VBox>
+         <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity"
+               minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0" HBox.hgrow="ALWAYS">
+            <children>
+               <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                  <children>
+                     <Label text="Trenutna karta">
+                        <VBox.margin>
+                           <Insets bottom="50.0" top="20.0"/>
+                        </VBox.margin>
+                     </Label>
+                     <ImageView fitHeight="150.0" fitWidth="100.0" preserveRatio="true">
+                        <pickOnBounds>true</pickOnBounds>
+                     </ImageView>
+                  </children>
+                  <VBox.margin>
+                     <Insets bottom="100.0"/>
+                  </VBox.margin>
+               </VBox>
+               <Label text="Vrijeme trajanja igre: ">
+                  <VBox.margin>
+                     <Insets bottom="25.0" top="50.0"/>
+                  </VBox.margin>
+               </Label>
+               <Button maxHeight="1.7976931348623157E308" mnemonicParsing="false"
+                       text="Prikaz liste fajlova sa rezultatima">
+                  <VBox.margin>
+                     <Insets bottom="50.0" top="25.0"/>
+                  </VBox.margin>
+               </Button>
+            </children>
+         </VBox>
+      </HBox>
+
+   </VBox>
+</AnchorPane>

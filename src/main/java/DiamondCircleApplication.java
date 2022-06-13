@@ -1,5 +1,8 @@
+import controller.FxmlController;
 import javafx.application.Application;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class DiamondCircleApplication extends Application {
 
@@ -8,12 +11,8 @@ public class DiamondCircleApplication extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        javafx.scene.Parent root = javafx.fxml.FXMLLoader.load(getClass().getResource("view/MainView.fxml"));
-        primaryStage.setTitle("DiamondCircle");
-        primaryStage.setScene(new javafx.scene.Scene(root));
-        primaryStage.setMaximized(true);
-        primaryStage.setResizable(false);
-        primaryStage.show();
+    public void start(Stage primaryStage) throws IOException {
+
+        FxmlController.load(getClass(), "view/MainView.fxml");
     }
 }
