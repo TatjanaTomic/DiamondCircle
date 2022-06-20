@@ -21,7 +21,7 @@
          <VBox.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
          </VBox.margin>
-         <Label prefHeight="200.0" prefWidth="250.0" text="Trenutni broj odigranih igara:" textFill="#38220f"
+         <Label fx:id="numberOfGamesLabel" prefHeight="200.0" prefWidth="250.0" textFill="#38220f"
                 wrapText="true">
             <font>
                <Font size="16.0"/>
@@ -38,7 +38,7 @@
          <ImageView fx:id="imgDiamond2" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true"
                     preserveRatio="true"/>
          <TextFlow prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS"/>
-         <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0"
+         <Button fx:id="startStopButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0"
                  style="-fx-background-color: #967259;" text="Pokreni / Zaustavi" textFill="#ece0d1">
             <HBox.margin>
                <Insets right="10.0" top="10.0"/>

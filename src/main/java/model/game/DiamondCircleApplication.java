@@ -1,3 +1,5 @@
+package model.game;
+
 import controller.FxmlController;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -13,6 +15,6 @@ public class DiamondCircleApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        FxmlController.load(getClass(), "view/MainView.fxml");
+        FxmlController.load(getClass(), "../../view/MainView.fxml");
     }
 }
