@@ -6,7 +6,6 @@ import model.exception.WrongConfigurationDefinitionException;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -29,8 +28,8 @@ public class Util {
         try {
             Properties properties = new Properties();
             properties.load(inputStream);
-            return properties;
 
+            return properties;
         }catch (Exception e) {
             throw new WrongConfigurationDefinitionException("File " + path.getFileName() + " is not well formatted.");
         }

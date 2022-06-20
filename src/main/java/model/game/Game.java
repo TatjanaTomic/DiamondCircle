@@ -17,13 +17,17 @@ public class Game {
 
     public static int numberOfGames = 0;
 
+    public static List<String> players = new ArrayList<String>();
+
     public static void main(String[] args) {
 
         try {
             Properties configProperties = Util.LoadResources(configPath);
             checkConfigProperties(configProperties);
 
-            Object[] players = readPlayers();
+            readPlayers();
+
+            GameSimulation simulation = new GameSimulation();
 
             DiamondCircleApplication.main(args);
         }
@@ -58,7 +62,7 @@ public class Game {
 
     }
 
-    private static Object[] readPlayers() throws MissingConfigurationException, WrongConfigurationDefinitionException {
+    private static void readPlayers() throws MissingConfigurationException, WrongConfigurationDefinitionException {
         Properties playersProperties = Util.LoadResources(playersPath);
 
         Set<String> playerNames = new HashSet<String>();
@@ -75,7 +79,8 @@ public class Game {
         if(playerNames.size() < numberOfPlayers)
             throw new WrongConfigurationDefinitionException("Players names must be unique!");
 
-        return playerNames.toArray();
+        for(Object playerName : playerNames)
+            players.add(playerName.toString());
     }
 
 }
