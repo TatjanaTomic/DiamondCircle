@@ -1,13 +1,15 @@
 package model.game;
 
+import model.exception.MissingConfigurationException;
 import model.exception.WrongConfigurationDefinitionException;
 import model.util.Util;
 
 import java.nio.file.Path;
-import java.util.Properties;
+import java.util.*;
 
 public class Game {
     private static final Path configPath = Path.of("config.properties");
+    private static final Path playersPath = Path.of("players.properties");
 
     public static int numberOfPlayers;
     public static int dimension;
@@ -21,7 +23,7 @@ public class Game {
             Properties configProperties = Util.LoadResources(configPath);
             checkConfigProperties(configProperties);
 
-
+            Object[] players = readPlayers();
 
             DiamondCircleApplication.main(args);
         }
@@ -55,6 +57,27 @@ public class Game {
         }
 
     }
+
+    private static Object[] readPlayers() throws MissingConfigurationException, WrongConfigurationDefinitionException {
+        Properties playersProperties = Util.LoadResources(playersPath);
+
+        Set<String> playerNames = new HashSet<String>();
+
+        //TODO : Ako je u fajlu upisano vise imena nego sto je broj igraca u config fajlu, taj "visak" se ignorise, da li je to okej ?
+        for(int i = 1; i <= numberOfPlayers; i++) {
+            String name = playersProperties.getProperty("player" + i);
+            if(name == null)
+                throw new WrongConfigurationDefinitionException("Players names are not well formatted!");
+
+            playerNames.add(name);
+        }
+
+        if(playerNames.size() < numberOfPlayers)
+            throw new WrongConfigurationDefinitionException("Players names must be unique!");
+
+        return playerNames.toArray();
+    }
+
 }
 
 

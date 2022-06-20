@@ -17,8 +17,24 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Util {
-
     private static final String logsDirectory = "." + File.separator + "logs" + File.separator;
+
+    public static Properties LoadResources(Path path) throws MissingConfigurationException, WrongConfigurationDefinitionException {
+
+        InputStream inputStream = Util.class.getClassLoader().getResourceAsStream(path.toString());
+        if(inputStream == null) {
+            throw new MissingConfigurationException("File " + path.getFileName() + " does not exist.");
+        }
+
+        try {
+            Properties properties = new Properties();
+            properties.load(inputStream);
+            return properties;
+
+        }catch (Exception e) {
+            throw new WrongConfigurationDefinitionException("File " + path.getFileName() + " is not well formatted.");
+        }
+    }
 
     public static void log(Class<?> C, Exception exception) {
         Logger logger = Logger.getLogger(C.getName());
@@ -43,23 +59,5 @@ public class Util {
     public static void logAsync(Class<?> C, Exception exception) {
         new Thread(() -> Util.log(C, exception)).start();
     }
-
-    public static Properties LoadResources(Path path) throws MissingConfigurationException, WrongConfigurationDefinitionException {
-
-        InputStream inputStream = Util.class.getClassLoader().getResourceAsStream(path.toString());
-        if(inputStream == null) {
-            throw new MissingConfigurationException();
-        }
-
-        try {
-            Properties properties = new Properties();
-            properties.load(inputStream);
-            return properties;
-
-        }catch (Exception e) {
-            throw new WrongConfigurationDefinitionException();
-        }
-    }
-
 
 }
