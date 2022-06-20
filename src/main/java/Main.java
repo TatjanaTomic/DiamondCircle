@@ -5,10 +5,6 @@ import model.util.Util;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Properties;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Main {
     private static final Path configPath = Path.of("config.properties");
@@ -17,28 +13,16 @@ public class Main {
     public static int dimension;
     public static int n;
 
-    public static Handler handler;
-
     public static void main(String[] args) {
 
         try {
-            handler = new FileHandler("configHandler.log");
-            Logger.getLogger(Main.class.getName()).addHandler(handler);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            Properties configProperties = Util.LoadConfiguration(configPath);
+            Properties configProperties = Util.LoadResources(configPath);
             checkConfigProperties(configProperties);
 
             DiamondCircleApplication.main(args);
         }
-        catch (MissingConfigurationException | WrongConfigurationDefinitionException e) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, e.fillInStackTrace().toString());
-        }
         catch (Exception e) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, e.fillInStackTrace().toString());
+            Util.log(Main.class, e);
         }
     }
 
