@@ -1,5 +1,6 @@
 package model.game;
 
+import controller.MainViewController;
 import model.exception.MissingConfigurationException;
 import model.exception.WrongConfigurationDefinitionException;
 import model.field.Coordinates;
@@ -49,6 +50,7 @@ public class Game {
 
             }
 
+            MainViewController.setSimulation(simulation);
             DiamondCircleApplication.main(args);
         }
         catch (Exception e) {
@@ -97,6 +99,7 @@ public class Game {
                 throw new WrongConfigurationDefinitionException("Players names are not well formatted!");
 
             playersNames.add(name);
+            String test = "";
         }
 
         if(playersNames.size() < numberOfPlayers)
@@ -104,6 +107,9 @@ public class Game {
 
         for(Object playerName : playersNames)
             players.add(playerName.toString());
+
+        //Redoslijed igraca se odredjuje nasumicno
+        Collections.shuffle(players);
     }
 
     private static void loadMatrixConfiguration() throws MissingConfigurationException, WrongConfigurationDefinitionException{
