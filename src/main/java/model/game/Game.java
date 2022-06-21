@@ -17,14 +17,12 @@ public class Game {
 
     public static int numberOfGames = 0;
 
-    public static List<String> players = new ArrayList<String>();
+    public static List<String> players = new ArrayList<>();
 
     public static void main(String[] args) {
 
         try {
-            Properties configProperties = Util.LoadResources(configPath);
-            checkConfigProperties(configProperties);
-
+            checkConfigProperties();
             readPlayers();
 
             GameSimulation simulation = new GameSimulation();
@@ -36,7 +34,9 @@ public class Game {
         }
     }
 
-    private static void checkConfigProperties(Properties configProperties) throws WrongConfigurationDefinitionException {
+    private static void checkConfigProperties() throws WrongConfigurationDefinitionException, MissingConfigurationException {
+
+        Properties configProperties = Util.LoadResources(configPath);
 
         try {
             numberOfPlayers = Integer.parseInt(configProperties.getProperty("numberOfPlayers"));
@@ -63,9 +63,10 @@ public class Game {
     }
 
     private static void readPlayers() throws MissingConfigurationException, WrongConfigurationDefinitionException {
+
         Properties playersProperties = Util.LoadResources(playersPath);
 
-        Set<String> playerNames = new HashSet<String>();
+        Set<String> playersNames = new HashSet<>();
 
         //TODO : Ako je u fajlu upisano vise imena nego sto je broj igraca u config fajlu, taj "visak" se ignorise, da li je to okej ?
         for(int i = 1; i <= numberOfPlayers; i++) {
@@ -73,13 +74,13 @@ public class Game {
             if(name == null)
                 throw new WrongConfigurationDefinitionException("Players names are not well formatted!");
 
-            playerNames.add(name);
+            playersNames.add(name);
         }
 
-        if(playerNames.size() < numberOfPlayers)
+        if(playersNames.size() < numberOfPlayers)
             throw new WrongConfigurationDefinitionException("Players names must be unique!");
 
-        for(Object playerName : playerNames)
+        for(Object playerName : playersNames)
             players.add(playerName.toString());
     }
 
