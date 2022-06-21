@@ -4,9 +4,9 @@ import javafx.scene.paint.Color;
 
 public class EmptyField extends Field {
 
-    public EmptyField(String fieldContent, double x, double y, double width, double height) {
-        super(fieldContent, x, y, width, height);
+    public EmptyField(String fieldContent, Coordinates coordinates, double width, double height) {
+        super(fieldContent, coordinates, width, height);
         rectangle.setStroke(Color.GRAY);
-        rectangle.setFill(Color.LIGHTSTEELBLUE);
+        rectangle.setFill(Color.LIGHTGRAY);
     }
 }

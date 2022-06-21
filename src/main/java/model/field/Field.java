@@ -15,11 +15,11 @@ public abstract class Field extends StackPane {
     private int numberOfColumn;
     private Coordinates coordinates;
 
-    protected Field(String fieldContent, double x, double y, double width, double height) {
-        numberOfRow = (int) y;
-        numberOfColumn = (int) x;
+    protected Field(String fieldContent, Coordinates coordinates, double width, double height) {
+        this.coordinates = coordinates;
+        numberOfRow = coordinates.getX(); //TODO: Provjeri ovo
+        numberOfColumn = coordinates.getY();
 
-        coordinates = new Coordinates((int)x, (int)y);
         rectangle = new Rectangle(width, height);
         label = new Label(fieldContent);
 

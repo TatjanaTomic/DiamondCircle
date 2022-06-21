@@ -51,14 +51,14 @@ public class MainViewController implements Initializable {
 
     private void initializeMap() {
         for(Coordinates coordinates : Game.gamePath) {
-            Field field = new GameField("T", coordinates.getX(), coordinates.getY(), fieldWidth, fieldHeight, Color.rgb(redComponent, greenComponent, blueComponent));
+            Field field = new GameField("T", coordinates, fieldWidth, fieldHeight, Color.rgb(redComponent, greenComponent, blueComponent));
             mapGridPane.add(field, coordinates.getY(), coordinates.getX());
             redComponent -= 3;
             greenComponent -= 5;
             blueComponent -= 3;
         }
         for(Coordinates coordinates : Game.emptyPath) {
-            Field field = new EmptyField("", coordinates.getX(), coordinates.getY(), fieldWidth, fieldHeight);
+            Field field = new EmptyField("", coordinates, fieldWidth, fieldHeight);
             mapGridPane.add(field, coordinates.getY(), coordinates.getX());
         }
 
