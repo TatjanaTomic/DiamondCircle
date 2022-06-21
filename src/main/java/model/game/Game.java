@@ -2,8 +2,11 @@ package model.game;
 
 import model.exception.MissingConfigurationException;
 import model.exception.WrongConfigurationDefinitionException;
+import model.figure.Figure;
+import model.player.Player;
 import model.util.Util;
 
+import java.lang.management.PlatformLoggingMXBean;
 import java.nio.file.Path;
 import java.util.*;
 
@@ -25,7 +28,16 @@ public class Game {
             checkConfigProperties();
             readPlayers();
 
-            GameSimulation simulation = new GameSimulation();
+            Simulation simulation = new Simulation();
+
+            List<Player> test = simulation.getPlayers();
+            for (Player p : test) {
+                System.out.println("Igrac: " + p.getName() + " boja " + p.getColor());
+                for (Figure f: p.getFigures()) {
+                    System.out.println(f.getClass().getName());
+                }
+
+            }
 
             DiamondCircleApplication.main(args);
         }

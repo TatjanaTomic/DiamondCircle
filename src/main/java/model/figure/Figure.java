@@ -12,9 +12,6 @@ public abstract class Figure implements IRunnable {
         return color;
     }
 
-    public void setColor(FigureColor color) {
-        this.color = color;
-    }
 
     public abstract void run();
 }
