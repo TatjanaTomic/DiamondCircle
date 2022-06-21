@@ -19,12 +19,17 @@ public class MainViewController implements Initializable {
 
     private static final String numberOfGamesText = "Trenutni broj odigranih igara: ";
 
-    private static final double mapWidth = 400;
-    private static final double mapHeight = 400;
-    private static final int numberOfFields = Game.dimension;
-    private static final double fieldWidth = (mapWidth / numberOfFields);
-    private static final double fieldHeight = (mapHeight / numberOfFields);
+    private final double mapWidth = 500;
+    private final double mapHeight = 500;
+    private final int numberOfFields = Game.dimension;
+    private final double fieldWidth = (mapWidth / numberOfFields);
+    private final double fieldHeight = (mapHeight / numberOfFields);
 
+    private int redComponent = 215;
+    private int greenComponent = 195;
+    private int blueComponent = 215;
+    private final Color startFieldColor = Color.WHITESMOKE;
+    private final Color endFieldColor = Color.rgb(100,15,115);
 
     @FXML
     public Label numberOfGamesLabel;
@@ -34,10 +39,6 @@ public class MainViewController implements Initializable {
 
     @FXML
     public GridPane mapGridPane;
-
-    private static int redComponent = 246 - (7*4);
-    private static int greenComponent = 242 - (7*6);
-    private static int blueComponent = 246 - (7*4);
 
 
     @Override
@@ -50,13 +51,25 @@ public class MainViewController implements Initializable {
     }
 
     private void initializeMap() {
-        for(Coordinates coordinates : Game.gamePath) {
+
+        Coordinates startCoordinates = Game.gamePath.get(0);
+        Field startField = new GameField("T", startCoordinates , fieldWidth, fieldHeight, startFieldColor, true, false);
+        mapGridPane.add(startField, startCoordinates.getY(), startCoordinates.getX());
+
+        for(int i = 1; i < Game.gamePath.size(); i++) {
+            Coordinates coordinates = Game.gamePath.get(i);
             Field field = new GameField("T", coordinates, fieldWidth, fieldHeight, Color.rgb(redComponent, greenComponent, blueComponent));
             mapGridPane.add(field, coordinates.getY(), coordinates.getX());
             redComponent -= 3;
             greenComponent -= 5;
             blueComponent -= 3;
         }
+
+        Coordinates endCoordinates = Game.gamePath.get(Game.gamePath.size() - 1);
+        Field endField = new GameField("T", endCoordinates, fieldWidth, fieldHeight, endFieldColor, false, true);
+        mapGridPane.add(endField, endCoordinates.getY(), endCoordinates.getX());
+
+
         for(Coordinates coordinates : Game.emptyPath) {
             Field field = new EmptyField("", coordinates, fieldWidth, fieldHeight);
             mapGridPane.add(field, coordinates.getY(), coordinates.getX());
