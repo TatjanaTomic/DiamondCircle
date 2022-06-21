@@ -4,13 +4,25 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 
-public class Field extends StackPane {
+import java.awt.*;
 
-    private Rectangle rectangle;
-    private Label label;
+public abstract class Field extends StackPane {
+
+    protected Rectangle rectangle;
+    protected Label label;
 
     private int numberOfRow;
     private int numberOfColumn;
+    private Coordinates coordinates;
 
+    protected Field(String fieldContent, double x, double y, double width, double height) {
+        numberOfRow = (int) y;
+        numberOfColumn = (int) x;
 
+        coordinates = new Coordinates((int)x, (int)y);
+        rectangle = new Rectangle(width, height);
+        label = new Label(fieldContent);
+
+        getChildren().addAll(rectangle, label);
+    }
 }
