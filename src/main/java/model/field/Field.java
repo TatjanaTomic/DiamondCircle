@@ -22,6 +22,7 @@ public abstract class Field extends StackPane {
 
         rectangle = new Rectangle(width, height);
         label = new Label(fieldContent);
+        label.setStyle("-fx-background-color: #ffffff;");
 
         getChildren().addAll(rectangle, label);
     }

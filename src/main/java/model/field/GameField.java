@@ -20,8 +20,10 @@ public class GameField extends Field {
         this.isStart = isStart;
         this.isEnd = isEnd;
 
-        if(isStart || isEnd)
+        if(isStart)
             rectangle.setStroke(Color.GOLD);
+        else if(isEnd)
+            rectangle.setStroke(Color.WHITE);
         else
             rectangle.setStroke(Color.BLACK);
 
