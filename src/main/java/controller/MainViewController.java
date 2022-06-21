@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import model.field.Coordinates;
 import model.field.EmptyField;
 import model.field.Field;
 import model.field.GameField;
@@ -34,7 +35,10 @@ public class MainViewController implements Initializable {
     @FXML
     public GridPane mapGridPane;
 
-    private static int c = 235;
+    private static int redComponent = 246 - (7*4);
+    private static int greenComponent = 242 - (7*6);
+    private static int blueComponent = 246 - (7*4);
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -46,18 +50,19 @@ public class MainViewController implements Initializable {
     }
 
     private void initializeMap() {
-        for(int i=0; i < numberOfFields; i++) {
-            for(int j = 0; j < numberOfFields; j++) {
-                Field field;
-                if(i==0 || i==2 || i==4 || i==6 || i ==8) {
-                    field = new EmptyField("", i, j, fieldWidth, fieldHeight);
-                } else {
-                    field = new GameField("T", i, j, fieldWidth, fieldHeight, Color.rgb(c,c,c));
-                }
-
-                mapGridPane.add(field, i, j);
-                c -= 1;
-            }
+        for(Coordinates coordinates : Game.gamePath) {
+            Field field = new GameField("T", coordinates.getX(), coordinates.getY(), fieldWidth, fieldHeight, Color.rgb(redComponent, greenComponent, blueComponent));
+            mapGridPane.add(field, coordinates.getY(), coordinates.getX());
+            redComponent -= 3;
+            greenComponent -= 5;
+            blueComponent -= 3;
         }
+        for(Coordinates coordinates : Game.emptyPath) {
+            Field field = new EmptyField("", coordinates.getX(), coordinates.getY(), fieldWidth, fieldHeight);
+            mapGridPane.add(field, coordinates.getY(), coordinates.getX());
+        }
+
     }
+
+
 }

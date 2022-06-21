@@ -2,21 +2,30 @@ package model.game;
 
 import model.exception.MissingConfigurationException;
 import model.exception.WrongConfigurationDefinitionException;
+import model.field.Coordinates;
 import model.figure.Figure;
 import model.player.Player;
 import model.util.Util;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
+import java.io.File;
 import java.lang.management.PlatformLoggingMXBean;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class Game {
     private static final Path configPath = Path.of("config.properties");
     private static final Path playersPath = Path.of("players.properties");
+    private static final Path matrixConfigs = Path.of("src/main/resources/view/matrixConfigs/");
 
     public static int numberOfPlayers;
     public static int dimension;
     public static int n;
+
+    public static List<Coordinates> gamePath = new ArrayList<>();
+    public static List<Coordinates> emptyPath = new ArrayList<>();
 
     public static int numberOfGames = 0;
 
@@ -27,6 +36,7 @@ public class Game {
         try {
             checkConfigProperties();
             readPlayers();
+            loadMatrixConfiguration();
 
             Simulation simulation = new Simulation();
 
@@ -96,6 +106,24 @@ public class Game {
             players.add(playerName.toString());
     }
 
+    private static void loadMatrixConfiguration() throws MissingConfigurationException, WrongConfigurationDefinitionException{
+
+        JSONArray gamePathJson = Util.ReadMatrixConfiguration(matrixConfigs.resolve("matrix" + dimension + "gamePath.json"));
+        JSONArray emptyPathJson = Util.ReadMatrixConfiguration(matrixConfigs.resolve("matrix" + dimension + "emptyPath.json"));
+
+        for (Object object: gamePathJson)
+            gamePath.add(parseCoordinates((JSONObject) object));
+
+        for (Object object: emptyPathJson)
+            emptyPath.add(parseCoordinates((JSONObject) object));
+    }
+
+    private static Coordinates parseCoordinates(JSONObject jsonObject) {
+        int x = ((Long) jsonObject.get("x")).intValue();
+        int y = ((Long) jsonObject.get("y")).intValue();
+
+        return new Coordinates(x,y);
+    }
 }
 
 

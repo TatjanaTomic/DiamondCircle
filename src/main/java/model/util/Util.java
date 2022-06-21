@@ -59,21 +59,21 @@ public class Util {
         new Thread(() -> Util.log(C, exception)).start();
     }
 
-    public static JSONArray ReadMatrixConfiguration(String path) throws MissingConfigurationException, WrongConfigurationDefinitionException{
+    public static JSONArray ReadMatrixConfiguration(Path path) throws MissingConfigurationException, WrongConfigurationDefinitionException{
 
         Object jsonConfiguration;
         JSONParser jsonParser = new JSONParser();
 
-        try (FileReader fileReader = new FileReader(path)) {
+        try (FileReader fileReader = new FileReader(path.toFile())) {
 
             jsonConfiguration = jsonParser.parse(fileReader);
 
             return (JSONArray) jsonConfiguration;
 
         } catch (FileNotFoundException e) {
-            throw new MissingConfigurationException("File " + Paths.get(path).getFileName() + " does not exist!");
+            throw new MissingConfigurationException("File " + path.getFileName() + " does not exist!");
         } catch (Exception e) {
-            throw new WrongConfigurationDefinitionException("Unable to load " + Paths.get(path).getFileName() + " config file");
+            throw new WrongConfigurationDefinitionException("Unable to load " + path.getFileName() + " config file");
         }
     }
 }
