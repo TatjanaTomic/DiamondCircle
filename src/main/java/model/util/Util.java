@@ -2,10 +2,10 @@ package model.util;
 
 import model.exception.MissingConfigurationException;
 import model.exception.WrongConfigurationDefinitionException;
+import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -59,4 +59,21 @@ public class Util {
         new Thread(() -> Util.log(C, exception)).start();
     }
 
+    public static JSONArray ReadMatrixConfiguration(String path) throws MissingConfigurationException, WrongConfigurationDefinitionException{
+
+        Object jsonConfiguration;
+        JSONParser jsonParser = new JSONParser();
+
+        try (FileReader fileReader = new FileReader(path)) {
+
+            jsonConfiguration = jsonParser.parse(fileReader);
+
+            return (JSONArray) jsonConfiguration;
+
+        } catch (FileNotFoundException e) {
+            throw new MissingConfigurationException("File " + Paths.get(path).getFileName() + " does not exist!");
+        } catch (Exception e) {
+            throw new WrongConfigurationDefinitionException("Unable to load " + Paths.get(path).getFileName() + " config file");
+        }
+    }
 }
