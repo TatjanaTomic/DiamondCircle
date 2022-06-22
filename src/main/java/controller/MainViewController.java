@@ -68,7 +68,26 @@ public class MainViewController implements Initializable {
 
     private void initializeMap() {
 
+        Coordinates startCoordinates = Game.gamePath.get(0);
+        Field startField = new GameField("T", startCoordinates , fieldWidth, fieldHeight, startFieldColor, true, false);
+        mapGridPane.add(startField, startCoordinates.getY(), startCoordinates.getX());
 
+        for(int i = 1; i < Game.gamePath.size(); i++) {
+            Coordinates coordinates = Game.gamePath.get(i);
+            Field field = new GameField("Test", coordinates, fieldWidth, fieldHeight, Color.rgb(redComponent, greenComponent, blueComponent));
+            mapGridPane.add(field, coordinates.getY(), coordinates.getX());
+            changeColor();
+        }
+
+        Coordinates endCoordinates = Game.gamePath.get(Game.gamePath.size() - 1);
+        Field endField = new GameField("T", endCoordinates, fieldWidth, fieldHeight, endFieldColor, false, true);
+        mapGridPane.add(endField, endCoordinates.getY(), endCoordinates.getX());
+
+
+        for(Coordinates coordinates : Game.emptyPath) {
+            Field field = new EmptyField("", coordinates, fieldWidth, fieldHeight);
+            mapGridPane.add(field, coordinates.getY(), coordinates.getX());
+        }
     }
 
     private void initializePlayersLabels() {
