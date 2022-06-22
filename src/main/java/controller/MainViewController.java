@@ -7,7 +7,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import model.exception.ErrorStartingGameException;
 import model.field.Coordinates;
 import model.field.EmptyField;
 import model.field.Field;
@@ -69,28 +68,6 @@ public class MainViewController implements Initializable {
 
     private void initializeMap() {
 
-        Coordinates startCoordinates = Game.gamePath.get(0);
-        Field startField = new GameField("T", startCoordinates , fieldWidth, fieldHeight, startFieldColor, true, false);
-        mapGridPane.add(startField, startCoordinates.getY(), startCoordinates.getX());
-
-        for(int i = 1; i < Game.gamePath.size(); i++) {
-            Coordinates coordinates = Game.gamePath.get(i);
-            Field field = new GameField("Test", coordinates, fieldWidth, fieldHeight, Color.rgb(redComponent, greenComponent, blueComponent));
-            mapGridPane.add(field, coordinates.getY(), coordinates.getX());
-            redComponent -= 3;
-            greenComponent -= 5;
-            blueComponent -= 3;
-        }
-
-        Coordinates endCoordinates = Game.gamePath.get(Game.gamePath.size() - 1);
-        Field endField = new GameField("T", endCoordinates, fieldWidth, fieldHeight, endFieldColor, false, true);
-        mapGridPane.add(endField, endCoordinates.getY(), endCoordinates.getX());
-
-
-        for(Coordinates coordinates : Game.emptyPath) {
-            Field field = new EmptyField("", coordinates, fieldWidth, fieldHeight);
-            mapGridPane.add(field, coordinates.getY(), coordinates.getX());
-        }
 
     }
 
@@ -106,5 +83,23 @@ public class MainViewController implements Initializable {
 
     public static void setSimulation(Simulation sim) {
         simulation = sim;
+    }
+
+    private void changeColor() {
+        if(numberOfFields == 7) {
+            redComponent -= 3;
+            greenComponent -= 5;
+            blueComponent -= 3;
+        }
+        else if(numberOfFields == 8 || numberOfFields == 9) {
+            redComponent -= 2;
+            greenComponent -= 4;
+            blueComponent -= 2;
+        }
+        else if(numberOfFields == 10) {
+            redComponent -= 1;
+            greenComponent -= 3;
+            blueComponent -= 1;
+        }
     }
 }

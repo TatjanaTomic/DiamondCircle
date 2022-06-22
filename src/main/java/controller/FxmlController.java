@@ -8,16 +8,18 @@ import javafx.stage.Stage;
 import model.util.Util;
 
 import java.io.IOException;
-import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static java.util.Objects.*;
 
 public class FxmlController {
     public static void load(Class c, String fxml) throws IOException {
+
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        javafx.scene.Parent root = fxmlLoader.load(c.getResource(fxml).openStream());
+        var controller = fxmlLoader.getController();
+
         Stage primaryStage = new Stage();
-        javafx.scene.Parent root = javafx.fxml.FXMLLoader.load(c.getResource(fxml));
+        //javafx.scene.Parent root = javafx.fxml.FXMLLoader.load(c.getResource(fxml));
         primaryStage.setTitle("DiamondCircle");
         primaryStage.setScene(new javafx.scene.Scene(root));
         primaryStage.setMaximized(true);

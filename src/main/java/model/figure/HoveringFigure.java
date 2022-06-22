@@ -7,7 +7,7 @@ public class HoveringFigure extends Figure {
     }
 
     @Override
-    public void run() {
+    public void move() {
 
     }
 }

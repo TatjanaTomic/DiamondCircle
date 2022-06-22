@@ -1,6 +1,6 @@
 package model.figure;
 
-public abstract class Figure implements IRunnable {
+public abstract class Figure implements IMoveable {
 
     private FigureColor color;
 
@@ -13,5 +13,5 @@ public abstract class Figure implements IRunnable {
     }
 
 
-    public abstract void run();
+    public abstract void move();
 }

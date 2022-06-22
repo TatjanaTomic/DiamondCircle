@@ -7,7 +7,7 @@ public class SuperFastFigure extends Figure {
     }
 
     @Override
-    public void run() {
+    public void move() {
 
     }
 }

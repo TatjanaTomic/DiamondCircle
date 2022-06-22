@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2022-06-22T08:07:10.834397800Z</date>
+  <millis>1655885230834</millis>
+  <nanos>397800</nanos>
+  <sequence>0</sequence>
+  <logger>model.game.Game</logger>
+  <level>SEVERE</level>
+  <class>model.util.Util</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>Exception in Application start method</message>
+  <exception>
+    <message>java.lang.RuntimeException: Exception in Application start method</message>
+    <frame>
+      <class>com.sun.javafx.application.LauncherImpl</class>
+      <method>launchApplication1</method>
+      <line>900</line>
+    </frame>
+    <frame>
+      <class>com.sun.javafx.application.LauncherImpl</class>
+      <method>lambda$launchApplication$2</method>
+      <line>195</line>
+    </frame>
+    <frame>
+      <class>java.lang.Thread</class>
+      <method>run</method>
+      <line>832</line>
+    </frame>
+  </exception>
+</record>
+</log>

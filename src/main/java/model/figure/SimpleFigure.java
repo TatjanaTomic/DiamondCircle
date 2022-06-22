@@ -7,7 +7,7 @@ public class SimpleFigure extends Figure {
     }
 
     @Override
-    public void run() {
+    public void move() {
 
     }
 }
