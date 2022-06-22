@@ -96,17 +96,13 @@ public class Game {
                 throw new WrongConfigurationDefinitionException("Players names are not well formatted!");
 
             playersNames.add(name);
-            String test = "";
         }
 
         if(playersNames.size() < numberOfPlayers)
             throw new WrongConfigurationDefinitionException("Players names must be unique!");
 
         for(Object playerName : playersNames)
-            players.add(playerName.toString());
-
-        //Redoslijed igraca se odredjuje nasumicno
-        Collections.shuffle(players);
+            players.add(0, playerName.toString());
     }
 
     private static void loadMatrixConfiguration() throws MissingConfigurationException, WrongConfigurationDefinitionException{

@@ -8,6 +8,7 @@ import model.player.Player;
 import model.util.Util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -31,6 +32,8 @@ public abstract class SimulationBuilder {
 
                 players.add(new Player(name, color, figures));
             }
+            //Randomize players' order
+            Collections.shuffle(players);
 
             // Shuffle cards
             Deck.getInstance().shuffleCards();

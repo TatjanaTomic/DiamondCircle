@@ -13,6 +13,7 @@ import model.field.Coordinates;
 import model.field.EmptyField;
 import model.field.Field;
 import model.field.GameField;
+import model.figure.GhostFigure;
 import model.game.Game;
 import model.game.Simulation;
 import model.util.Util;
@@ -29,7 +30,7 @@ public class MainViewController implements Initializable {
 
     private final double mapWidth = 500;
     private final double mapHeight = 500;
-    private final int numberOfFields = Game.dimension;
+    private static final int numberOfFields = Game.dimension;
     private final double fieldWidth = (mapWidth / numberOfFields);
     private final double fieldHeight = (mapHeight / numberOfFields);
 
@@ -39,7 +40,9 @@ public class MainViewController implements Initializable {
     private final Color startFieldColor = Color.WHITESMOKE;
     private final Color endFieldColor = Color.rgb(100,15,115);
 
+    //TODO : Da li je bolje da bude staticko ili ipak ne ?
     private static Simulation simulation = null;
+    public static Field[][] map = new Field[numberOfFields][numberOfFields];
 
     @FXML
     public Label numberOfGamesLabel;
@@ -75,26 +78,32 @@ public class MainViewController implements Initializable {
 
         Coordinates startCoordinates = Game.gamePath.get(0);
         GameField startField = new GameField("START", startCoordinates , fieldWidth, fieldHeight, startFieldColor, true, false);
-        mapGridPane.add(startField, startCoordinates.getY(), startCoordinates.getX());
+        addField(startField, startCoordinates.getX(), startCoordinates.getY());
         startField.setDiamondAdded(true);
 
         for(int i = 1; i < Game.gamePath.size(); i++) {
             Coordinates coordinates = Game.gamePath.get(i);
             GameField field = new GameField("Test", coordinates, fieldWidth, fieldHeight, Color.rgb(redComponent, greenComponent, blueComponent));
-            mapGridPane.add(field, coordinates.getY(), coordinates.getX());
-            if(i == 5 || i == 15)
-                field.setDiamondAdded(true);
+            addField(field, coordinates.getX(), coordinates.getY());
             changeColor();
         }
 
         Coordinates endCoordinates = Game.gamePath.get(Game.gamePath.size() - 1);
         GameField endField = new GameField("END", endCoordinates, fieldWidth, fieldHeight, endFieldColor, false, true);
-        mapGridPane.add(endField, endCoordinates.getY(), endCoordinates.getX());
+        addField(endField, endCoordinates.getX(), endCoordinates.getY());
 
         for(Coordinates coordinates : Game.emptyPath) {
             EmptyField field = new EmptyField(coordinates, fieldWidth, fieldHeight);
-            mapGridPane.add(field, coordinates.getY(), coordinates.getX());
+            addField(field, coordinates.getX(), coordinates.getY());
         }
+    }
+
+    private void addField(Field field, int x, int y) {
+
+        mapGridPane.getChildren().remove(map[x][y]);
+        mapGridPane.add(field, y, x); // add(Node node, int columnNumber, int rowNumber);
+        //field.getTextProperty().addListener((observableValue, s, t1) -> updateGridPane());
+        map[x][y] = field;
     }
 
     private void initializePlayersLabels() {
@@ -127,5 +136,9 @@ public class MainViewController implements Initializable {
             greenComponent -= 3;
             blueComponent -= 1;
         }
+    }
+
+    public void test() {
+        simulation.startSimulation();
     }
 }

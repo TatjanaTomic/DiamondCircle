@@ -12,10 +12,12 @@ import java.util.*;
 
 public class Simulation {
 
-    private List<Player> players;
+    private final List<Player> players;
+    private final GhostFigure ghostFigure;
 
     public Simulation(List<Player> players) {
         this.players = players;
+        ghostFigure = new GhostFigure();
     }
 
     public List<Player> getPlayers() {
@@ -23,7 +25,6 @@ public class Simulation {
     }
 
     public void startSimulation() {
-
+        ghostFigure.start();
     }
-
 }

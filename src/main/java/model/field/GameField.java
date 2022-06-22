@@ -61,9 +61,14 @@ public class GameField extends Field {
 
     private void setInitialContent(String fieldContent) {
         contentLabel = new Label(fieldContent);
+
         diamondImage = new ImageView();
         diamondImage.setFitHeight(15);
         diamondImage.setFitWidth(15);
+        diamondImage.setImage(new Image(Objects.requireNonNull(
+                getClass().getResourceAsStream("../../view/images/diamond2.png"))));
+        diamondImage.setVisible(false);
+
         content.getChildren().addAll(contentLabel, diamondImage);
     }
 
@@ -73,13 +78,7 @@ public class GameField extends Field {
 
     public void setDiamondAdded(boolean value) {
         diamondAdded = value;
-
-        if(value)
-            diamondImage.setImage(new Image(Objects.requireNonNull(
-                    getClass().getResourceAsStream("../../view/images/diamond2.png"))));
-        else
-            diamondImage = new ImageView();
-        //TODO : Provjeri da li je else okej, da li će se poremetiti width i height
+        diamondImage.setVisible(value);
     }
 
     public boolean isHoleAdded() {
