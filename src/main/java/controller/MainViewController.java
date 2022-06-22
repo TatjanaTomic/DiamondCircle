@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -15,7 +17,10 @@ import model.game.Game;
 import model.game.Simulation;
 import model.util.Util;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class MainViewController implements Initializable {
@@ -69,23 +74,25 @@ public class MainViewController implements Initializable {
     private void initializeMap() {
 
         Coordinates startCoordinates = Game.gamePath.get(0);
-        Field startField = new GameField("T", startCoordinates , fieldWidth, fieldHeight, startFieldColor, true, false);
+        GameField startField = new GameField("START", startCoordinates , fieldWidth, fieldHeight, startFieldColor, true, false);
         mapGridPane.add(startField, startCoordinates.getY(), startCoordinates.getX());
+        startField.setDiamondAdded(true);
 
         for(int i = 1; i < Game.gamePath.size(); i++) {
             Coordinates coordinates = Game.gamePath.get(i);
-            Field field = new GameField("Test", coordinates, fieldWidth, fieldHeight, Color.rgb(redComponent, greenComponent, blueComponent));
+            GameField field = new GameField("Test", coordinates, fieldWidth, fieldHeight, Color.rgb(redComponent, greenComponent, blueComponent));
             mapGridPane.add(field, coordinates.getY(), coordinates.getX());
+            if(i == 5 || i == 15)
+                field.setDiamondAdded(true);
             changeColor();
         }
 
         Coordinates endCoordinates = Game.gamePath.get(Game.gamePath.size() - 1);
-        Field endField = new GameField("T", endCoordinates, fieldWidth, fieldHeight, endFieldColor, false, true);
+        GameField endField = new GameField("END", endCoordinates, fieldWidth, fieldHeight, endFieldColor, false, true);
         mapGridPane.add(endField, endCoordinates.getY(), endCoordinates.getX());
 
-
         for(Coordinates coordinates : Game.emptyPath) {
-            Field field = new EmptyField("", coordinates, fieldWidth, fieldHeight);
+            EmptyField field = new EmptyField(coordinates, fieldWidth, fieldHeight);
             mapGridPane.add(field, coordinates.getY(), coordinates.getX());
         }
     }

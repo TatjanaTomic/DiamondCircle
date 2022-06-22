@@ -1,6 +1,11 @@
 package model.field;
 
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+
+import java.util.Objects;
 
 public class GameField extends Field {
 
@@ -15,9 +20,12 @@ public class GameField extends Field {
     private Color backgroundColor;
     private Color borderColor;
 
+    private Label contentLabel;
+    private Label diamondLabel;
+    private ImageView diamondImage;
 
     public GameField(String fieldContent, Coordinates coordinates, double width, double height, Color initialColor) {
-        super(fieldContent, coordinates, width, height);
+        super(coordinates, width, height);
 
         this.initialColor = initialColor;
         this.backgroundColor = initialColor;
@@ -25,10 +33,12 @@ public class GameField extends Field {
 
         rectangle.setStroke(this.initialBorderColor);
         rectangle.setFill(this.initialColor);
+
+        setInitialContent(fieldContent);
     }
 
     public GameField(String fieldContent, Coordinates coordinates, double width, double height, Color initialColor, boolean isStart, boolean isEnd) {
-        super(fieldContent, coordinates, width, height);
+        super(coordinates, width, height);
 
         this.initialColor = initialColor;
         this.backgroundColor = initialColor;
@@ -45,21 +55,42 @@ public class GameField extends Field {
             rectangle.setStroke(Color.BLACK);
 
         rectangle.setFill(this.initialColor);
+
+        setInitialContent(fieldContent);
+    }
+
+    private void setInitialContent(String fieldContent) {
+        contentLabel = new Label(fieldContent);
+        diamondImage = new ImageView();
+        diamondImage.setFitHeight(15);
+        diamondImage.setFitWidth(15);
+        content.getChildren().addAll(contentLabel, diamondImage);
     }
 
     public boolean isDiamondAdded() {
         return diamondAdded;
     }
 
-    public void SetDiamondAdded(boolean value) {
+    public void setDiamondAdded(boolean value) {
         diamondAdded = value;
+
+        if(value)
+            diamondImage.setImage(new Image(Objects.requireNonNull(
+                    getClass().getResourceAsStream("../../view/images/diamond2.png"))));
+        else
+            diamondImage = new ImageView();
+        //TODO : Provjeri da li je else okej, da li će se poremetiti width i height
     }
 
     public boolean isHoleAdded() {
         return holeAdded;
     }
 
-    public void SetHoleAdded(boolean value) {
+    public void setHoleAdded(boolean value) {
         holeAdded = value;
+    }
+
+    public void setContentLabel(String value) {
+        contentLabel.setText(value);
     }
 }

@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane prefHeight="-Infinity" prefWidth="-Infinity" style="-fx-background-color: #dbc1ac;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainViewController">
+<AnchorPane prefHeight="-Infinity" prefWidth="-Infinity" style="-fx-background-color: #e5ceed;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainViewController">
    <VBox prefHeight="-Infinity" prefWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <HBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="-Infinity">
          <VBox.margin>
@@ -24,15 +24,13 @@
             </font>
          </Label>
          <TextFlow prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-         <ImageView fx:id="imgDiamond" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
-         <Label prefHeight="200.0" prefWidth="250.0" text="DiamondCircle" textAlignment="CENTER" textFill="#38220f">
+         <Label prefHeight="200.0" text="DiamondCircle" textAlignment="CENTER" textFill="#38220f">
             <font>
                <Font name="Bauhaus 93" size="30.0" />
             </font>
          </Label>
-         <ImageView fx:id="imgDiamond2" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
          <TextFlow prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-         <Button fx:id="startStopButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #967259;" text="Pokreni / Zaustavi" textFill="#ece0d1">
+         <Button fx:id="startStopButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #9b66ad;" text="Pokreni / Zaustavi" textFill="#ece0d1">
             <HBox.margin>
                <Insets right="10.0" top="10.0" />
             </HBox.margin>
@@ -80,7 +78,7 @@
                <Insets left="20.0" right="20.0" />
             </HBox.margin>
          </Pane>
-         <Pane maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0" >
+         <Pane maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0">
             <HBox.margin>
                <Insets right="20.0" />
             </HBox.margin></Pane>

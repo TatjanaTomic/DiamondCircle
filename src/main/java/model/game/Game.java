@@ -36,7 +36,7 @@ public class Game {
             readPlayers();
             loadMatrixConfiguration();
 
-            Simulation simulation = new Simulation();
+            Simulation simulation = SimulationBuilder.build();
 
             List<Player> test = simulation.getPlayers();
             for (Player p : test) {

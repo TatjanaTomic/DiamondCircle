@@ -39,7 +39,6 @@ public class Deck {
         Collections.shuffle(cards);
     }
 
-
     public Card takeCard() {
         Card card = cards.get(0);
 
