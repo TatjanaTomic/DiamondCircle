@@ -4,16 +4,12 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import model.exception.IllegalStateOfGameException;
+import model.figure.Figure;
 
 import java.util.Objects;
 
 public class GameField extends Field {
-
-    private boolean isStart = false;
-    private boolean isEnd = false;
-
-    private boolean diamondAdded = false;
-    private boolean holeAdded = false;
 
     private final Color initialColor;
     private final Color initialBorderColor = Color.BLACK;
@@ -22,6 +18,14 @@ public class GameField extends Field {
 
     private Label contentLabel;
     private ImageView diamondImage;
+
+    private boolean isStart = false;
+    private boolean isEnd = false;
+
+    private boolean diamondAdded = false;
+    private boolean holeAdded = false;
+    private boolean isFigureAdded = false;
+    private Figure addedFigure = null;
 
     public GameField(String fieldContent, Coordinates coordinates, double width, double height, Color initialColor) {
         super(coordinates, width, height);
@@ -93,5 +97,29 @@ public class GameField extends Field {
 
     public void setContentLabel(String value) {
         contentLabel.setText(value);
+    }
+
+    public boolean isFigureAdded() {
+        return isFigureAdded;
+    }
+
+    public Figure getAddedFigure() {
+        return addedFigure;
+    }
+
+    public void setAddedFigure(Figure figure) throws IllegalStateOfGameException {
+        if(addedFigure != null)
+            throw new IllegalStateOfGameException();
+
+        addedFigure = figure;
+        isFigureAdded = true;
+    }
+
+    public void removeAddedFigure() throws IllegalStateOfGameException {
+        if(addedFigure == null)
+            throw new IllegalStateOfGameException();
+
+        addedFigure = null;
+        isFigureAdded = false;
     }
 }
