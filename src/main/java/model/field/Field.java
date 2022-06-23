@@ -5,10 +5,9 @@ import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 import model.game.Game;
 
-public abstract class Field extends StackPane {
+public abstract class Field extends AnchorPane {
 
     protected Rectangle rectangle;
-    protected VBox content;
     private Label labelID;
 
     private int ID;
@@ -24,11 +23,9 @@ public abstract class Field extends StackPane {
         ID = coordinates.getX() * Game.dimension + coordinates.getY() + 1;
 
         rectangle = new Rectangle(width, height);
-
-        content = new VBox();
         labelID = new Label(Integer.toString(ID));
-        content.getChildren().addAll(labelID);
-
-        getChildren().addAll(rectangle, content);
+        getChildren().addAll(rectangle, labelID);
+        setTopAnchor(labelID, 1.0);
+        setLeftAnchor(labelID, 1.0);
     }
 }

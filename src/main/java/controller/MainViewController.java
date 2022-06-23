@@ -4,8 +4,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -13,15 +11,10 @@ import model.field.Coordinates;
 import model.field.EmptyField;
 import model.field.Field;
 import model.field.GameField;
-import model.figure.GhostFigure;
 import model.game.Game;
 import model.game.Simulation;
-import model.util.Util;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class MainViewController implements Initializable {

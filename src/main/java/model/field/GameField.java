@@ -21,7 +21,6 @@ public class GameField extends Field {
     private Color borderColor;
 
     private Label contentLabel;
-    private Label diamondLabel;
     private ImageView diamondImage;
 
     public GameField(String fieldContent, Coordinates coordinates, double width, double height, Color initialColor) {
@@ -63,13 +62,16 @@ public class GameField extends Field {
         contentLabel = new Label(fieldContent);
 
         diamondImage = new ImageView();
-        diamondImage.setFitHeight(15);
-        diamondImage.setFitWidth(15);
+        diamondImage.setFitHeight(20);
+        diamondImage.setFitWidth(20);
         diamondImage.setImage(new Image(Objects.requireNonNull(
                 getClass().getResourceAsStream("../../view/images/diamond2.png"))));
         diamondImage.setVisible(false);
 
-        content.getChildren().addAll(contentLabel, diamondImage);
+        getChildren().addAll(contentLabel, diamondImage);
+        setRightAnchor(diamondImage, 1.0);
+        setTopAnchor(diamondImage, 1.0);
+        setBottomAnchor(contentLabel, 0.0);
     }
 
     public boolean isDiamondAdded() {

@@ -28,7 +28,7 @@ public class GhostFigure extends Thread {
                 sleep(5000);
 
             } catch (Exception e) {
-                Util.log(getClass(), e);
+                Util.logAsync(getClass(), e);
             }
         }
     }
