@@ -35,7 +35,7 @@ public class MainViewController implements Initializable {
 
     //TODO : Da li je bolje da bude staticko ili ipak ne ?
     private static Simulation simulation = null;
-    public static Field[][] map = new Field[numberOfFields][numberOfFields];
+    public static final Field[][] map = new Field[numberOfFields][numberOfFields];
 
     @FXML
     public Label numberOfGamesLabel;
@@ -132,6 +132,6 @@ public class MainViewController implements Initializable {
     }
 
     public void test() {
-        simulation.startSimulation();
+        simulation.start();
     }
 }
