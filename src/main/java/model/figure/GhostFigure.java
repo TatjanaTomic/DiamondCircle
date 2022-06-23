@@ -16,7 +16,8 @@ public class GhostFigure extends Thread {
     private final int minimum = 2;
     private final int maximum = Game.dimension;
 
-    private final List<Coordinates> tmpGamePath = Game.gamePath;
+    // It won't set diamont on end field
+    private final List<Coordinates> tmpGamePath = Game.gamePath.subList(0, Game.gamePath.size() - 1);
 
     @Override
     public void run() {
