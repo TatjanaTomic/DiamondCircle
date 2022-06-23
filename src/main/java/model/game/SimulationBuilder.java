@@ -25,13 +25,15 @@ public abstract class SimulationBuilder {
             for (FigureColor color : FigureColor.values())
                 colors.add(color);
 
+            int i = 1;
             // Add players and their figures
             for (String name : Game.players) {
                 FigureColor color = GenerateColor();
                 List<Figure> figures = GenerateFigures(color);
 
-                players.add(new Player(name, color, figures));
+                players.add(new Player(i++, name, color, figures));
             }
+
             //Randomize players' order
             Collections.shuffle(players);
 

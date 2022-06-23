@@ -1,13 +1,15 @@
 package model.figure;
 
+import model.player.Player;
+
 public class SuperFastFigure extends Figure {
 
-    public SuperFastFigure(FigureColor color) {
-        super(color);
+    public SuperFastFigure(FigureColor color, Player player) {
+        super(color, player);
     }
 
     @Override
-    public void move() {
+    public void move(int offset) {
 
     }
 }

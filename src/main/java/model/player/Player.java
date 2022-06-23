@@ -10,17 +10,23 @@ public class Player {
     private final String name;
     private final FigureColor color;
     private final List<Figure> figures;
+    private final int ID;
 
     private boolean hasFigures = true;
     private int currentFigureID;
     private Figure currentFigure;
 
-    public Player(String name, FigureColor color, List<Figure> figures) {
+    public Player(int ID, String name, FigureColor color, List<Figure> figures) {
+        this.ID = ID;
         this.name = name;
         this.color = color;
         this.figures = figures;
         currentFigure = figures.get(0);
         currentFigureID = 0;
+    }
+
+    public int getID() {
+        return ID;
     }
 
     public String getName() {
@@ -40,10 +46,8 @@ public class Player {
     }
 
     public void changeCurrentFigure() throws IllegalStateOfGameException {
-        if(!hasFigures) {
-            //TODO : Dodati bacanje izuzetka ?
-            return;
-        }
+        if(!hasFigures)
+            throw new IllegalStateOfGameException();
 
         if(currentFigureID < 0 || currentFigureID > 3)
             throw new IllegalStateOfGameException();
