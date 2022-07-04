@@ -8,7 +8,7 @@ public class EmptyField extends Field {
     private final Color backgroundColor = Color.DARKGRAY;
 
     public EmptyField(Coordinates coordinates, double width, double height) {
-        super(coordinates, width, height);
+        super(-1, "", coordinates, width, height);
         rectangle.setStroke(borderColor);
         rectangle.setFill(backgroundColor);
     }

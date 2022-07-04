@@ -1,5 +1,6 @@
 package model.game;
 
+import controller.MainViewController;
 import model.card.Card;
 import model.card.Deck;
 import model.card.SimpleCard;
@@ -17,12 +18,14 @@ public class Simulation extends Thread {
     private final List<Player> players;
     private final GhostFigure ghostFigure;
     private final int n; // number of holes that will be generated
+    //private final MainViewController mainController;
 
     private boolean isStarted = false;
     private boolean isFinished = false;
 
     public Simulation(List<Player> players) {
         this.players = players;
+        //this.mainController = mainController;
         ghostFigure = new GhostFigure();
         n = Game.n;
     }
@@ -50,11 +53,13 @@ public class Simulation extends Thread {
                     //izvlaci kartu
                     Card currentCard = Deck.getInstance().takeCard();
                     System.out.println("  Current card: " + currentCard.getClass().getSimpleName());
+                    //TODO : Prikazi karticu na GUI-ju
 
                     //dohvati figuru kojom igrac trenutno igra
                     if(!currentPlayer.hasFiguresForPlaying())
                         throw new IllegalStateOfGameException("Player " + currentPlayer.getID() + " has no figures for playing!");
                     Figure currentFigure = currentPlayer.getCurrentFigure();
+                    System.out.println("  " + currentFigure.getClass().getSimpleName());
 
                     //Ako je karta specijalna, samo se generisu rupe, ne pomjera se trenutna figura
                     if(currentCard.getClass().getSimpleName().equals("SpecialCard")) {
@@ -65,6 +70,8 @@ public class Simulation extends Thread {
                         int offset = ((SimpleCard) currentCard).getOffset();
                         currentFigure.move(offset);
                     }
+
+
 
                     //TODO : Obrisi ovaj sleep !
                     sleep(3000);

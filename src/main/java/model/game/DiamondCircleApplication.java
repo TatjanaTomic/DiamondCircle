@@ -13,6 +13,8 @@ import java.util.Objects;
 
 public class DiamondCircleApplication extends Application {
 
+    public static MainViewController mainController;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -26,7 +28,7 @@ public class DiamondCircleApplication extends Application {
         Parent root = fxmlLoader.load(Objects.requireNonNull(getClass().getResource("../../view/MainView.fxml")).openStream());
         //Parent root = FXMLLoader.load(c.getResource(fxml));
 
-        MainViewController mainViewController = fxmlLoader.getController();
+        mainController = fxmlLoader.getController();
 
         primaryStage.setTitle("DiamondCircle");
         primaryStage.setScene(new Scene(root));

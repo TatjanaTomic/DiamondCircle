@@ -40,9 +40,9 @@ public class Game {
 
             List<Player> test = simulation.getPlayers();
             for (Player p : test) {
-                System.out.println("Igrac: " + p.getName() + " boja " + p.getColor());
+                System.out.println("Igrac: " + p.getName() + " Boja: " + p.getColor());
                 for (Figure f: p.getFigures()) {
-                    System.out.println(f.getClass().getName());
+                    System.out.println("    " + f.getClass().getSimpleName());
                 }
 
             }

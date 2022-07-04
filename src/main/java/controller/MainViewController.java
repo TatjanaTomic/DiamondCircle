@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import model.exception.IllegalStateOfGameException;
 import model.field.Coordinates;
 import model.field.EmptyField;
 import model.field.Field;
@@ -69,20 +70,21 @@ public class MainViewController implements Initializable {
 
     private void initializeMap() {
 
+        int id = 1;
         Coordinates startCoordinates = Game.gamePath.get(0);
-        GameField startField = new GameField("START", startCoordinates , fieldWidth, fieldHeight, startFieldColor, true, false);
+        GameField startField = new GameField(id++, "START", startCoordinates , fieldWidth, fieldHeight, startFieldColor, true, false);
         addField(startField, startCoordinates.getX(), startCoordinates.getY());
         startField.setDiamondAdded(true);
 
         for(int i = 1; i < Game.gamePath.size(); i++) {
             Coordinates coordinates = Game.gamePath.get(i);
-            GameField field = new GameField("Test", coordinates, fieldWidth, fieldHeight, Color.rgb(redComponent, greenComponent, blueComponent));
+            GameField field = new GameField(id++,"Test", coordinates, fieldWidth, fieldHeight, Color.rgb(redComponent, greenComponent, blueComponent));
             addField(field, coordinates.getX(), coordinates.getY());
             changeColor();
         }
 
         Coordinates endCoordinates = Game.gamePath.get(Game.gamePath.size() - 1);
-        GameField endField = new GameField("END", endCoordinates, fieldWidth, fieldHeight, endFieldColor, false, true);
+        GameField endField = new GameField(id, "END", endCoordinates, fieldWidth, fieldHeight, endFieldColor, false, true);
         addField(endField, endCoordinates.getX(), endCoordinates.getY());
 
         for(Coordinates coordinates : Game.emptyPath) {
@@ -95,7 +97,7 @@ public class MainViewController implements Initializable {
 
         mapGridPane.getChildren().remove(map[x][y]);
         mapGridPane.add(field, y, x); // add(Node node, int columnNumber, int rowNumber);
-        //field.getTextProperty().addListener((observableValue, s, t1) -> updateGridPane());
+        field.getTextProperty().addListener((observableValue, s, t1) -> updateMapGridPane());
         map[x][y] = field;
     }
 
@@ -133,5 +135,37 @@ public class MainViewController implements Initializable {
 
     public void test() {
         simulation.start();
+    }
+
+    public static Field getFieldByPathID(int fieldPathID) throws IllegalStateOfGameException {
+
+        if(fieldPathID < 1 || fieldPathID > Game.gamePath.size())
+            throw new IllegalStateOfGameException("Illegal value of field path ID!");
+
+        for(int i = 0; i < numberOfFields; i++) {
+            for(int j = 1; j < numberOfFields; j++ ) {
+                if(map[i][j].getPathID() == fieldPathID) {
+                    return map[i][j];
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private void updateMapGridPane() {
+
+        for(int i = 0; i < numberOfFields; i++) {
+            for(int j = 0; j < numberOfFields; j++) {
+                if(map[i][j] != null) {
+                    mapGridPane.getChildren().remove(map[i][j]);
+                    mapGridPane.add(map[i][j], j, i);
+                }
+            }
+        }
+    }
+
+    public static void UpdateFieldContent(GameField field, String content) {
+
     }
 }
