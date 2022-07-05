@@ -1,5 +1,7 @@
 package controller;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -159,13 +161,9 @@ public class MainViewController implements Initializable {
             for(int j = 0; j < numberOfFields; j++) {
                 if(map[i][j] != null) {
                     mapGridPane.getChildren().remove(map[i][j]);
-                    mapGridPane.add(map[i][j], j, i);
+                    mapGridPane.add(map[i][j], j, i); // add(Node node, int columnNumber, int rowNumber);
                 }
             }
         }
-    }
-
-    public static void UpdateFieldContent(GameField field, String content) {
-
     }
 }

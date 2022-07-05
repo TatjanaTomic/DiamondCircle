@@ -46,4 +46,5 @@ public abstract class Field extends AnchorPane {
     public StringProperty getTextProperty(){
         return contentLabel.textProperty();
     }
+
 }
