@@ -18,20 +18,25 @@ public class Game {
     private static final Path playersPath = Path.of("players.properties");
     private static final Path matrixConfigs = Path.of("src/main/resources/view/matrixConfigs/");
 
-    public static int numberOfPlayers;
-    public static int dimension;
-    public static int n;
+    private static final String N_ERROR_MESSAGE = "N can be 7, 8, 9 or 10!";
+    private static final String DIM_ERROR_MESSAGE = "Dimension of matrix can be 7, 8, 9 or 10!";
+    private static final String PLAYERS_ERROR_MESSAGE = "Number of players can be 2, 3 or 4!";
+    private static final String NAMES_FORMAT_ERROR_MESSAGE = "Players names are not well formatted!";
+    private static final String NAMES_UNIQUE_ERROR_MESSAGE = "Players names must be unique!";
 
+    public static int n;
+    public static int dimension;
+    public static int numberOfPlayers;
+    public static int numberOfGames = 0;
     public static List<Coordinates> gamePath = new ArrayList<>();
     public static List<Coordinates> emptyPath = new ArrayList<>();
-
-    public static int numberOfGames = 0;
-
-    public static List<String> players = new ArrayList<>();
+    public static List<String> playersNames = new ArrayList<>();
 
     public static void main(String[] args) {
 
         try {
+            Util.createLogsDirectory();
+
             checkConfigProperties();
             readPlayers();
             loadMatrixConfiguration();
@@ -44,7 +49,6 @@ public class Game {
                 for (Figure f: p.getFigures()) {
                     System.out.println("    " + f.getClass().getSimpleName());
                 }
-
             }
 
             MainViewController.setSimulation(simulation);
@@ -69,16 +73,16 @@ public class Game {
         }
 
         if(numberOfPlayers < 2 || numberOfPlayers > 4) {
-            throw new WrongConfigurationDefinitionException("Number of players can be 2, 3 or 4!");
+            throw new WrongConfigurationDefinitionException(PLAYERS_ERROR_MESSAGE);
         }
 
         if(dimension < 7 || dimension > 10) {
-            throw new WrongConfigurationDefinitionException("Dimension of matrix can be 7, 8, 9 or 10!");
+            throw new WrongConfigurationDefinitionException(DIM_ERROR_MESSAGE);
         }
 
         //TODO : Provjeri koliko može biti n
         if(n < 7 || n > 10) {
-            throw new WrongConfigurationDefinitionException("N can be 7, 8, 9 or 10!");
+            throw new WrongConfigurationDefinitionException(N_ERROR_MESSAGE);
         }
 
     }
@@ -93,16 +97,16 @@ public class Game {
         for(int i = 1; i <= numberOfPlayers; i++) {
             String name = playersProperties.getProperty("player" + i);
             if(name == null)
-                throw new WrongConfigurationDefinitionException("Players names are not well formatted!");
+                throw new WrongConfigurationDefinitionException(NAMES_FORMAT_ERROR_MESSAGE);
 
             playersNames.add(name);
         }
 
         if(playersNames.size() < numberOfPlayers)
-            throw new WrongConfigurationDefinitionException("Players names must be unique!");
+            throw new WrongConfigurationDefinitionException(NAMES_UNIQUE_ERROR_MESSAGE);
 
         for(Object playerName : playersNames)
-            players.add(0, playerName.toString());
+            Game.playersNames.add(0, playerName.toString());
     }
 
     private static void loadMatrixConfiguration() throws MissingConfigurationException, WrongConfigurationDefinitionException{

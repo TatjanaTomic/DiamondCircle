@@ -1,43 +1,44 @@
 package model.game;
 
-import model.card.Card;
 import model.card.Deck;
 import model.exception.ErrorStartingGameException;
 import model.figure.*;
 import model.player.Player;
-import model.util.Util;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public abstract class SimulationBuilder {
 
-    private static ArrayList<FigureColor> colors = new ArrayList<>();
+    private static final String TYPE_ERROR_MESSAGE = "Invalid type of figure.";
 
-    private static List<Player> players = new ArrayList<>();
+    private static final ArrayList<FigureColor> colors = new ArrayList<>();
+    private static final List<Player> players = new ArrayList<>();
 
     public static Simulation build() throws ErrorStartingGameException {
 
         try {
 
-            for (FigureColor color : FigureColor.values())
-                colors.add(color);
+            colors.addAll(Arrays.asList(FigureColor.values()));
 
             int i = 1;
-            // Add players and their figures
-            for (String name : Game.players) {
+            // Dodaju se igraci i njihove figure
+            for (String name : Game.playersNames) {
                 FigureColor color = GenerateColor();
-                List<Figure> figures = GenerateFigures(color);
+                //TODO : vrati poziv ove funkcije !!!
+                //List<Figure> figures = GenerateFigures(color);
+                List<Figure> figures = new ArrayList<>();
+                figures.add(new SimpleFigure(color));
+                figures.add(new SimpleFigure(color));
+                figures.add(new SimpleFigure(color));
+                figures.add(new SimpleFigure(color));
 
                 players.add(new Player(i++, name, color, figures));
             }
 
-            //Randomize players' order
+            // Redoslijed igraca se odredjuje na slucajan nacin
             Collections.shuffle(players);
 
-            // Shuffle cards
+            // Izmijesaju se karte
             Deck.getInstance().shuffleCards();
 
             return new Simulation(players);
@@ -76,7 +77,7 @@ public abstract class SimulationBuilder {
                 case 0 -> figures.add(new SimpleFigure(color));
                 case 1 -> figures.add(new HoveringFigure(color));
                 case 2 -> figures.add(new SuperFastFigure(color));
-                default -> throw new IllegalStateException("Invalid type of figure.");
+                default -> throw new IllegalStateException(TYPE_ERROR_MESSAGE);
             }
         }
 

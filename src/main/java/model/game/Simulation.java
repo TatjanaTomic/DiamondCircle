@@ -1,33 +1,44 @@
 package model.game;
 
-import controller.MainViewController;
 import model.card.Card;
 import model.card.Deck;
 import model.card.SimpleCard;
-import model.card.SpecialCard;
 import model.exception.IllegalStateOfGameException;
 import model.figure.*;
+import model.history.GameHistory;
+import model.history.PlayerHistory;
 import model.player.Player;
 import model.util.Util;
 
-import java.nio.Buffer;
 import java.util.*;
 
 public class Simulation extends Thread {
 
+    public static int move = 0;
+
+    private static final String SPECIAL_CARD = "SpecialCard";
+    private static final String SIMPLE_CARD = "SimpleCard";
+    private static final String JPG = ".jpg";
+
+    private final GameHistory gameHistory = new GameHistory();
     private final List<Player> players;
     private final GhostFigure ghostFigure;
     private final int n; // number of holes that will be generated
-    //private final MainViewController mainController;
 
     private boolean isStarted = false;
     private boolean isFinished = false;
 
     public Simulation(List<Player> players) {
         this.players = players;
-        //this.mainController = mainController;
-        ghostFigure = new GhostFigure();
         n = Game.n;
+        ghostFigure = new GhostFigure();
+        addGameHistory();
+    }
+
+    private void addGameHistory() {
+        for (Player player : players) {
+            gameHistory.addPlayerHistory(new PlayerHistory(player.getID(), player.getName()));
+        }
     }
 
     public List<Player> getPlayers() {
@@ -36,9 +47,12 @@ public class Simulation extends Thread {
 
     @Override
     public void run() {
-        isStarted = true;
 
         ghostFigure.start();
+
+        //TODO : Treba voditi racuna o vremenu igre
+        isStarted = true;
+        System.out.println("Simulacija pokrenuta u tredu: " + Thread.currentThread().getName());
 
         while(isAlive()) {
 
@@ -46,35 +60,35 @@ public class Simulation extends Thread {
 
                 // sljedeci kod je u sustini jedan potez
                 try {
+                    move++;
+                    System.out.print("Potez: " + move);
+
                     //dolazi na red sljedeci igrac
                     Player currentPlayer = nextPlayer();
-                    System.out.println("Current player: " + currentPlayer.getName());
+                    System.out.print("    Player: " + currentPlayer.getName());
 
                     //izvlaci kartu
                     Card currentCard = Deck.getInstance().takeCard();
-                    System.out.println("  Current card: " + currentCard.getClass().getSimpleName());
-                    //TODO : Prikazi karticu na GUI-ju
+                    System.out.print("    Card: " + currentCard.getClass().getSimpleName());
+                    showCard(currentCard);
 
                     //dohvati figuru kojom igrac trenutno igra
                     if(!currentPlayer.hasFiguresForPlaying())
                         throw new IllegalStateOfGameException("Player " + currentPlayer.getID() + " has no figures for playing!");
                     Figure currentFigure = currentPlayer.getCurrentFigure();
-                    System.out.println("  " + currentFigure.getClass().getSimpleName());
+                    System.out.println("    Figure: " + currentFigure.getClass().getSimpleName());
 
                     //Ako je karta specijalna, samo se generisu rupe, ne pomjera se trenutna figura
-                    if(currentCard.getClass().getSimpleName().equals("SpecialCard")) {
-                        //TODO : Dovrsi setHoles() funkciju
+                    if(currentCard.getClass().getSimpleName().equals(SPECIAL_CARD)) {
                         setHoles();
+                        Thread.sleep(1000);
                     }
                     else {
                         int offset = ((SimpleCard) currentCard).getOffset();
                         currentFigure.move(offset);
                     }
 
-
-
-                    //TODO : Obrisi ovaj sleep !
-                    sleep(3000);
+                    Thread.sleep(3000);
 
                 } catch (Exception e) {
                     Util.logAsync(getClass(), e);
@@ -97,6 +111,10 @@ public class Simulation extends Thread {
     }
 
     private void setHoles() {
-
+        //TODO : Dovrsi setHoles funkciju
     };
+
+    private void showCard(Card currentCard) {
+        DiamondCircleApplication.mainController.setCard(currentCard.getImageName());
+    }
 }

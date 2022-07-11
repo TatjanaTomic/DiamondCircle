@@ -46,21 +46,21 @@ public class Player {
     }
 
     public void changeCurrentFigure() throws IllegalStateOfGameException {
-        if(!hasFigures)
+        if(!hasFigures) {
             throw new IllegalStateOfGameException();
+        }
 
-        if(currentFigureID < 0 || currentFigureID > 3)
+        if(currentFigureID < 0 || currentFigureID > 3) {
             throw new IllegalStateOfGameException();
+        }
 
         if(currentFigureID == 3) {
             hasFigures = false;
             return;
         }
 
-        if(currentFigureID < 3) {
-            currentFigureID += 1;
-            currentFigure = figures.get(currentFigureID);
-        }
+        currentFigureID += 1;
+        currentFigure = figures.get(currentFigureID);
     }
 
 

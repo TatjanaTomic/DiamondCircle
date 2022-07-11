@@ -1,11 +1,12 @@
 package controller;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -17,12 +18,15 @@ import model.field.GameField;
 import model.game.Game;
 import model.game.Simulation;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MainViewController implements Initializable {
 
-    private final String numberOfGamesText = "Trenutni broj odigranih igara: ";
+    private static final String NUMBER_OF_GAMES_TEXT = "Trenutni broj odigranih igara: ";
+    private static final String IMAGES_PATH = "src/main/resources/view/images/";
+    private static final String DIAMOND_IMAGE = "diamond2.png";
 
     private final double mapWidth = 500;
     private final double mapHeight = 500;
@@ -57,17 +61,20 @@ public class MainViewController implements Initializable {
     @FXML
     public GridPane mapGridPane;
 
+    @FXML
+    public ImageView cardImageView;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         if(simulation == null)
             return;
 
-        numberOfGamesLabel.setText(numberOfGamesText + Game.numberOfGames);
+        numberOfGamesLabel.setText(NUMBER_OF_GAMES_TEXT + Game.numberOfGames);
+        cardImageView.setImage(new Image(new File(IMAGES_PATH + DIAMOND_IMAGE).toURI().toString()));
 
         initializePlayersLabels();
         initializeMap();
-
     }
 
     private void initializeMap() {
@@ -76,7 +83,6 @@ public class MainViewController implements Initializable {
         Coordinates startCoordinates = Game.gamePath.get(0);
         GameField startField = new GameField(id++, "START", startCoordinates , fieldWidth, fieldHeight, startFieldColor, true, false);
         addField(startField, startCoordinates.getX(), startCoordinates.getY());
-        startField.setDiamondAdded(true);
 
         for(int i = 1; i < Game.gamePath.size(); i++) {
             Coordinates coordinates = Game.gamePath.get(i);
@@ -136,6 +142,9 @@ public class MainViewController implements Initializable {
     }
 
     public void test() {
+
+        //GhostFigure ghostFigure = new GhostFigure();
+        //ghostFigure.start();
         simulation.start();
     }
 
@@ -166,4 +175,11 @@ public class MainViewController implements Initializable {
             }
         }
     }
+
+    public void setCard(String cardName) {
+        Platform.runLater(() -> cardImageView.setImage(new Image
+                (new File(IMAGES_PATH + cardName).toURI().toString())));
+    }
+
+
 }

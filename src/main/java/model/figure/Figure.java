@@ -1,7 +1,6 @@
 package model.figure;
 
 import model.exception.IllegalStateOfGameException;
-import model.field.Field;
 import model.field.GameField;
 import model.player.Player;
 

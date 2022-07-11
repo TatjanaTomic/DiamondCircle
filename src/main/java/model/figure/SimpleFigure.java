@@ -15,6 +15,11 @@ public class SimpleFigure extends Figure {
 
     @Override
     public void move(int offset) throws IllegalStateOfGameException, InterruptedException {
+
+        System.out.println("Figure moved");
+        Thread.sleep(1000);
+
+        /*
         if(finishedPlaying)
             throw new IllegalStateOfGameException("Trying to move figure that finished playing!");
 
@@ -31,15 +36,16 @@ public class SimpleFigure extends Figure {
 
         for(int i = 0; i < offset; i++) {
             synchronized (MainViewController.map) {
-                if(currentField != null)
-                    currentField.removeAddedFigure();
+                //if(currentField != null)
+                //    currentField.removeAddedFigure();
                 GameField nextField = getNextField(currentFieldPathID);
-                nextField.setAddedFigure(this);
+                //nextField.setAddedFigure(this);
+                //TODO : Odkomentariši ovo
             }
 
             Thread.sleep(1000);
         }
-
+        */
 
     }
 

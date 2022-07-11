@@ -2,6 +2,7 @@ package model.util;
 
 import model.exception.MissingConfigurationException;
 import model.exception.WrongConfigurationDefinitionException;
+import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 
@@ -16,6 +17,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Util {
+
+    //TODO : Razdvoji funkcionalnosti, napravi posebne Util-e
+
     private static final String logsDirectory = "." + File.separator + "logs" + File.separator;
 
     public static Properties LoadResources(Path path) throws MissingConfigurationException, WrongConfigurationDefinitionException {
@@ -35,14 +39,23 @@ public class Util {
         }
     }
 
+    public static void createLogsDirectory() {
+        if(Paths.get(logsDirectory).toFile().exists()) {
+            try {
+                 FileUtils.deleteDirectory(Paths.get(logsDirectory).toFile());
+            }
+            catch (IOException e) {
+                log(Util.class, e);
+            }
+        }
+
+        Paths.get(logsDirectory).toFile().mkdir();
+    }
+
     public static void log(Class<?> C, Exception exception) {
         Logger logger = Logger.getLogger(C.getName());
 
         try {
-            if(!Paths.get(logsDirectory).toFile().exists()) {
-                Paths.get(logsDirectory).toFile().mkdir();
-            }
-
             String filePath = logsDirectory + C.getName() + "-" + LocalDateTime.now().toLocalTime().toString().replace(':', '_') + ".log";
             Handler handler = new FileHandler(filePath);
 

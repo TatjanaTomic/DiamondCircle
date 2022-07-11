@@ -16,7 +16,7 @@ public class FigureHistory {
     private final String figureType;
     private final FigureColor figureColor;
     private boolean reachedToEnd;
-    private List<Integer> crossedFields;
+    private final List<Integer> crossedFields;
 
     public FigureHistory(int figureID, String figureType, FigureColor figureColor) {
         this.figureID = figureID;

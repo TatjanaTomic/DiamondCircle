@@ -13,7 +13,11 @@ import java.util.Objects;
 
 public class DiamondCircleApplication extends Application {
 
+    //TODO : Da li je potrebno?
     public static MainViewController mainController;
+
+    private static final String MAIN_VIEW_FXML = "../../view/MainView.fxml";
+    private static final String TITLE = "DiamondCircle";
 
     public static void main(String[] args) {
         launch(args);
@@ -22,15 +26,15 @@ public class DiamondCircleApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        //FxmlController.load(getClass(), "../../view/MainView.fxml");
+        //FxmlController.load(getClass(), MAIN_VIEW_FXML);
 
         FXMLLoader fxmlLoader = new FXMLLoader();
-        Parent root = fxmlLoader.load(Objects.requireNonNull(getClass().getResource("../../view/MainView.fxml")).openStream());
+        Parent root = fxmlLoader.load(Objects.requireNonNull(getClass().getResource(MAIN_VIEW_FXML)).openStream());
         //Parent root = FXMLLoader.load(c.getResource(fxml));
 
         mainController = fxmlLoader.getController();
 
-        primaryStage.setTitle("DiamondCircle");
+        primaryStage.setTitle(TITLE);
         primaryStage.setScene(new Scene(root));
         primaryStage.setMaximized(true);
         primaryStage.setResizable(false);

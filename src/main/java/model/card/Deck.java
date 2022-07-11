@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Deck {
 
-    private List<Card> cards = new LinkedList<>();
+    private final List<Card> cards = new LinkedList<>();
 
     private static Deck instance = null;
 
