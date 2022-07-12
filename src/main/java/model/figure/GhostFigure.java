@@ -4,7 +4,7 @@ import controller.MainViewController;
 import model.field.Coordinates;
 import model.field.GameField;
 import model.game.Game;
-import model.util.Util;
+import model.util.LoggerUtil;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,13 +14,14 @@ import java.util.Random;
 
 public class GhostFigure extends Thread {
 
-    private final int minimum = 2;
-    private final int maximum = Game.dimension;
-    private final List<Coordinates> tmpGamePath = new ArrayList<>();
+    private static final int minimum = 2;
+    private static final int maximum = Game.dimension;
+
+    private final List<Coordinates> pathForDiamonds = new ArrayList<>();
 
     public GhostFigure() {
         // It won't set diamond on end field
-        tmpGamePath.addAll(Game.gamePath.subList(0, Game.gamePath.size() - 1));
+        pathForDiamonds.addAll(Game.gamePath.subList(0, Game.gamePath.size() - 1));
     }
 
     @Override
@@ -28,14 +29,10 @@ public class GhostFigure extends Thread {
 
         while(isAlive()) {
             try {
-
                 Random random = new Random();
                 int numberOfDiamonds = random.nextInt(maximum - minimum + 1) + minimum;
 
-                System.out.println("Pozdrav iz run() metode Ghost figure: " + Thread.currentThread().getName());
-                System.out.println("Broj dijamanata: " + numberOfDiamonds);
-
-                Collections.shuffle(tmpGamePath);
+                Collections.shuffle(pathForDiamonds);
 
                 synchronized (MainViewController.map) {
 
@@ -44,16 +41,12 @@ public class GhostFigure extends Thread {
                     for (Coordinates c : Game.gamePath) {
                         GameField gameField = (GameField) MainViewController.map[c.getX()][c.getY()];
                         gameField.setDiamondAdded(false);
-
-                        //System.out.println("[" + c.getX() + "][" + c.getY() + "] false");
                     }
 
                     for (int i = 0; i < numberOfDiamonds; i++) {
-                        Coordinates c = tmpGamePath.get(i);
+                        Coordinates c = pathForDiamonds.get(i);
                         GameField gameField = (GameField) MainViewController.map[c.getX()][c.getY()];
                         gameField.setDiamondAdded(true);
-
-                        //System.out.println("[" + c.getX() + "][" + c.getY() + "] true");
                     }
 
                 }
@@ -61,13 +54,8 @@ public class GhostFigure extends Thread {
                 Thread.sleep(5000);
 
             } catch (Exception e) {
-                Util.logAsync(getClass(), e);
+                LoggerUtil.logAsync(getClass(), e);
             }
         }
-    }
-
-    private void setDiamonds() {
-
-
     }
 }

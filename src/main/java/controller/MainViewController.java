@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 public class MainViewController implements Initializable {
 
     private static final String NUMBER_OF_GAMES_TEXT = "Trenutni broj odigranih igara: ";
+    private static final String TIME_LABEL_TEXT = "Vrijeme trajanja igre: ";
     private static final String IMAGES_PATH = "src/main/resources/view/images/";
     private static final String DIAMOND_IMAGE = "diamond2.png";
 
@@ -46,6 +47,8 @@ public class MainViewController implements Initializable {
 
     @FXML
     public Label numberOfGamesLabel;
+    @FXML
+    public Label timeLabel;
     @FXML
     public Label player1Label;
     @FXML
@@ -71,6 +74,7 @@ public class MainViewController implements Initializable {
             return;
 
         numberOfGamesLabel.setText(NUMBER_OF_GAMES_TEXT + Game.numberOfGames);
+        timeLabel.setText(TIME_LABEL_TEXT + "0s");
         cardImageView.setImage(new Image(new File(IMAGES_PATH + DIAMOND_IMAGE).toURI().toString()));
 
         initializePlayersLabels();
@@ -181,5 +185,7 @@ public class MainViewController implements Initializable {
                 (new File(IMAGES_PATH + cardName).toURI().toString())));
     }
 
-
+    public void setTime(int timeInSeconds) {
+        Platform.runLater(() -> timeLabel.setText(TIME_LABEL_TEXT + timeInSeconds + "s"));
+    }
 }

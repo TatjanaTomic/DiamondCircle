@@ -91,6 +91,12 @@ public class GameField extends Field {
 
     public void setHoleAdded(boolean value) {
         holeAdded = value;
+        if(value) {
+            rectangle.setFill(Color.BLACK);
+        }
+        else {
+            rectangle.setFill(this.initialColor);
+        }
     }
 
     public void setContentLabel(String value) {

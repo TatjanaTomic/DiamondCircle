@@ -5,7 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import model.util.Util;
+import model.util.LoggerUtil;
 
 import java.io.IOException;
 
@@ -36,7 +36,7 @@ public class FxmlController {
             s.setScene(myScene);
             s.showAndWait();
         } catch (IOException ex) {
-            Util.logAsync(c, ex);
+            LoggerUtil.logAsync(c, ex);
         }
     }
 }

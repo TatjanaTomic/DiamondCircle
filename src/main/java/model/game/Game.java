@@ -6,7 +6,8 @@ import model.exception.WrongConfigurationDefinitionException;
 import model.field.Coordinates;
 import model.figure.Figure;
 import model.player.Player;
-import model.util.Util;
+import model.util.ConfigUtil;
+import model.util.LoggerUtil;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -35,7 +36,7 @@ public class Game {
     public static void main(String[] args) {
 
         try {
-            Util.createLogsDirectory();
+            LoggerUtil.createLogsDirectory();
 
             checkConfigProperties();
             readPlayers();
@@ -55,13 +56,13 @@ public class Game {
             DiamondCircleApplication.main(args);
         }
         catch (Exception e) {
-            Util.log(Game.class, e);
+            LoggerUtil.log(Game.class, e);
         }
     }
 
     private static void checkConfigProperties() throws WrongConfigurationDefinitionException, MissingConfigurationException {
 
-        Properties configProperties = Util.LoadResources(configPath);
+        Properties configProperties = ConfigUtil.LoadResources(configPath);
 
         try {
             numberOfPlayers = Integer.parseInt(configProperties.getProperty("numberOfPlayers"));
@@ -89,7 +90,7 @@ public class Game {
 
     private static void readPlayers() throws MissingConfigurationException, WrongConfigurationDefinitionException {
 
-        Properties playersProperties = Util.LoadResources(playersPath);
+        Properties playersProperties = ConfigUtil.LoadResources(playersPath);
 
         Set<String> playersNames = new HashSet<>();
 
@@ -111,8 +112,8 @@ public class Game {
 
     private static void loadMatrixConfiguration() throws MissingConfigurationException, WrongConfigurationDefinitionException{
 
-        JSONArray gamePathJson = Util.ReadMatrixConfiguration(matrixConfigs.resolve("matrix" + dimension + "gamePath.json"));
-        JSONArray emptyPathJson = Util.ReadMatrixConfiguration(matrixConfigs.resolve("matrix" + dimension + "emptyPath.json"));
+        JSONArray gamePathJson = ConfigUtil.ReadMatrixConfiguration(matrixConfigs.resolve("matrix" + dimension + "gamePath.json"));
+        JSONArray emptyPathJson = ConfigUtil.ReadMatrixConfiguration(matrixConfigs.resolve("matrix" + dimension + "emptyPath.json"));
 
         for (Object object: gamePathJson)
             gamePath.add(parseCoordinates((JSONObject) object));

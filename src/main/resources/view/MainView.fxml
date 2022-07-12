@@ -99,7 +99,7 @@
                      <Insets bottom="25.0" />
                   </VBox.margin>
                </VBox>
-               <Label text="Vrijeme trajanja igre: ">
+               <Label fx:id="timeLabel">
                   <VBox.margin>
                      <Insets bottom="25.0" top="20.0" />
                   </VBox.margin>
