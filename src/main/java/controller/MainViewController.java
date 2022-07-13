@@ -192,4 +192,8 @@ public class MainViewController implements Initializable {
     public void setFieldContent(GameField field, String text) {
         Platform.runLater(() -> field.getContentLabel().setText(text));
     }
+
+    public void updateNumberOfGames() {
+        Platform.runLater(() -> numberOfGamesLabel.setText(NUMBER_OF_GAMES_TEXT + Game.numberOfGames));
+    }
 }

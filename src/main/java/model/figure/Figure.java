@@ -7,37 +7,26 @@ import model.player.Player;
 public abstract class Figure implements IMoveable {
 
     private final FigureColor color;
-    private final Player player;
+    private final String playerName;
     private final String imageName;
     protected GameField currentField;
     protected boolean startedPlaying = false;
     protected boolean finishedPlaying = false;
     protected int collectedDiamonds = 0;
 
-    public Figure(FigureColor color, String imageName) {
+    public Figure(FigureColor color, String playerName, String imageName) {
         this.color = color;
-        this.player = null;
+        this.playerName = playerName;
         this.imageName = imageName;
         currentField = null;
-
-        System.out.println(imageName);
-    }
-
-    public Figure(FigureColor color, Player player, String imageName) {
-        this.color = color;
-        this.player = player;
-        this.imageName = imageName;
-        currentField = null;
-
-        System.out.println(imageName);
     }
 
     public FigureColor getColor() {
         return color;
     }
 
-    public Player getPlayer() {
-        return player;
+    public String getPlayerName() {
+        return playerName;
     }
 
     public String getImageName() {
@@ -56,6 +45,6 @@ public abstract class Figure implements IMoveable {
 
     protected void changeField(GameField nextField) throws IllegalStateOfGameException{
         currentField.removeAddedFigure();
-
+        //TODO : Dovrsi changeField()
     }
 }

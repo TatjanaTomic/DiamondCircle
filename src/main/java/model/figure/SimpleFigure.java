@@ -9,11 +9,7 @@ public class SimpleFigure extends Figure {
 
     private static final String IMAGE_NAME = "SimpleFigure.png";
 
-    public SimpleFigure(FigureColor color) { super(color, color + IMAGE_NAME); }
-
-    public SimpleFigure(FigureColor color, Player player) {
-        super(color, player, color + IMAGE_NAME);
-    }
+    public SimpleFigure(FigureColor color, String playerName) { super(color, playerName, color + IMAGE_NAME); }
 
     @Override
     public void move(int offset) throws IllegalStateOfGameException, InterruptedException {

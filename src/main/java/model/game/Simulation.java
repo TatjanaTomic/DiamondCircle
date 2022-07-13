@@ -36,8 +36,9 @@ public class Simulation extends Thread {
         this.players = players;
         ghostFigure = new GhostFigure();
         timeCounter = new TimeCounter();
-        addGameHistory();
+
         pathForHoles.addAll(Game.gamePath.subList(1, Game.gamePath.size() - 1));
+        addGameHistory();
     }
 
     private void addGameHistory() {
@@ -82,21 +83,25 @@ public class Simulation extends Thread {
                     Figure currentFigure = currentPlayer.getCurrentFigure();
                     System.out.println("    Figure: " + currentFigure.getClass().getSimpleName());
 
-                    // Ako je karta specijalna, samo se generisu rupe, ne pomjera se trenutna figura
+
                     if(currentCard.getClass().getSimpleName().equals(SPECIAL_CARD)) {
-                        setHoles();
-                        Thread.sleep(1000);
-                        unsetHoles();
+                        specialCardOnMove();
                     }
                     else {
-                        int offset = ((SimpleCard) currentCard).getOffset();
-                        currentFigure.move(offset);
+                        currentFigure.move(((SimpleCard) currentCard).getOffset());
                     }
 
                 } catch (Exception e) {
                     LoggerUtil.logAsync(getClass(), e);
                 }
 
+            }
+
+            if(!hasPlayersForPlaying()) {
+                Game.numberOfGames++;
+                DiamondCircleApplication.mainController.updateNumberOfGames();
+
+                //TODO : Serijalizovati istoriju igre
             }
         }
     }
@@ -117,21 +122,24 @@ public class Simulation extends Thread {
         DiamondCircleApplication.mainController.setCard(currentCard.getImageName());
     }
 
-    private void setHoles() {
-        //TODO : Dovrsi setHoles() funkciju - treba implementirati "propadanje" figura
+    private void specialCardOnMove() throws InterruptedException {
 
+        // set holes
         Collections.shuffle(pathForHoles);
-
         synchronized (MainViewController.map) {
             for(int i = 0; i < n; i++) {
                 Coordinates c = pathForHoles.get(i);
                 GameField gameField = (GameField) MainViewController.map[c.getX()][c.getY()];
                 gameField.setHoleAdded(true);
+
+
             }
         }
-    };
 
-    private void unsetHoles() {
+        //TODO : Ovdje negdje treba implementirati "propadanje" figura
+        Thread.sleep(1000);
+
+        // unset holes
         synchronized (MainViewController.map) {
             for (Coordinates c : Game.gamePath) {
                 GameField gameField = (GameField) MainViewController.map[c.getX()][c.getY()];

@@ -12,10 +12,7 @@ public class HoveringFigure extends Figure {
     private static final String IMAGE_NAME = "HoveringFigure.png";
     private static final String OFFSET_ERROR_MESSAGE = "Illegal value of offset!";
 
-    public HoveringFigure(FigureColor color) { super(color, color + IMAGE_NAME);}
-    public HoveringFigure(FigureColor color, Player player) {
-        super(color, player, color + IMAGE_NAME);
-    }
+    public HoveringFigure(FigureColor color, String playerName) { super(color, playerName, color + IMAGE_NAME);}
 
     @Override
     public void move(int offset) throws IllegalStateOfGameException, InterruptedException {

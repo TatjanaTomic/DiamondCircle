@@ -25,12 +25,12 @@ public abstract class SimulationBuilder {
             for (String name : Game.playersNames) {
                 FigureColor color = GenerateColor();
                 //TODO : vrati poziv ove funkcije !!!
-                //List<Figure> figures = GenerateFigures(color);
+                //List<Figure> figures = GenerateFigures(color, name);
                 List<Figure> figures = new ArrayList<>();
-                figures.add(new HoveringFigure(color));
-                figures.add(new HoveringFigure(color));
-                figures.add(new HoveringFigure(color));
-                figures.add(new HoveringFigure(color));
+                figures.add(new HoveringFigure(color, name));
+                figures.add(new HoveringFigure(color, name));
+                figures.add(new HoveringFigure(color, name));
+                figures.add(new HoveringFigure(color, name));
 
                 players.add(new Player(i++, name, color, figures));
             }
@@ -65,7 +65,7 @@ public abstract class SimulationBuilder {
     // 0 - SimpleFigure
     // 1 - HoveringFigure
     // 2 - SuperFastFigure
-    private static List<Figure> GenerateFigures(FigureColor color) {
+    private static List<Figure> GenerateFigures(FigureColor color, String playerName) {
 
         List<Figure> figures = new ArrayList<>();
 
@@ -74,9 +74,9 @@ public abstract class SimulationBuilder {
             int typeNumber = random.nextInt(3);
 
             switch (typeNumber) {
-                case 0 -> figures.add(new SimpleFigure(color));
-                case 1 -> figures.add(new HoveringFigure(color));
-                case 2 -> figures.add(new SuperFastFigure(color));
+                case 0 -> figures.add(new SimpleFigure(color, playerName));
+                case 1 -> figures.add(new HoveringFigure(color, playerName));
+                case 2 -> figures.add(new SuperFastFigure(color, playerName));
                 default -> throw new IllegalStateException(TYPE_ERROR_MESSAGE);
             }
         }
