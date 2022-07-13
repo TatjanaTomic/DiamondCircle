@@ -117,7 +117,7 @@ public class GameField extends Field {
 
         addedFigure = figure;
         isFigureAdded = true;
-        getTextProperty().setValue(figure.getClass().getSimpleName());
+        //getTextProperty().setValue(figure.getClass().getSimpleName());
     }
 
     public void removeAddedFigure() throws IllegalStateOfGameException {

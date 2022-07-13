@@ -27,10 +27,10 @@ public abstract class SimulationBuilder {
                 //TODO : vrati poziv ove funkcije !!!
                 //List<Figure> figures = GenerateFigures(color);
                 List<Figure> figures = new ArrayList<>();
-                figures.add(new SimpleFigure(color));
-                figures.add(new SimpleFigure(color));
-                figures.add(new SimpleFigure(color));
-                figures.add(new SimpleFigure(color));
+                figures.add(new HoveringFigure(color));
+                figures.add(new HoveringFigure(color));
+                figures.add(new HoveringFigure(color));
+                figures.add(new HoveringFigure(color));
 
                 players.add(new Player(i++, name, color, figures));
             }

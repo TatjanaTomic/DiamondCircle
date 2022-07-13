@@ -13,11 +13,10 @@ import java.util.Objects;
 
 public class DiamondCircleApplication extends Application {
 
-    //TODO : Da li je potrebno?
-    public static MainViewController mainController;
-
     private static final String MAIN_VIEW_FXML = "../../view/MainView.fxml";
-    private static final String TITLE = "DiamondCircle";
+    private static final String TITLE = "DiamondCircleGame";
+
+    public static MainViewController mainController;
 
     public static void main(String[] args) {
         launch(args);

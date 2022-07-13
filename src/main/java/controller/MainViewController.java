@@ -85,18 +85,18 @@ public class MainViewController implements Initializable {
 
         int id = 1;
         Coordinates startCoordinates = Game.gamePath.get(0);
-        GameField startField = new GameField(id++, "START", startCoordinates , fieldWidth, fieldHeight, startFieldColor, true, false);
+        GameField startField = new GameField(id++, "", startCoordinates , fieldWidth, fieldHeight, startFieldColor, true, false);
         addField(startField, startCoordinates.getX(), startCoordinates.getY());
 
         for(int i = 1; i < Game.gamePath.size(); i++) {
             Coordinates coordinates = Game.gamePath.get(i);
-            GameField field = new GameField(id++,"Test", coordinates, fieldWidth, fieldHeight, Color.rgb(redComponent, greenComponent, blueComponent));
+            GameField field = new GameField(id++,"", coordinates, fieldWidth, fieldHeight, Color.rgb(redComponent, greenComponent, blueComponent));
             addField(field, coordinates.getX(), coordinates.getY());
             changeColor();
         }
 
         Coordinates endCoordinates = Game.gamePath.get(Game.gamePath.size() - 1);
-        GameField endField = new GameField(id, "END", endCoordinates, fieldWidth, fieldHeight, endFieldColor, false, true);
+        GameField endField = new GameField(id, "", endCoordinates, fieldWidth, fieldHeight, endFieldColor, false, true);
         addField(endField, endCoordinates.getX(), endCoordinates.getY());
 
         for(Coordinates coordinates : Game.emptyPath) {
@@ -109,7 +109,7 @@ public class MainViewController implements Initializable {
 
         mapGridPane.getChildren().remove(map[x][y]);
         mapGridPane.add(field, y, x); // add(Node node, int columnNumber, int rowNumber);
-        field.getTextProperty().addListener((observableValue, s, t1) -> updateMapGridPane());
+        //field.getTextProperty().addListener((observableValue, s, t1) -> updateMapGridPane());
         map[x][y] = field;
     }
 
@@ -152,7 +152,7 @@ public class MainViewController implements Initializable {
         simulation.start();
     }
 
-    public static Field getFieldByPathID(int fieldPathID) throws IllegalStateOfGameException {
+    public static GameField getFieldByPathID(int fieldPathID) throws IllegalStateOfGameException {
 
         if(fieldPathID < 1 || fieldPathID > Game.gamePath.size())
             throw new IllegalStateOfGameException("Illegal value of field path ID!");
@@ -160,7 +160,7 @@ public class MainViewController implements Initializable {
         for(int i = 0; i < numberOfFields; i++) {
             for(int j = 1; j < numberOfFields; j++ ) {
                 if(map[i][j].getPathID() == fieldPathID) {
-                    return map[i][j];
+                    return (GameField) map[i][j];
                 }
             }
         }
@@ -187,5 +187,9 @@ public class MainViewController implements Initializable {
 
     public void setTime(int timeInSeconds) {
         Platform.runLater(() -> timeLabel.setText(TIME_LABEL_TEXT + timeInSeconds + "s"));
+    }
+
+    public void setFieldContent(GameField field, String text) {
+        Platform.runLater(() -> field.getContentLabel().setText(text));
     }
 }

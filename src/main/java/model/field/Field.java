@@ -43,8 +43,8 @@ public abstract class Field extends AnchorPane {
         return pathID;
     }
 
-    public StringProperty getTextProperty(){
-        return contentLabel.textProperty();
+    public Label getContentLabel() {
+        return contentLabel;
     }
 
 }

@@ -7,10 +7,12 @@ import model.player.Player;
 
 public class SimpleFigure extends Figure {
 
-    public SimpleFigure(FigureColor color) { super(color); }
+    private static final String IMAGE_NAME = "SimpleFigure.png";
+
+    public SimpleFigure(FigureColor color) { super(color, color + IMAGE_NAME); }
 
     public SimpleFigure(FigureColor color, Player player) {
-        super(color, player);
+        super(color, player, color + IMAGE_NAME);
     }
 
     @Override
