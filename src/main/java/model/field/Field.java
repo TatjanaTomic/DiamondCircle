@@ -9,8 +9,8 @@ import model.game.Game;
 public abstract class Field extends AnchorPane {
 
     protected Rectangle rectangle;
+    //protected Label contentLabel;
     private Label labelID;
-    protected Label contentLabel;
 
     private final int ID; //ID at whole map
     private final int pathID; //ID at path for playing
@@ -28,11 +28,11 @@ public abstract class Field extends AnchorPane {
 
         rectangle = new Rectangle(width, height);
         labelID = new Label(Integer.toString(ID));
-        contentLabel = new Label(fieldContent);
-        getChildren().addAll(rectangle, labelID, contentLabel);
+        //contentLabel = new Label(fieldContent);
+        getChildren().addAll(rectangle, labelID);
         setTopAnchor(labelID, 1.0);
         setLeftAnchor(labelID, 1.0);
-        setBottomAnchor(contentLabel, 0.0);
+        //setBottomAnchor(contentLabel, 0.0);
     }
 
     public int getID() {
@@ -43,8 +43,8 @@ public abstract class Field extends AnchorPane {
         return pathID;
     }
 
-    public Label getContentLabel() {
-        return contentLabel;
-    }
+//    public Label getContentLabel() {
+//        return contentLabel;
+//    }
 
 }

@@ -25,12 +25,12 @@ public abstract class SimulationBuilder {
             for (String name : Game.playersNames) {
                 FigureColor color = GenerateColor();
                 //TODO : vrati poziv ove funkcije !!!
-                //List<Figure> figures = GenerateFigures(color, name);
-                List<Figure> figures = new ArrayList<>();
-                figures.add(new HoveringFigure(color, name));
-                figures.add(new HoveringFigure(color, name));
-                figures.add(new HoveringFigure(color, name));
-                figures.add(new HoveringFigure(color, name));
+                List<Figure> figures = GenerateFigures(color, name);
+//                List<Figure> figures = new ArrayList<>();
+//                figures.add(new HoveringFigure(color, name));
+//                figures.add(new HoveringFigure(color, name));
+//                figures.add(new HoveringFigure(color, name));
+//                figures.add(new HoveringFigure(color, name));
 
                 players.add(new Player(i++, name, color, figures));
             }
@@ -44,7 +44,7 @@ public abstract class SimulationBuilder {
             return new Simulation(players);
         }
         catch (Exception e) {
-            throw new ErrorStartingGameException();
+            throw new ErrorStartingGameException(e.getMessage());
         }
     }
 

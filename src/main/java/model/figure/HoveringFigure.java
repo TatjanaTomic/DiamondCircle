@@ -10,7 +10,6 @@ import model.player.Player;
 public class HoveringFigure extends Figure {
 
     private static final String IMAGE_NAME = "HoveringFigure.png";
-    private static final String OFFSET_ERROR_MESSAGE = "Illegal value of offset!";
 
     public HoveringFigure(FigureColor color, String playerName) { super(color, playerName, color + IMAGE_NAME);}
 
@@ -28,6 +27,11 @@ public class HoveringFigure extends Figure {
         for(int i = 0; i < numberOfFields; i++) {
 
             int currentPathID;
+            if(finishedPlaying) {
+                //TODO : Da li treba exception ili da na neki nacin zavrsim pomjeranje ?
+                throw new IllegalStateOfGameException("Cannot move figure that finished playing!");
+            }
+
             if(!startedPlaying) {
                 startedPlaying = true;
                 currentPathID = 0;
@@ -39,7 +43,11 @@ public class HoveringFigure extends Figure {
             GameField nextField = getNextField(currentPathID);
             currentField = nextField;
 
-            Platform.runLater(() -> nextField.getContentLabel().setText("HF"));
+
+
+
+
+            //Platform.runLater(() -> nextField.getContentLabel().setText("HF"));
             System.out.println("i: " + i);
 
             Thread.sleep(1000);

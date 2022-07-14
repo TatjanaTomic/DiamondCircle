@@ -8,17 +8,21 @@ import javafx.scene.paint.Color;
 import model.exception.IllegalStateOfGameException;
 import model.figure.Figure;
 
+import java.io.File;
 import java.util.Objects;
 
 public class GameField extends Field {
+
+    private static final String IMAGES_PATH = "src/main/resources/view/images/";
+    private static final String DIAMOND_IMAGE = "diamond2.png";
 
     private final Color initialColor;
     private final Color initialBorderColor = Color.BLACK;
     private Color backgroundColor;
     private Color borderColor;
 
-    private Label contentLabel;
     private ImageView diamondImage;
+    private ImageView figureImage;
 
     private boolean isStart = false;
     private boolean isEnd = false;
@@ -67,13 +71,24 @@ public class GameField extends Field {
         diamondImage = new ImageView();
         diamondImage.setFitHeight(20);
         diamondImage.setFitWidth(20);
-        diamondImage.setImage(new Image(Objects.requireNonNull(
-                getClass().getResourceAsStream("../../view/images/diamond2.png"))));
+        diamondImage.setImage(new Image
+                (new File( IMAGES_PATH + DIAMOND_IMAGE).toURI().toString()));
         diamondImage.setVisible(false);
 
         getChildren().add(diamondImage);
         setRightAnchor(diamondImage, 1.0);
         setTopAnchor(diamondImage, 1.0);
+
+        figureImage = new ImageView();
+        figureImage.setFitWidth(40);
+        figureImage.setFitHeight(40);
+        // TODO : Obrisi ovo
+        figureImage.setImage(new Image
+                    (new File(IMAGES_PATH + "GreenSuperFastFigure.png").toURI().toString()));
+
+        getChildren().add(figureImage);
+        setBottomAnchor(figureImage, 4.0);
+        setLeftAnchor(figureImage, 2.0);
     }
 
     public boolean isDiamondAdded() {
@@ -99,9 +114,9 @@ public class GameField extends Field {
         }
     }
 
-    public void setContentLabel(String value) {
-        contentLabel.setText(value);
-    }
+//    public void setContentLabel(String value) {
+//        contentLabel.setText(value);
+//    }
 
     public boolean isFigureAdded() {
         return isFigureAdded;
@@ -126,7 +141,7 @@ public class GameField extends Field {
 
         addedFigure = null;
         isFigureAdded = false;
-        contentLabel.setText("");
+        //contentLabel.setText("");
     }
 
 }

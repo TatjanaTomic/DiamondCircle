@@ -14,6 +14,8 @@ public abstract class Figure implements IMoveable {
     protected boolean finishedPlaying = false;
     protected int collectedDiamonds = 0;
 
+    protected static final String OFFSET_ERROR_MESSAGE = "Illegal value of offset!";
+
     public Figure(FigureColor color, String playerName, String imageName) {
         this.color = color;
         this.playerName = playerName;

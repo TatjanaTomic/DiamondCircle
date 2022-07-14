@@ -131,8 +131,6 @@ public class Simulation extends Thread {
                 Coordinates c = pathForHoles.get(i);
                 GameField gameField = (GameField) MainViewController.map[c.getX()][c.getY()];
                 gameField.setHoleAdded(true);
-
-
             }
         }
 

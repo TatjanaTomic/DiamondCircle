@@ -1,13 +1,16 @@
 package controller;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import model.exception.IllegalStateOfGameException;
@@ -15,8 +18,10 @@ import model.field.Coordinates;
 import model.field.EmptyField;
 import model.field.Field;
 import model.field.GameField;
+import model.figure.Figure;
 import model.game.Game;
 import model.game.Simulation;
+import model.player.Player;
 
 import java.io.File;
 import java.net.URL;
@@ -28,12 +33,13 @@ public class MainViewController implements Initializable {
     private static final String TIME_LABEL_TEXT = "Vrijeme trajanja igre: ";
     private static final String IMAGES_PATH = "src/main/resources/view/images/";
     private static final String DIAMOND_IMAGE = "diamond2.png";
+    private static final String INITIAL_TIME = "0s";
 
-    private final double mapWidth = 500;
-    private final double mapHeight = 500;
+    private double mapWidth;
+    private double mapHeight;
     private static final int numberOfFields = Game.dimension;
-    private final double fieldWidth = (mapWidth / numberOfFields);
-    private final double fieldHeight = (mapHeight / numberOfFields);
+    private double fieldWidth;
+    private double fieldHeight;
 
     private int redComponent = 215;
     private int greenComponent = 195;
@@ -46,26 +52,31 @@ public class MainViewController implements Initializable {
     public static final Field[][] map = new Field[numberOfFields][numberOfFields];
 
     @FXML
-    public Label numberOfGamesLabel;
+    private Label numberOfGamesLabel;
     @FXML
-    public Label timeLabel;
+    private Label timeLabel;
     @FXML
-    public Label player1Label;
+    private Label player1Label;
     @FXML
-    public Label player2Label;
+    private Label player2Label;
     @FXML
-    public Label player3Label;
+    private Label player3Label;
     @FXML
-    public Label player4Label;
+    private Label player4Label;
 
     @FXML
-    public Button startStopButton;
+    private Button startStopButton;
 
     @FXML
-    public GridPane mapGridPane;
+    private ListView<Figure> figuresList;
 
     @FXML
-    public ImageView cardImageView;
+    private Pane mapPane;
+    @FXML
+    private GridPane mapGridPane;
+
+    @FXML
+    private ImageView cardImageView;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -73,12 +84,18 @@ public class MainViewController implements Initializable {
         if(simulation == null)
             return;
 
+        mapHeight = 550;
+        mapWidth = 550;
+        fieldHeight = mapHeight / numberOfFields;
+        fieldWidth = mapWidth / numberOfFields;
+
         numberOfGamesLabel.setText(NUMBER_OF_GAMES_TEXT + Game.numberOfGames);
-        timeLabel.setText(TIME_LABEL_TEXT + "0s");
+        timeLabel.setText(TIME_LABEL_TEXT + INITIAL_TIME);
         cardImageView.setImage(new Image(new File(IMAGES_PATH + DIAMOND_IMAGE).toURI().toString()));
 
         initializePlayersLabels();
         initializeMap();
+        initializeFiguresList();
     }
 
     private void initializeMap() {
@@ -118,7 +135,7 @@ public class MainViewController implements Initializable {
         Label[] playersLabels = {player1Label, player2Label, player3Label, player4Label};
 
         for(int i = 1; i <= Game.numberOfPlayers; i++) {
-            playersLabels[i-1].setText("Igrač " + i +": " + simulation.getPlayers().get(i-1).getName());
+            playersLabels[i-1].setText("Igrač " + i + ": " + simulation.getPlayers().get(i-1).getName());
             playersLabels[i-1].setTextFill(Paint.valueOf(simulation.getPlayers().get(i-1).getColor().toString()));
         }
     }
@@ -168,6 +185,52 @@ public class MainViewController implements Initializable {
         return null;
     }
 
+    private void initializeFiguresList() {
+
+        ObservableList<Figure> figures = FXCollections.observableArrayList();
+        for (Player p : simulation.getPlayers()) {
+            figures.addAll(p.getFigures());
+        }
+        figuresList.setItems(figures);
+
+        figuresList.setCellFactory(param -> new ListCell<Figure>() {
+            @Override
+            protected void updateItem(Figure item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if(empty || item == null || item.getImageName() == null) {
+                    setText(null);
+                }
+                else {
+                    ImageView imageView = new ImageView(new Image(new File(IMAGES_PATH + item.getImageName()).toURI().toString()));
+                    imageView.setFitWidth(35);
+                    imageView.setFitHeight(35);
+
+                    setText(item.getClass().getSimpleName());
+                    setTextFill(Paint.valueOf(item.getColor().toString()));
+                    setOnMousePressed(e -> itemClickedTest());
+
+                    setGraphic(imageView);
+
+
+                }
+            }
+        });
+
+        figuresList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+    }
+
+    private void itemClickedTest() {
+        String message = "";
+        ObservableList<Figure> figures = figuresList.getSelectionModel().getSelectedItems();
+
+        for(Figure f : figures) {
+            message += f.getClass().getSimpleName() + " " + f.getPlayerName();
+        }
+        //TODO : Odavde treba otvarati novi prozor za figuru
+        System.out.println(message);
+    }
+
     private void updateMapGridPane() {
 
         for(int i = 0; i < numberOfFields; i++) {
@@ -189,9 +252,9 @@ public class MainViewController implements Initializable {
         Platform.runLater(() -> timeLabel.setText(TIME_LABEL_TEXT + timeInSeconds + "s"));
     }
 
-    public void setFieldContent(GameField field, String text) {
-        Platform.runLater(() -> field.getContentLabel().setText(text));
-    }
+//    public void setFieldContent(GameField field, String text) {
+//        Platform.runLater(() -> field.getContentLabel().setText(text));
+//    }
 
     public void updateNumberOfGames() {
         Platform.runLater(() -> numberOfGamesLabel.setText(NUMBER_OF_GAMES_TEXT + Game.numberOfGames));
