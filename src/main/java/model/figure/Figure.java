@@ -1,5 +1,6 @@
 package model.figure;
 
+import controller.MainViewController;
 import model.exception.IllegalStateOfGameException;
 import model.field.GameField;
 import model.player.Player;
@@ -35,8 +36,6 @@ public abstract class Figure implements IMoveable {
         return imageName;
     }
 
-    public abstract void move(int offset) throws IllegalStateOfGameException, InterruptedException;
-
     public void setCurrentField(GameField field) {
         currentField = field;
     }
@@ -45,8 +44,65 @@ public abstract class Figure implements IMoveable {
         return currentField;
     }
 
-    protected void changeField(GameField nextField) throws IllegalStateOfGameException{
-        currentField.removeAddedFigure();
-        //TODO : Dovrsi changeField()
+    public void move(int offset) throws IllegalStateOfGameException, InterruptedException {
+        if(offset < 1 || offset > 4) {
+            throw new IllegalStateOfGameException(OFFSET_ERROR_MESSAGE);
+        }
+
+        System.out.println(getClass().getSimpleName() + " Figure is moving - offset: " + offset + " - diamonds: " + collectedDiamonds);
+        int numberOfFields = calculateNumberOfFields(offset);
+        collectedDiamonds = 0;
+
+        for(int i = 0; i < numberOfFields; i++) {
+            int currentPathID;
+            if(finishedPlaying) {
+                //TODO : Da li treba exception ili da na neki nacin zavrsim pomjeranje ?
+                throw new IllegalStateOfGameException("Cannot move figure that finished playing!");
+            }
+
+            if(!startedPlaying) {
+                startedPlaying = true;
+                currentPathID = 0;
+            }
+            else {
+                currentPathID = currentField.getPathID();
+            }
+
+            synchronized (MainViewController.map) {
+                GameField nextField = getNextField(currentPathID);
+                if(currentField != null) {
+                    currentField.removeAddedFigure();
+                }
+                currentField = nextField;
+                currentField.setAddedFigure(this);
+            }
+
+
+
+
+            //Platform.runLater(() -> nextField.getContentLabel().setText("HF"));
+            System.out.println("i: " + i);
+
+            Thread.sleep(1000);
+        }
     }
+
+    private GameField getNextField(int currentFieldID) throws IllegalStateOfGameException {
+        int nextFieldID = currentFieldID + 1;
+        GameField nextField = MainViewController.getFieldByPathID(nextFieldID);
+
+        if(nextField == null) {
+            System.out.println("########## nextField is NULL    ID: " + nextFieldID + "    player: " + getPlayerName()
+                    + "    figure: " + getClass().getSimpleName() + " " + getColor());
+            throw new IllegalStateOfGameException();
+        }
+        else {
+            if(nextField.isFigureAdded())
+                return getNextField(nextFieldID);
+            else
+                return nextField;
+        }
+    }
+
+    protected abstract int calculateNumberOfFields(int offset);
 }

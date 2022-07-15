@@ -1,12 +1,5 @@
 package model.figure;
 
-import controller.MainViewController;
-import javafx.application.Platform;
-import model.exception.IllegalStateOfGameException;
-import model.field.GameField;
-import model.game.Game;
-import model.player.Player;
-
 public class HoveringFigure extends Figure {
 
     private static final String IMAGE_NAME = "HoveringFigure.png";
@@ -14,58 +7,8 @@ public class HoveringFigure extends Figure {
     public HoveringFigure(FigureColor color, String playerName) { super(color, playerName, color + IMAGE_NAME);}
 
     @Override
-    public void move(int offset) throws IllegalStateOfGameException, InterruptedException {
-
-        if(offset < 1 || offset > 4) {
-            throw new IllegalStateOfGameException(OFFSET_ERROR_MESSAGE);
-        }
-
-        System.out.println("Hovering figure is moving - offset: " + offset + " - diamonds: " + collectedDiamonds);
-        int numberOfFields = offset + collectedDiamonds;
-        collectedDiamonds = 0;
-
-        for(int i = 0; i < numberOfFields; i++) {
-
-            int currentPathID;
-            if(finishedPlaying) {
-                //TODO : Da li treba exception ili da na neki nacin zavrsim pomjeranje ?
-                throw new IllegalStateOfGameException("Cannot move figure that finished playing!");
-            }
-
-            if(!startedPlaying) {
-                startedPlaying = true;
-                currentPathID = 0;
-            }
-            else {
-                currentPathID = currentField.getPathID();
-            }
-
-            GameField nextField = getNextField(currentPathID);
-            currentField = nextField;
-
-
-
-
-
-            //Platform.runLater(() -> nextField.getContentLabel().setText("HF"));
-            System.out.println("i: " + i);
-
-            Thread.sleep(1000);
-
-        }
-
+    protected int calculateNumberOfFields(int offset) {
+        return offset + collectedDiamonds;
     }
 
-    private GameField getNextField(int currentPathID) throws IllegalStateOfGameException {
-        int nextPathID = currentPathID + 1;
-        GameField nextField = MainViewController.getFieldByPathID(nextPathID);
-
-        assert nextField != null;
-        if(!nextField.isFigureAdded()) {
-            return nextField;
-        }
-        else {
-            return getNextField(nextPathID);
-        }
-    }
 }
