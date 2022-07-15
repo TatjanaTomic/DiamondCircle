@@ -34,7 +34,7 @@
             </children>
          </VBox>
          <TextFlow prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-         <Label prefHeight="200.0" text="DiamondCircle" textAlignment="CENTER" textFill="#38220f">
+         <Label prefHeight="200.0" text="DiamondCircle" textAlignment="CENTER">
             <font>
                <Font name="Bauhaus 93" size="30.0" />
             </font>
