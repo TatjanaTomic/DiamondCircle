@@ -1,7 +1,6 @@
 package model.field;
 
-import javafx.beans.property.StringProperty;
-import javafx.scene.control.Label;
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -9,7 +8,6 @@ import model.exception.IllegalStateOfGameException;
 import model.figure.Figure;
 
 import java.io.File;
-import java.util.Objects;
 
 public class GameField extends Field {
 
@@ -18,8 +16,8 @@ public class GameField extends Field {
 
     private final Color initialColor;
     private final Color initialBorderColor = Color.BLACK;
-    private Color backgroundColor;
-    private Color borderColor;
+    private final Color backgroundColor;
+    private final Color borderColor;
 
     private ImageView diamondImage;
     private ImageView figureImage;
@@ -33,7 +31,7 @@ public class GameField extends Field {
     private Figure addedFigure = null;
 
     public GameField(int pathID, String fieldContent, Coordinates coordinates, double width, double height, Color initialColor) {
-        super(pathID, fieldContent, coordinates, width, height);
+        super(pathID, coordinates, width, height);
 
         this.initialColor = initialColor;
         this.backgroundColor = initialColor;
@@ -46,7 +44,7 @@ public class GameField extends Field {
     }
 
     public GameField(int pathID, String fieldContent, Coordinates coordinates, double width, double height, Color initialColor, boolean isStart, boolean isEnd) {
-        super(pathID, fieldContent, coordinates, width, height);
+        super(pathID, coordinates, width, height);
 
         this.initialColor = initialColor;
         this.backgroundColor = initialColor;
@@ -82,9 +80,7 @@ public class GameField extends Field {
         figureImage = new ImageView();
         figureImage.setFitWidth(40);
         figureImage.setFitHeight(40);
-        // TODO : Obrisi ovo
-        figureImage.setImage(new Image
-                    (new File(IMAGES_PATH + "GreenSuperFastFigure.png").toURI().toString()));
+        figureImage.setImage(null);
 
         getChildren().add(figureImage);
         setBottomAnchor(figureImage, 4.0);
@@ -106,17 +102,12 @@ public class GameField extends Field {
 
     public void setHoleAdded(boolean value) {
         holeAdded = value;
-        if(value) {
+        if (value) {
             rectangle.setFill(Color.BLACK);
-        }
-        else {
+        } else {
             rectangle.setFill(this.initialColor);
         }
     }
-
-//    public void setContentLabel(String value) {
-//        contentLabel.setText(value);
-//    }
 
     public boolean isFigureAdded() {
         return isFigureAdded;
@@ -132,7 +123,12 @@ public class GameField extends Field {
 
         addedFigure = figure;
         isFigureAdded = true;
-        //getTextProperty().setValue(figure.getClass().getSimpleName());
+        showFigure(figure.getImageName());
+    }
+
+    private void showFigure(String imageName) {
+        Platform.runLater(() -> figureImage.setImage(new Image
+                (new File(IMAGES_PATH + imageName).toURI().toString())));
     }
 
     public void removeAddedFigure() throws IllegalStateOfGameException {
@@ -141,7 +137,7 @@ public class GameField extends Field {
 
         addedFigure = null;
         isFigureAdded = false;
-        //contentLabel.setText("");
+        Platform.runLater(() -> figureImage.setImage(null));
     }
 
 }
