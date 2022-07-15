@@ -35,11 +35,11 @@ public class MainViewController implements Initializable {
     private static final String DIAMOND_IMAGE = "diamond2.png";
     private static final String INITIAL_TIME = "0s";
 
-    private double mapWidth;
-    private double mapHeight;
+    private final double mapWidth = 550.0;
+    private final double mapHeight = 550.0;
     private static final int numberOfFields = Game.dimension;
-    private double fieldWidth;
-    private double fieldHeight;
+    private final double fieldWidth = mapWidth / (double) numberOfFields;
+    private final double fieldHeight = mapHeight / (double) numberOfFields;
 
     private int redComponent = 215;
     private int greenComponent = 195;
@@ -84,11 +84,6 @@ public class MainViewController implements Initializable {
         if(simulation == null)
             return;
 
-        mapHeight = 550;
-        mapWidth = 550;
-        fieldHeight = mapHeight / numberOfFields;
-        fieldWidth = mapWidth / numberOfFields;
-
         numberOfGamesLabel.setText(NUMBER_OF_GAMES_TEXT + Game.numberOfGames);
         timeLabel.setText(TIME_LABEL_TEXT + INITIAL_TIME);
         cardImageView.setImage(new Image(new File(IMAGES_PATH + DIAMOND_IMAGE).toURI().toString()));
@@ -105,7 +100,7 @@ public class MainViewController implements Initializable {
         GameField startField = new GameField(id++, "", startCoordinates , fieldWidth, fieldHeight, startFieldColor, true, false);
         addField(startField, startCoordinates.getX(), startCoordinates.getY());
 
-        for(int i = 1; i < Game.gamePath.size(); i++) {
+        for(int i = 1; i < Game.gamePath.size() - 1; i++) {
             Coordinates coordinates = Game.gamePath.get(i);
             GameField field = new GameField(id++,"", coordinates, fieldWidth, fieldHeight, Color.rgb(redComponent, greenComponent, blueComponent));
             addField(field, coordinates.getX(), coordinates.getY());
@@ -124,7 +119,7 @@ public class MainViewController implements Initializable {
 
     private void addField(Field field, int x, int y) {
 
-        mapGridPane.getChildren().remove(map[x][y]);
+        //mapGridPane.getChildren().remove(map[x][y]);
         mapGridPane.add(field, y, x); // add(Node node, int columnNumber, int rowNumber);
         //field.getTextProperty().addListener((observableValue, s, t1) -> updateMapGridPane());
         map[x][y] = field;
@@ -175,7 +170,7 @@ public class MainViewController implements Initializable {
             throw new IllegalStateOfGameException("Illegal value of field path ID!");
 
         for(int i = 0; i < numberOfFields; i++) {
-            for(int j = 1; j < numberOfFields; j++ ) {
+            for(int j = 0; j < numberOfFields; j++ ) {
                 if(map[i][j].getPathID() == fieldPathID) {
                     return (GameField) map[i][j];
                 }
@@ -205,14 +200,12 @@ public class MainViewController implements Initializable {
                     ImageView imageView = new ImageView(new Image(new File(IMAGES_PATH + item.getImageName()).toURI().toString()));
                     imageView.setFitWidth(35);
                     imageView.setFitHeight(35);
+                    setGraphic(imageView);
 
                     setText(item.getClass().getSimpleName());
                     setTextFill(Paint.valueOf(item.getColor().toString()));
+
                     setOnMousePressed(e -> itemClickedTest());
-
-                    setGraphic(imageView);
-
-
                 }
             }
         });
@@ -221,11 +214,11 @@ public class MainViewController implements Initializable {
     }
 
     private void itemClickedTest() {
-        String message = "";
+        StringBuilder message = new StringBuilder();
         ObservableList<Figure> figures = figuresList.getSelectionModel().getSelectedItems();
 
         for(Figure f : figures) {
-            message += f.getClass().getSimpleName() + " " + f.getPlayerName();
+            message.append(f.getClass().getSimpleName()).append(" ").append(f.getPlayerName());
         }
         //TODO : Odavde treba otvarati novi prozor za figuru
         System.out.println(message);
@@ -251,10 +244,6 @@ public class MainViewController implements Initializable {
     public void setTime(int timeInSeconds) {
         Platform.runLater(() -> timeLabel.setText(TIME_LABEL_TEXT + timeInSeconds + "s"));
     }
-
-//    public void setFieldContent(GameField field, String text) {
-//        Platform.runLater(() -> field.getContentLabel().setText(text));
-//    }
 
     public void updateNumberOfGames() {
         Platform.runLater(() -> numberOfGamesLabel.setText(NUMBER_OF_GAMES_TEXT + Game.numberOfGames));

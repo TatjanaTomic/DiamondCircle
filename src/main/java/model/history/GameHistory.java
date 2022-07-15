@@ -5,10 +5,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class GameHistory implements Serializable {
-    private static String TOTAL_TIME = "Ukupno vrijeme trajanja igre: ";
+    private static final String TOTAL_TIME = "Ukupno vrijeme trajanja igre: ";
 
     private int time;
-    private List<PlayerHistory> playersHistoryList;
+    private final List<PlayerHistory> playersHistoryList;
 
     public GameHistory() {
         time = 0;
@@ -16,7 +16,7 @@ public class GameHistory implements Serializable {
     }
 
     public void setTime(int value) {
-        this.time = time;
+        this.time = value;
     }
 
     public int getTime() {

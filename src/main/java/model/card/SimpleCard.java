@@ -5,7 +5,7 @@ public class SimpleCard extends Card {
     private static final String SIMPLE_CARD = "SimpleCard";
     private static final String JPG = ".jpg";
 
-    private int offset;
+    private final int offset;
 
     public SimpleCard(int offset) {
         super(SIMPLE_CARD + offset + JPG);

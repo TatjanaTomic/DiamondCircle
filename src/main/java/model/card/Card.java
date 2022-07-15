@@ -1,7 +1,7 @@
 package model.card;
 
 public abstract class Card {
-    protected String imageName;
+    protected final String imageName;
 
     Card(String imageName) {
         this.imageName = imageName;
