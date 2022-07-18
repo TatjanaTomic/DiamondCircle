@@ -12,12 +12,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class GhostFigure extends Thread {
+public class GhostFigure implements Runnable {
 
     private static final int minimum = 2;
     private static final int maximum = Game.dimension;
 
     private final List<Coordinates> pathForDiamonds = new ArrayList<>();
+
+    private volatile boolean exit = false;
 
     public GhostFigure() {
         // It won't set diamond on end field
@@ -27,7 +29,7 @@ public class GhostFigure extends Thread {
     @Override
     public void run() {
 
-        while(isAlive()) {
+        while(!exit) {
             try {
                 Random random = new Random();
                 int numberOfDiamonds = random.nextInt(maximum - minimum + 1) + minimum;
@@ -57,5 +59,9 @@ public class GhostFigure extends Thread {
                 LoggerUtil.logAsync(getClass(), e);
             }
         }
+    }
+
+    public void stop() {
+        exit = true;
     }
 }

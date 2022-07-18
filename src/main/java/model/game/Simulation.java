@@ -16,7 +16,7 @@ import model.util.LoggerUtil;
 
 import java.util.*;
 
-public class Simulation extends Thread {
+public class Simulation implements Runnable {
 
     public static int move = 0;
 
@@ -25,19 +25,17 @@ public class Simulation extends Thread {
     private final GameHistory gameHistory = new GameHistory();
     private final List<Player> players;
     private final List<Player> playersInGame;
-    private final GhostFigure ghostFigure;
-    private final TimeCounter timeCounter;
     private final int n = Game.n; // number of holes that will be generated
     private final List<Coordinates> pathForHoles = new ArrayList<>();
 
-    private boolean isStarted = false;
-    private boolean isFinished = false;
+    public boolean isStarted = false;
+    public boolean isFinished = false;
+
+    private volatile boolean exit = false;
 
     public Simulation(List<Player> players) {
         this.players = players;
         this.playersInGame = players;
-        ghostFigure = new GhostFigure();
-        timeCounter = new TimeCounter();
 
         pathForHoles.addAll(Game.gamePath.subList(1, Game.gamePath.size() - 1));
         addGameHistory();
@@ -58,7 +56,7 @@ public class Simulation extends Thread {
 
         isStarted = true;
 
-        while(isAlive()) {
+        while(!exit) {
 
             while(hasPlayersForPlaying()) {
 
@@ -101,9 +99,12 @@ public class Simulation extends Thread {
                 Game.numberOfGames++;
                 DiamondCircleApplication.mainController.updateNumberOfGames();
 
-                //TODO : Serijalizovati istoriju igre
+                // TODO : Treba zaustaviti i ostale tredove
+                // TODO : Serijalizovati istoriju igre
 
-                break; // prekida se while(isAlive()) petlja
+                DiamondCircleApplication.mainController.enableButton();
+                Game.finishGame();
+                break;
             }
         }
     }
@@ -171,6 +172,10 @@ public class Simulation extends Thread {
             }
         }
         return null;
+    }
+
+    public void stop() {
+        exit = true;
     }
 
 }

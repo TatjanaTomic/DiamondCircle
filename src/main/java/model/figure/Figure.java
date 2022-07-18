@@ -4,6 +4,7 @@ import com.sun.tools.javac.Main;
 import controller.MainViewController;
 import model.exception.IllegalStateOfGameException;
 import model.field.GameField;
+import model.game.Game;
 import model.player.Player;
 
 public abstract class Figure implements IMoveable {
@@ -97,11 +98,11 @@ public abstract class Figure implements IMoveable {
             Thread.sleep(1000);
 
             if(currentField.isEndField()) {
-                if(MainViewController.simulation == null)
+                if(Game.simulation == null)
                     throw new IllegalStateOfGameException();
 
                 // figura je stigla do cilja, igra je za nju uspjesno zavrsena
-                MainViewController.simulation.figureFinishedPlaying(this, true);
+                Game.simulation.figureFinishedPlaying(this, true);
 
                 synchronized (MainViewController.map) {
                     currentField.removeAddedFigure();

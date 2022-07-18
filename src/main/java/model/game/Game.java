@@ -1,6 +1,7 @@
 package model.game;
 
 import controller.MainViewController;
+import model.exception.ErrorStartingGameException;
 import model.exception.MissingConfigurationException;
 import model.exception.WrongConfigurationDefinitionException;
 import model.field.Coordinates;
@@ -36,6 +37,15 @@ public class Game {
     public static List<Coordinates> emptyPath = new ArrayList<>();
     public static List<String> playersNames = new ArrayList<>();
 
+    private static TimeCounter timeCounter;
+    private static GhostFigure ghostFigure;
+
+    public static Simulation simulation = null;
+
+    private static Thread timeCounterThread;
+    private static Thread ghostFigureThread;
+    private static Thread gameThread;
+
     public static void main(String[] args) {
 
         try {
@@ -45,8 +55,9 @@ public class Game {
             readPlayers();
             loadMatrixConfiguration();
 
-            Simulation simulation = SimulationBuilder.build();
+            simulation = SimulationBuilder.build();
 
+            // TODO : Obrisi ovo
             List<Player> test = simulation.getPlayers();
             for (Player p : test) {
                 System.out.println("Igrac: " + p.getName() + " Boja: " + p.getColor());
@@ -55,24 +66,43 @@ public class Game {
                 }
             }
 
-            MainViewController.setSimulation(simulation);
             DiamondCircleApplication.main(args);
-
         }
         catch (Exception e) {
             LoggerUtil.log(Game.class, e);
         }
     }
 
-    public static void StartNewGame() {
+    public static void StartResumeGame() {
 
-        TimeCounter timeCounter = new TimeCounter();
-        timeCounter.start();
+        if(simulation == null) {
+            try {
+                simulation = SimulationBuilder.build();
+            }
+            catch (ErrorStartingGameException e) {
+                LoggerUtil.log(Game.class, e);
+                return;
+            }
+        }
+        timeCounter = new TimeCounter();
+        ghostFigure = new GhostFigure();
 
-        GhostFigure ghostFigure = new GhostFigure();
-        ghostFigure.start();
+        timeCounterThread = new Thread(timeCounter);
+        ghostFigureThread = new Thread(ghostFigure);
+        gameThread = new Thread(simulation);
 
-        MainViewController.simulation.start();
+        timeCounterThread.start();
+        ghostFigureThread.start();
+        gameThread.start();
+    }
+
+    public static void finishGame() {
+        simulation.stop();
+        ghostFigure.stop();
+        timeCounter.stop();
+        simulation = null;
+        ghostFigure = null;
+        timeCounter = null;
     }
 
     private static void checkConfigProperties() throws WrongConfigurationDefinitionException, MissingConfigurationException {

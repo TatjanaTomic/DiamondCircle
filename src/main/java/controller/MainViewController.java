@@ -46,8 +46,6 @@ public class MainViewController implements Initializable {
     private final Color startFieldColor = Color.WHITESMOKE;
     private final Color endFieldColor = Color.rgb(100,15,115);
 
-    //TODO : Da li je bolje da bude staticko ili ipak ne ?
-    public static Simulation simulation = null;
     public static final Field[][] map = new Field[numberOfFields][numberOfFields];
 
     @FXML
@@ -80,7 +78,7 @@ public class MainViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        if(simulation == null)
+        if(Game.simulation == null)
             return;
 
         numberOfGamesLabel.setText(NUMBER_OF_GAMES_TEXT + Game.numberOfGames);
@@ -117,10 +115,7 @@ public class MainViewController implements Initializable {
     }
 
     private void addField(Field field, int x, int y) {
-
-        //mapGridPane.getChildren().remove(map[x][y]);
         mapGridPane.add(field, y, x); // add(Node node, int columnNumber, int rowNumber);
-        //field.getTextProperty().addListener((observableValue, s, t1) -> updateMapGridPane());
         map[x][y] = field;
     }
 
@@ -129,13 +124,9 @@ public class MainViewController implements Initializable {
         Label[] playersLabels = {player1Label, player2Label, player3Label, player4Label};
 
         for(int i = 1; i <= Game.numberOfPlayers; i++) {
-            playersLabels[i-1].setText("Igrač " + i + ": " + simulation.getPlayers().get(i-1).getName());
-            playersLabels[i-1].setTextFill(Paint.valueOf(simulation.getPlayers().get(i-1).getColor().toString()));
+            playersLabels[i-1].setText("Igrač " + i + ": " + Game.simulation.getPlayers().get(i-1).getName());
+            playersLabels[i-1].setTextFill(Paint.valueOf(Game.simulation.getPlayers().get(i-1).getColor().toString()));
         }
-    }
-
-    public static void setSimulation(Simulation sim) {
-        simulation = sim;
     }
 
     private void changeColor() {
@@ -157,11 +148,12 @@ public class MainViewController implements Initializable {
     }
 
     public void test() {
+        Game.StartResumeGame();
+        startStopButton.setDisable(true);
+    }
 
-        //GhostFigure ghostFigure = new GhostFigure();
-        //ghostFigure.start();
-        //simulation.start();
-        Game.StartNewGame();
+    public void enableButton() {
+        startStopButton.setDisable(false);
     }
 
     public static GameField getFieldByPathID(int fieldPathID) throws IllegalStateOfGameException {
@@ -183,7 +175,7 @@ public class MainViewController implements Initializable {
     private void initializeFiguresList() {
 
         ObservableList<Figure> figures = FXCollections.observableArrayList();
-        for (Player p : simulation.getPlayers()) {
+        for (Player p : Game.simulation.getPlayers()) {
             figures.addAll(p.getFigures());
         }
         figuresList.setItems(figures);
@@ -222,18 +214,6 @@ public class MainViewController implements Initializable {
         }
         //TODO : Odavde treba otvarati novi prozor za figuru
         System.out.println(message);
-    }
-
-    private void updateMapGridPane() {
-
-        for(int i = 0; i < numberOfFields; i++) {
-            for(int j = 0; j < numberOfFields; j++) {
-                if(map[i][j] != null) {
-                    mapGridPane.getChildren().remove(map[i][j]);
-                    mapGridPane.add(map[i][j], j, i); // add(Node node, int columnNumber, int rowNumber);
-                }
-            }
-        }
     }
 
     public void setCard(String cardName) {
