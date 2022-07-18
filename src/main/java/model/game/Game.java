@@ -6,9 +6,11 @@ import model.exception.WrongConfigurationDefinitionException;
 import model.field.Coordinates;
 import model.field.Field;
 import model.figure.Figure;
+import model.figure.GhostFigure;
 import model.player.Player;
 import model.util.ConfigUtil;
 import model.util.LoggerUtil;
+import model.util.TimeCounter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -60,6 +62,17 @@ public class Game {
         catch (Exception e) {
             LoggerUtil.log(Game.class, e);
         }
+    }
+
+    public static void StartNewGame() {
+
+        TimeCounter timeCounter = new TimeCounter();
+        timeCounter.start();
+
+        GhostFigure ghostFigure = new GhostFigure();
+        ghostFigure.start();
+
+        MainViewController.simulation.start();
     }
 
     private static void checkConfigProperties() throws WrongConfigurationDefinitionException, MissingConfigurationException {

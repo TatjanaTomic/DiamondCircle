@@ -112,6 +112,10 @@ public class GameField extends Field {
         return holeAdded;
     }
 
+    public boolean isEndField() {
+        return isEnd;
+    }
+
     public void setHoleAdded(boolean value) {
         holeAdded = value;
         if (value) {

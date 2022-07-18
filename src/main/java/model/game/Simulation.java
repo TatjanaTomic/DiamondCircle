@@ -24,6 +24,7 @@ public class Simulation extends Thread {
 
     private final GameHistory gameHistory = new GameHistory();
     private final List<Player> players;
+    private final List<Player> playersInGame;
     private final GhostFigure ghostFigure;
     private final TimeCounter timeCounter;
     private final int n = Game.n; // number of holes that will be generated
@@ -34,6 +35,7 @@ public class Simulation extends Thread {
 
     public Simulation(List<Player> players) {
         this.players = players;
+        this.playersInGame = players;
         ghostFigure = new GhostFigure();
         timeCounter = new TimeCounter();
 
@@ -55,9 +57,6 @@ public class Simulation extends Thread {
     public void run() {
 
         isStarted = true;
-
-        timeCounter.start();
-        ghostFigure.start();
 
         while(isAlive()) {
 
@@ -103,20 +102,22 @@ public class Simulation extends Thread {
                 DiamondCircleApplication.mainController.updateNumberOfGames();
 
                 //TODO : Serijalizovati istoriju igre
+
+                break; // prekida se while(isAlive()) petlja
             }
         }
     }
 
     private Player nextPlayer() {
-        Player player = players.get(0);
-        players.remove(0);
-        players.add(player);
+        Player player = playersInGame.get(0);
+        playersInGame.remove(0);
+        playersInGame.add(player);
 
         return player;
     }
 
     public boolean hasPlayersForPlaying(){
-        return players.size() > 0;
+        return playersInGame.size() > 0;
     }
 
     private void showCard(Card currentCard) {
@@ -147,8 +148,29 @@ public class Simulation extends Thread {
         }
     }
 
-    public void figureFinishedPlaying(Figure figure, boolean isSuccessfull) {
+    public void figureFinishedPlaying(Figure figure, boolean isSuccessfull) throws IllegalStateOfGameException {
+        Player player = getPlayerByName(figure.getPlayerName());
 
+        assert player != null;
+        if(!player.getCurrentFigure().equals(figure)) {
+            throw new IllegalStateOfGameException();
+        }
+
+        player.changeCurrentFigure();
+
+        if(!player.hasFiguresForPlaying()) {
+            playersInGame.remove(player);
+        }
+
+    }
+
+    private Player getPlayerByName(String playerName) {
+        for(Player player : players) {
+            if(player.getName().equals(playerName)) {
+                return player;
+            }
+        }
+        return null;
     }
 
 }

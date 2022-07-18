@@ -1,5 +1,6 @@
 package model.figure;
 
+import com.sun.tools.javac.Main;
 import controller.MainViewController;
 import model.exception.IllegalStateOfGameException;
 import model.field.GameField;
@@ -78,8 +79,6 @@ public abstract class Figure implements IMoveable {
 
                 if(currentField != null) {
                     if(currentField.isDiamondAdded()) {
-                        //collectedDiamonds++;
-                        //System.out.println(getClass().getSimpleName() + " " + color + " pokupila dijamant, trenutni broj dijamanata: " + collectedDiamonds);
                         currentField.setDiamondAdded(false);
                     }
                     currentField.removeAddedFigure();
@@ -89,8 +88,6 @@ public abstract class Figure implements IMoveable {
                 currentField.setAddedFigure(this);
 
                 if(currentField.isDiamondAdded()) {
-                    //collectedDiamonds++;
-                    //System.out.println(getClass().getSimpleName() + " " + color + " pokupila dijamant, trenutni broj dijamanata: " + collectedDiamonds);
                     currentField.setDiamondAdded(false);
                 }
             }
@@ -98,6 +95,22 @@ public abstract class Figure implements IMoveable {
             System.out.println("i: " + i);
 
             Thread.sleep(1000);
+
+            if(currentField.isEndField()) {
+                if(MainViewController.simulation == null)
+                    throw new IllegalStateOfGameException();
+
+                // figura je stigla do cilja, igra je za nju uspjesno zavrsena
+                MainViewController.simulation.figureFinishedPlaying(this, true);
+
+                synchronized (MainViewController.map) {
+                    currentField.removeAddedFigure();
+                }
+
+                currentField = null;
+                finishedPlaying = true;
+                return;
+            }
         }
     }
 

@@ -9,7 +9,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -48,7 +47,7 @@ public class MainViewController implements Initializable {
     private final Color endFieldColor = Color.rgb(100,15,115);
 
     //TODO : Da li je bolje da bude staticko ili ipak ne ?
-    private static Simulation simulation = null;
+    public static Simulation simulation = null;
     public static final Field[][] map = new Field[numberOfFields][numberOfFields];
 
     @FXML
@@ -161,7 +160,8 @@ public class MainViewController implements Initializable {
 
         //GhostFigure ghostFigure = new GhostFigure();
         //ghostFigure.start();
-        simulation.start();
+        //simulation.start();
+        Game.StartNewGame();
     }
 
     public static GameField getFieldByPathID(int fieldPathID) throws IllegalStateOfGameException {
