@@ -75,6 +75,8 @@ public class MainViewController implements Initializable {
     @FXML
     private ImageView cardImageView;
 
+    // TODO : Uradi refresh izgleda !!!
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

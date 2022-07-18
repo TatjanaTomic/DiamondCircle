@@ -81,7 +81,6 @@ public class Simulation implements Runnable {
                     Figure currentFigure = currentPlayer.getCurrentFigure();
                     System.out.println("    Figure: " + currentFigure.getClass().getSimpleName());
 
-
                     if(currentCard.getClass().getSimpleName().equals(SPECIAL_CARD)) {
                         specialCardOnMove();
                     }
@@ -125,7 +124,7 @@ public class Simulation implements Runnable {
         DiamondCircleApplication.mainController.setCard(currentCard.getImageName());
     }
 
-    private void specialCardOnMove() throws InterruptedException {
+    private void specialCardOnMove() throws InterruptedException, IllegalStateOfGameException {
 
         // set holes
         Collections.shuffle(pathForHoles);
@@ -137,13 +136,16 @@ public class Simulation implements Runnable {
             }
         }
 
-        //TODO : Ovdje negdje treba implementirati "propadanje" figura
         Thread.sleep(1000);
 
         // unset holes
         synchronized (MainViewController.map) {
             for (Coordinates c : Game.gamePath) {
                 GameField gameField = (GameField) MainViewController.map[c.getX()][c.getY()];
+                if(gameField.isHoleAdded() && gameField.isFigureAdded() && !(gameField.getAddedFigure() instanceof HoveringFigure)) {
+                    figureFinishedPlaying(gameField.getAddedFigure(), false);
+                    gameField.removeAddedFigure();
+                }
                 gameField.setHoleAdded(false);
             }
         }
