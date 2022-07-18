@@ -17,20 +17,13 @@ public abstract class SimulationBuilder {
     public static Simulation build() throws ErrorStartingGameException {
 
         try {
-
             colors.addAll(Arrays.asList(FigureColor.values()));
 
             int i = 1;
             // Dodaju se igraci i njihove figure
             for (String name : Game.playersNames) {
                 FigureColor color = GenerateColor();
-                //TODO : vrati poziv ove funkcije !!!
                 List<Figure> figures = GenerateFigures(color, name);
-//                List<Figure> figures = new ArrayList<>();
-//                figures.add(new HoveringFigure(color, name));
-//                figures.add(new HoveringFigure(color, name));
-//                figures.add(new HoveringFigure(color, name));
-//                figures.add(new HoveringFigure(color, name));
 
                 players.add(new Player(i++, name, color, figures));
             }

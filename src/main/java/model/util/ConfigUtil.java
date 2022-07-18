@@ -41,7 +41,7 @@ public abstract class ConfigUtil {
         try {
             Properties properties = new Properties();
             properties.load(inputStream);
-
+            
             return properties;
         }catch (Exception e) {
             throw new WrongConfigurationDefinitionException("File " + path.getFileName() + " is not well formatted.");

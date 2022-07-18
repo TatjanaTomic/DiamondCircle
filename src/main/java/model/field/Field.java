@@ -10,8 +10,8 @@ public abstract class Field extends AnchorPane {
 
     protected Rectangle rectangle;
 
-    private final int ID; //ID at whole map
-    private final int pathID; //ID at path for playing
+    protected final int ID; //ID at whole map
+    protected final int pathID; //ID at path for playing
     private final Coordinates coordinates;
 
     protected Field(int pathID, Coordinates coordinates, double width, double height) {

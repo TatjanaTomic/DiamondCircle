@@ -36,6 +36,10 @@ public abstract class Figure implements IMoveable {
         return imageName;
     }
 
+    public void collectDiamond() {
+        collectedDiamonds++;
+    }
+
     public void setCurrentField(GameField field) {
         currentField = field;
     }
@@ -51,6 +55,7 @@ public abstract class Figure implements IMoveable {
 
         System.out.println(getClass().getSimpleName() + " Figure is moving - offset: " + offset + " - diamonds: " + collectedDiamonds);
         int numberOfFields = calculateNumberOfFields(offset);
+        System.out.println("number of fields (offset + diamonds): " + numberOfFields);
         collectedDiamonds = 0;
 
         for(int i = 0; i < numberOfFields; i++) {
@@ -70,17 +75,26 @@ public abstract class Figure implements IMoveable {
 
             synchronized (MainViewController.map) {
                 GameField nextField = getNextField(currentPathID);
+
                 if(currentField != null) {
+                    if(currentField.isDiamondAdded()) {
+                        //collectedDiamonds++;
+                        //System.out.println(getClass().getSimpleName() + " " + color + " pokupila dijamant, trenutni broj dijamanata: " + collectedDiamonds);
+                        currentField.setDiamondAdded(false);
+                    }
                     currentField.removeAddedFigure();
                 }
+
                 currentField = nextField;
                 currentField.setAddedFigure(this);
+
+                if(currentField.isDiamondAdded()) {
+                    //collectedDiamonds++;
+                    //System.out.println(getClass().getSimpleName() + " " + color + " pokupila dijamant, trenutni broj dijamanata: " + collectedDiamonds);
+                    currentField.setDiamondAdded(false);
+                }
             }
 
-
-
-
-            //Platform.runLater(() -> nextField.getContentLabel().setText("HF"));
             System.out.println("i: " + i);
 
             Thread.sleep(1000);

@@ -92,6 +92,18 @@ public class GameField extends Field {
     }
 
     public void setDiamondAdded(boolean value) {
+        // Ako se uklanja dijamant sa nekog polja, a na tom polju je bio dijamant i bila figura, figura ga pokupi
+        // Ovu funkciju pozivam sa setDiamondAdded(false) u tri slucaja:
+        // 1. kad figura dolazi na polje pa ako zatekne dijamant ona ga pokupi
+        // 2. kada figura odlazi sa polja, ako se u medjuvremenu postavio dijamant, takodje ga moze pokupiti
+        // 3. ako figura stoji duze vrijeme na jednom polju i za vrijeme njenog stajanja se pojavi i sklanja dijamant, takodje ga ona kupi
+        if(diamondAdded && !value && isFigureAdded) {
+            addedFigure.collectDiamond();
+            System.out.println("***Collected one diamond, figure: " + addedFigure.getColor() +
+                    addedFigure.getClass().getSimpleName() +
+                    ", field " + ID);
+        }
+
         diamondAdded = value;
         diamondImage.setVisible(value);
     }

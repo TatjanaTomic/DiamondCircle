@@ -4,6 +4,7 @@ import controller.MainViewController;
 import model.exception.MissingConfigurationException;
 import model.exception.WrongConfigurationDefinitionException;
 import model.field.Coordinates;
+import model.field.Field;
 import model.figure.Figure;
 import model.player.Player;
 import model.util.ConfigUtil;
@@ -54,6 +55,7 @@ public class Game {
 
             MainViewController.setSimulation(simulation);
             DiamondCircleApplication.main(args);
+
         }
         catch (Exception e) {
             LoggerUtil.log(Game.class, e);
@@ -127,6 +129,19 @@ public class Game {
         int y = ((Long) jsonObject.get("y")).intValue();
 
         return new Coordinates(x,y);
+    }
+
+    private static void testMap() {
+        for(int i = 0; i < dimension; i++) {
+            for(int j = 0; j < dimension; j++) {
+                Field field = MainViewController.map[i][j];
+                System.out.print("[" + i + "][" + j + "]    ");
+                System.out.print(field.getID() + "    ");
+                System.out.print(field.getPathID() + "    ");
+                System.out.print("x: " + field.getCoordinates().getX() + "  y: " + field.getCoordinates().getY());
+                System.out.println("    " + field.getClass().getSimpleName());
+            }
+        }
     }
 }
 

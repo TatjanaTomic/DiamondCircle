@@ -66,6 +66,7 @@ public class Simulation extends Thread {
                 // sljedeci kod je u sustini jedan potez
                 try {
                     move++;
+                    System.out.println();
                     System.out.print("Potez: " + move);
 
                     // dolazi na red sljedeci igrac
@@ -144,6 +145,10 @@ public class Simulation extends Thread {
                 gameField.setHoleAdded(false);
             }
         }
+    }
+
+    public void figureFinishedPlaying(Figure figure, boolean isSuccessfull) {
+
     }
 
 }
