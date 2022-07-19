@@ -10,7 +10,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import model.exception.IllegalStateOfGameException;
 import model.field.Coordinates;
@@ -18,9 +17,7 @@ import model.field.EmptyField;
 import model.field.Field;
 import model.field.GameField;
 import model.figure.Figure;
-import model.figure.FigureColor;
 import model.game.Game;
-import model.game.Simulation;
 import model.player.Player;
 
 import java.io.File;
@@ -29,10 +26,10 @@ import java.util.ResourceBundle;
 
 public class MainViewController implements Initializable {
 
-    private static final String NUMBER_OF_GAMES_TEXT = "Trenutni broj odigranih igara: ";
-    private static final String TIME_LABEL_TEXT = "Vrijeme trajanja igre: ";
     private static final String IMAGES_PATH = "src/main/resources/view/images/";
     private static final String DIAMOND_IMAGE = "diamond2.png";
+    private static final String NUMBER_OF_GAMES_TEXT = "Trenutni broj odigranih igara: ";
+    private static final String TIME_LABEL_TEXT = "Vrijeme trajanja igre: ";
     private static final String INITIAL_TIME = "0s";
     private static final String CURRENT_PLAYER = "Na potezu je igrac: ";
     private static final String CURRENT_FIGURE = "Trenutna figura: ";
@@ -41,17 +38,18 @@ public class MainViewController implements Initializable {
     private static final String TRANSITION_TO = " na polje ";
     private static final String ARRIVAL = "Dolazak";
     private static final String NUMBER_OF_FIELDS = "Broj polja koja prelazi: ";
+    private static final String GAME_FINISHED = "Igra je zavrsena!";
+    private static final String FIRST_PLAYER = "Prvi igrac: ";
+    private static final String SECOND_PLAYER = "Drugi igrac: ";
+    private static final String THIRD_PLAYER = "Treci igrac: ";
+    private static final String FOURTH_PLAYER = "Cetvrti igrac: ";
+
+    private static final int numberOfFields = Game.dimension;
+
     private final double mapWidth = 550.0;
     private final double mapHeight = 550.0;
-    private static final int numberOfFields = Game.dimension;
     private final double fieldWidth = mapWidth / (double) numberOfFields;
     private final double fieldHeight = mapHeight / (double) numberOfFields;
-
-    private int redComponent = 215;
-    private int greenComponent = 195;
-    private int blueComponent = 215;
-    private final Color startFieldColor = Color.WHITESMOKE;
-    private final Color endFieldColor = Color.rgb(100,15,115);
 
     public static final Field[][] map = new Field[numberOfFields][numberOfFields];
 
@@ -93,30 +91,49 @@ public class MainViewController implements Initializable {
             return;
 
         numberOfGamesLabel.setText(NUMBER_OF_GAMES_TEXT + Game.numberOfGames);
-        timeLabel.setText(TIME_LABEL_TEXT + INITIAL_TIME);
         cardImageView.setImage(new Image(new File(IMAGES_PATH + DIAMOND_IMAGE).toURI().toString()));
         descriptionTextArea.setWrapText(true);
 
-        initializePlayersLabels();
+        updateView();
         initializeMap();
+    }
+
+    public void updateView() {
+        timeLabel.setText(TIME_LABEL_TEXT + INITIAL_TIME);
+
+        initializePlayersLabels();
         initializeFiguresList();
+    }
+
+    public void resetView() {
+        cardImageView.setImage(new Image(new File(IMAGES_PATH + DIAMOND_IMAGE).toURI().toString()));
+        descriptionTextArea.setText(GAME_FINISHED);
+
+        for(int i = 0; i < numberOfFields; i++) {
+            for(int j = 0; j < numberOfFields; j++ ) {
+                if(map[i][j] instanceof GameField) {
+                    ((GameField) map[i][j]).setDiamondAdded(false);
+                }
+            }
+        }
+
+        startStopButton.setDisable(false);
     }
 
     private void initializeMap() {
 
         Coordinates startCoordinates = Game.gamePath.get(0);
-        GameField startField = new GameField(startCoordinates , fieldWidth, fieldHeight, startFieldColor, true, false);
+        GameField startField = new GameField(startCoordinates , fieldWidth, fieldHeight, true, false);
         addField(startField, startCoordinates.getX(), startCoordinates.getY());
 
         for(int i = 1; i < Game.gamePath.size() - 1; i++) {
             Coordinates coordinates = Game.gamePath.get(i);
-            GameField field = new GameField(coordinates, fieldWidth, fieldHeight, Color.rgb(redComponent, greenComponent, blueComponent));
+            GameField field = new GameField(coordinates, fieldWidth, fieldHeight);
             addField(field, coordinates.getX(), coordinates.getY());
-            changeColor();
         }
 
         Coordinates endCoordinates = Game.gamePath.get(Game.gamePath.size() - 1);
-        GameField endField = new GameField(endCoordinates, fieldWidth, fieldHeight, endFieldColor, false, true);
+        GameField endField = new GameField(endCoordinates, fieldWidth, fieldHeight, false, true);
         addField(endField, endCoordinates.getX(), endCoordinates.getY());
 
         for(Coordinates coordinates : Game.emptyPath) {
@@ -133,39 +150,21 @@ public class MainViewController implements Initializable {
     private void initializePlayersLabels() {
 
         Label[] playersLabels = {player1Label, player2Label, player3Label, player4Label};
+        player1Label.setText(FIRST_PLAYER);
+        player2Label.setText(SECOND_PLAYER);
+        player3Label.setText(THIRD_PLAYER);
+        player4Label.setText(FOURTH_PLAYER);
 
         for(int i = 1; i <= Game.numberOfPlayers; i++) {
-            String oldText = playersLabels[i-1].getText();
-            playersLabels[i-1].setText(oldText + Game.simulation.getPlayers().get(i-1));
+            String initialText = playersLabels[i-1].getText();
+            playersLabels[i-1].setText(initialText + Game.simulation.getPlayers().get(i-1));
             playersLabels[i-1].setTextFill(Paint.valueOf(Game.simulation.getPlayers().get(i-1).getColor().toString()));
-        }
-    }
-
-    private void changeColor() {
-        if(numberOfFields == 7) {
-            redComponent -= 3;
-            greenComponent -= 5;
-            blueComponent -= 3;
-        }
-        else if(numberOfFields == 8 || numberOfFields == 9) {
-            redComponent -= 2;
-            greenComponent -= 4;
-            blueComponent -= 2;
-        }
-        else if(numberOfFields == 10) {
-            redComponent -= 1;
-            greenComponent -= 3;
-            blueComponent -= 1;
         }
     }
 
     public void test() {
         Game.StartResumeGame();
         startStopButton.setDisable(true);
-    }
-
-    public void enableButton() {
-        startStopButton.setDisable(false);
     }
 
     public static GameField getFieldByPathID(int fieldPathID) throws IllegalStateOfGameException {
@@ -243,7 +242,6 @@ public class MainViewController implements Initializable {
     public void setDescription(boolean isSpecialCard) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(CURRENT_PLAYER);
-
         if(isSpecialCard) {
             stringBuilder.append(Game.simulation.getCurrentPlayer()).append("\n");
             stringBuilder.append(SPECIAL_CARD);

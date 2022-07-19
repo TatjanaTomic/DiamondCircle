@@ -69,6 +69,7 @@ public class Game {
         if(simulation == null) {
             try {
                 simulation = SimulationBuilder.build();
+                DiamondCircleApplication.mainController.updateView();
             }
             catch (ErrorStartingGameException e) {
                 LoggerUtil.log(Game.class, e);

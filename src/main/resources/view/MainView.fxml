@@ -51,25 +51,25 @@
       </HBox>
       <HBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="50.0">
          <TextFlow prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-         <Label fx:id="player1Label" text="Prvi igrac: " textAlignment="CENTER">
+         <Label fx:id="player1Label" textAlignment="CENTER">
             <font>
                <Font name="System Bold" size="12.0" />
             </font>
          </Label>
          <TextFlow prefHeight="200.0" prefWidth="200.0" />
-         <Label fx:id="player2Label" text="Drugi igrac: " textAlignment="CENTER">
+         <Label fx:id="player2Label" textAlignment="CENTER">
             <font>
                <Font name="System Bold" size="12.0" />
             </font>
          </Label>
          <TextFlow prefHeight="200.0" prefWidth="200.0" />
-         <Label fx:id="player3Label" text="Treci igrac: " textAlignment="CENTER">
+         <Label fx:id="player3Label" textAlignment="CENTER">
             <font>
                <Font name="System Bold" size="12.0" />
             </font>
          </Label>
          <TextFlow prefHeight="200.0" prefWidth="200.0" />
-         <Label fx:id="player4Label" text="Cetvrti igrac: " textAlignment="CENTER">
+         <Label fx:id="player4Label" textAlignment="CENTER">
             <font>
                <Font name="System Bold" size="12.0" />
             </font>

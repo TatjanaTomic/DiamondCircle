@@ -113,7 +113,7 @@ public class Simulation implements Runnable {
                 // TODO : Treba zaustaviti i ostale tredove
                 // TODO : Serijalizovati istoriju igre
 
-                DiamondCircleApplication.mainController.enableButton();
+                DiamondCircleApplication.mainController.resetView();
                 Game.finishGame();
                 break;
             }

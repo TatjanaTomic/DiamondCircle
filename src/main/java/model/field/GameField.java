@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import model.exception.IllegalStateOfGameException;
 import model.figure.Figure;
+import model.game.Game;
 
 import java.io.File;
 
@@ -14,15 +15,15 @@ public class GameField extends Field {
     private static final String IMAGES_PATH = "src/main/resources/view/images/";
     private static final String DIAMOND_IMAGE = "diamond2.png";
 
-    private final Color initialColor;
-    private final Color initialBorderColor = Color.BLACK;
+    private static int redComponent = 215;
+    private static int greenComponent = 195;
+    private static int blueComponent = 215;
+
     private final Color backgroundColor;
-    private final Color borderColor;
 
     private ImageView diamondImage;
     private ImageView figureImage;
 
-    private boolean isStart = false;
     private boolean isEnd = false;
 
     private boolean diamondAdded = false;
@@ -32,37 +33,36 @@ public class GameField extends Field {
 
     private static int _id = 1;
 
-    public GameField(Coordinates coordinates, double width, double height, Color initialColor) {
+    public GameField(Coordinates coordinates, double width, double height) {
         super(_id++, coordinates, width, height);
 
-        this.initialColor = initialColor;
-        this.backgroundColor = initialColor;
-        this.borderColor = initialBorderColor;
-
-        rectangle.setStroke(this.initialBorderColor);
-        rectangle.setFill(this.initialColor);
+        backgroundColor = Color.rgb(redComponent, greenComponent, blueComponent);
+        rectangle.setFill(backgroundColor);
+        rectangle.setStroke(Color.BLACK);
 
         setInitialContent();
+        changeColor();
     }
 
-    public GameField(Coordinates coordinates, double width, double height, Color initialColor, boolean isStart, boolean isEnd) {
+    public GameField(Coordinates coordinates, double width, double height, boolean isStart, boolean isEnd) {
         super(_id++, coordinates, width, height);
 
-        this.initialColor = initialColor;
-        this.backgroundColor = initialColor;
-        this.borderColor = initialBorderColor;
-
-        this.isStart = isStart;
         this.isEnd = isEnd;
 
-        if(isStart)
+        if(isStart) {
             rectangle.setStroke(Color.GOLD);
-        else if(isEnd)
+            backgroundColor = Color.WHITESMOKE;
+        }
+        else if(isEnd) {
             rectangle.setStroke(Color.WHITE);
-        else
+            backgroundColor = Color.rgb(100,15,115);
+        }
+        else {
             rectangle.setStroke(Color.BLACK);
-
-        rectangle.setFill(this.initialColor);
+            backgroundColor = Color.rgb(redComponent, greenComponent, blueComponent);
+            changeColor();
+        }
+        rectangle.setFill(backgroundColor);
 
         setInitialContent();
     }
@@ -76,8 +76,8 @@ public class GameField extends Field {
         diamondImage.setVisible(false);
 
         getChildren().add(diamondImage);
-        setRightAnchor(diamondImage, 1.0);
-        setTopAnchor(diamondImage, 1.0);
+        setRightAnchor(diamondImage, 2.0);
+        setTopAnchor(diamondImage, 2.0);
 
         figureImage = new ImageView();
         figureImage.setFitWidth(40);
@@ -93,12 +93,12 @@ public class GameField extends Field {
         return diamondAdded;
     }
 
+    // Ovu funkciju pozivam sa setDiamondAdded(false) u tri slucaja:
+    // 1. kad figura dolazi na polje pa ako zatekne dijamant ona ga pokupi
+    // 2. kada figura odlazi sa polja, ako se u medjuvremenu postavio dijamant, ona ga pokupi
+    // 3. ako figura stoji duze vrijeme na jednom polju i za vrijeme njenog stajanja se pojavi i sklanja dijamant, takodje ga ona kupi
     public void setDiamondAdded(boolean value) {
-        // Ako se uklanja dijamant sa nekog polja, a na tom polju je bio dijamant i bila figura, figura ga pokupi
-        // Ovu funkciju pozivam sa setDiamondAdded(false) u tri slucaja:
-        // 1. kad figura dolazi na polje pa ako zatekne dijamant ona ga pokupi
-        // 2. kada figura odlazi sa polja, ako se u medjuvremenu postavio dijamant, takodje ga moze pokupiti
-        // 3. ako figura stoji duze vrijeme na jednom polju i za vrijeme njenog stajanja se pojavi i sklanja dijamant, takodje ga ona kupi
+
         if(diamondAdded && !value && isFigureAdded) {
             addedFigure.collectDiamond();
             System.out.println("***Collected one diamond, figure: " + addedFigure.getColor() +
@@ -123,7 +123,7 @@ public class GameField extends Field {
         if (value) {
             rectangle.setFill(Color.BLACK);
         } else {
-            rectangle.setFill(this.initialColor);
+            rectangle.setFill(this.backgroundColor);
         }
     }
 
@@ -156,6 +156,24 @@ public class GameField extends Field {
         addedFigure = null;
         isFigureAdded = false;
         Platform.runLater(() -> figureImage.setImage(null));
+    }
+
+    private void changeColor() {
+        if(Game.dimension == 7) {
+            redComponent -= 3;
+            greenComponent -= 5;
+            blueComponent -= 3;
+        }
+        else if(Game.dimension == 8 || Game.dimension == 9) {
+            redComponent -= 2;
+            greenComponent -= 4;
+            blueComponent -= 2;
+        }
+        else if(Game.dimension == 10) {
+            redComponent -= 1;
+            greenComponent -= 3;
+            blueComponent -= 1;
+        }
     }
 
 }
