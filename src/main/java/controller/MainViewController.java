@@ -18,6 +18,7 @@ import model.field.EmptyField;
 import model.field.Field;
 import model.field.GameField;
 import model.figure.Figure;
+import model.figure.FigureColor;
 import model.game.Game;
 import model.game.Simulation;
 import model.player.Player;
@@ -33,7 +34,13 @@ public class MainViewController implements Initializable {
     private static final String IMAGES_PATH = "src/main/resources/view/images/";
     private static final String DIAMOND_IMAGE = "diamond2.png";
     private static final String INITIAL_TIME = "0s";
-
+    private static final String CURRENT_PLAYER = "Na potezu je igrac: ";
+    private static final String CURRENT_FIGURE = "Trenutna figura: ";
+    private static final String SPECIAL_CARD = "Specijalna karta - postavalju se rupe";
+    private static final String TRANSITION_FROM = "Prelazak sa polja ";
+    private static final String TRANSITION_TO = " na polje ";
+    private static final String ARRIVAL = "Dolazak";
+    private static final String NUMBER_OF_FIELDS = "Broj polja koja prelazi: ";
     private final double mapWidth = 550.0;
     private final double mapHeight = 550.0;
     private static final int numberOfFields = Game.dimension;
@@ -60,6 +67,8 @@ public class MainViewController implements Initializable {
     private Label player3Label;
     @FXML
     private Label player4Label;
+    @FXML
+    private TextArea descriptionTextArea;
 
     @FXML
     private Button startStopButton;
@@ -86,6 +95,7 @@ public class MainViewController implements Initializable {
         numberOfGamesLabel.setText(NUMBER_OF_GAMES_TEXT + Game.numberOfGames);
         timeLabel.setText(TIME_LABEL_TEXT + INITIAL_TIME);
         cardImageView.setImage(new Image(new File(IMAGES_PATH + DIAMOND_IMAGE).toURI().toString()));
+        descriptionTextArea.setWrapText(true);
 
         initializePlayersLabels();
         initializeMap();
@@ -94,20 +104,19 @@ public class MainViewController implements Initializable {
 
     private void initializeMap() {
 
-        int id = 1;
         Coordinates startCoordinates = Game.gamePath.get(0);
-        GameField startField = new GameField(id++, "", startCoordinates , fieldWidth, fieldHeight, startFieldColor, true, false);
+        GameField startField = new GameField(startCoordinates , fieldWidth, fieldHeight, startFieldColor, true, false);
         addField(startField, startCoordinates.getX(), startCoordinates.getY());
 
         for(int i = 1; i < Game.gamePath.size() - 1; i++) {
             Coordinates coordinates = Game.gamePath.get(i);
-            GameField field = new GameField(id++,"", coordinates, fieldWidth, fieldHeight, Color.rgb(redComponent, greenComponent, blueComponent));
+            GameField field = new GameField(coordinates, fieldWidth, fieldHeight, Color.rgb(redComponent, greenComponent, blueComponent));
             addField(field, coordinates.getX(), coordinates.getY());
             changeColor();
         }
 
         Coordinates endCoordinates = Game.gamePath.get(Game.gamePath.size() - 1);
-        GameField endField = new GameField(id, "", endCoordinates, fieldWidth, fieldHeight, endFieldColor, false, true);
+        GameField endField = new GameField(endCoordinates, fieldWidth, fieldHeight, endFieldColor, false, true);
         addField(endField, endCoordinates.getX(), endCoordinates.getY());
 
         for(Coordinates coordinates : Game.emptyPath) {
@@ -126,7 +135,8 @@ public class MainViewController implements Initializable {
         Label[] playersLabels = {player1Label, player2Label, player3Label, player4Label};
 
         for(int i = 1; i <= Game.numberOfPlayers; i++) {
-            playersLabels[i-1].setText("Igrač " + i + ": " + Game.simulation.getPlayers().get(i-1).getName());
+            String oldText = playersLabels[i-1].getText();
+            playersLabels[i-1].setText(oldText + Game.simulation.getPlayers().get(i-1));
             playersLabels[i-1].setTextFill(Paint.valueOf(Game.simulation.getPlayers().get(i-1).getColor().toString()));
         }
     }
@@ -182,21 +192,20 @@ public class MainViewController implements Initializable {
         }
         figuresList.setItems(figures);
 
-        figuresList.setCellFactory(param -> new ListCell<Figure>() {
+        figuresList.setCellFactory(param -> new ListCell<>() {
             @Override
             protected void updateItem(Figure item, boolean empty) {
                 super.updateItem(item, empty);
 
-                if(empty || item == null || item.getImageName() == null) {
+                if (empty || item == null) {
                     setText(null);
-                }
-                else {
+                } else {
                     ImageView imageView = new ImageView(new Image(new File(IMAGES_PATH + item.getImageName()).toURI().toString()));
                     imageView.setFitWidth(35);
                     imageView.setFitHeight(35);
                     setGraphic(imageView);
 
-                    setText(item.getClass().getSimpleName());
+                    setText(item.toString());
                     setTextFill(Paint.valueOf(item.getColor().toString()));
 
                     setOnMousePressed(e -> itemClickedTest());
@@ -230,4 +239,33 @@ public class MainViewController implements Initializable {
     public void updateNumberOfGames() {
         Platform.runLater(() -> numberOfGamesLabel.setText(NUMBER_OF_GAMES_TEXT + Game.numberOfGames));
     }
+
+    public void setDescription(boolean isSpecialCard) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(CURRENT_PLAYER);
+
+        if(isSpecialCard) {
+            stringBuilder.append(Game.simulation.getCurrentPlayer()).append("\n");
+            stringBuilder.append(SPECIAL_CARD);
+        }
+        else {
+            stringBuilder.append(Game.simulation.getCurrentPlayer()).append("\n");
+            stringBuilder.append(CURRENT_FIGURE);
+            stringBuilder.append(Game.simulation.getCurrentPlayer().getCurrentFigure()).append("\n");
+            stringBuilder.append(NUMBER_OF_FIELDS);
+            stringBuilder.append(Game.simulation.getCurrentPlayer().getCurrentFigure().getNumberOfFields()).append("\n");
+            if(Game.simulation.getCurrentPlayer().getCurrentFigure().getCurrentField() == null) {
+                stringBuilder.append(ARRIVAL);
+            }
+            else {
+                stringBuilder.append(TRANSITION_FROM);
+                stringBuilder.append(Game.simulation.getCurrentPlayer().getCurrentFigure().getCurrentField());
+            }
+            stringBuilder.append(TRANSITION_TO);
+            stringBuilder.append(Game.simulation.getCurrentPlayer().getCurrentFigure().getNextField()).append("\n");
+        }
+
+        Platform.runLater(() -> descriptionTextArea.setText(stringBuilder.toString()));
+    }
+
 }

@@ -57,15 +57,6 @@ public class Game {
 
             simulation = SimulationBuilder.build();
 
-            // TODO : Obrisi ovo
-            List<Player> test = simulation.getPlayers();
-            for (Player p : test) {
-                System.out.println("Igrac: " + p.getName() + " Boja: " + p.getColor());
-                for (Figure f: p.getFigures()) {
-                    System.out.println("    " + f.getClass().getSimpleName());
-                }
-            }
-
             DiamondCircleApplication.main(args);
         }
         catch (Exception e) {
@@ -137,7 +128,7 @@ public class Game {
 
         Properties playersProperties = ConfigUtil.LoadResources(playersPath);
 
-        Set<String> playersNames = new HashSet<>();
+        List<String> playersNames = new ArrayList<>();
 
         //TODO : Ako je u fajlu upisano vise imena nego sto je broj igraca u config fajlu, taj "visak" se ignorise, da li je to okej ?
         for(int i = 1; i <= numberOfPlayers; i++) {
@@ -148,11 +139,10 @@ public class Game {
             playersNames.add(name);
         }
 
-        if(playersNames.size() < numberOfPlayers)
+        if(playersNames.stream().distinct().count() < playersNames.size())
             throw new WrongConfigurationDefinitionException(NAMES_UNIQUE_ERROR_MESSAGE);
 
-        for(Object playerName : playersNames)
-            Game.playersNames.add(0, playerName.toString());
+        Game.playersNames.addAll(playersNames);
     }
 
     private static void loadMatrixConfiguration() throws MissingConfigurationException, WrongConfigurationDefinitionException{
@@ -174,18 +164,6 @@ public class Game {
         return new Coordinates(x,y);
     }
 
-    private static void testMap() {
-        for(int i = 0; i < dimension; i++) {
-            for(int j = 0; j < dimension; j++) {
-                Field field = MainViewController.map[i][j];
-                System.out.print("[" + i + "][" + j + "]    ");
-                System.out.print(field.getID() + "    ");
-                System.out.print(field.getPathID() + "    ");
-                System.out.print("x: " + field.getCoordinates().getX() + "  y: " + field.getCoordinates().getY());
-                System.out.println("    " + field.getClass().getSimpleName());
-            }
-        }
-    }
 }
 
 

@@ -19,25 +19,27 @@ import java.util.logging.Logger;
 public abstract class LoggerUtil {
 
     private static final String logsDirectory = "." + File.separator + "logs" + File.separator;
+    private static final String LOG = ".log";
 
     public static void createLogsDirectory() {
-        if(Paths.get(logsDirectory).toFile().exists()) {
+        Path logsPath = Path.of(logsDirectory);
+        if(logsPath.toFile().exists()) {
             try {
-                 FileUtils.deleteDirectory(Paths.get(logsDirectory).toFile());
+                 FileUtils.deleteDirectory(logsPath.toFile());
             }
             catch (IOException e) {
                 log(LoggerUtil.class, e);
             }
         }
 
-        Paths.get(logsDirectory).toFile().mkdir();
+        logsPath.toFile().mkdir();
     }
 
     public static void log(Class<?> C, Exception exception) {
         Logger logger = Logger.getLogger(C.getName());
 
         try {
-            String filePath = logsDirectory + C.getName() + "-" + LocalDateTime.now().toLocalTime().toString().replace(':', '_') + ".log";
+            String filePath = logsDirectory + C.getSimpleName() + "-" + LocalDateTime.now().toLocalTime().toString().replace(':', '_') + LOG;
             Handler handler = new FileHandler(filePath);
 
             logger.addHandler(handler);

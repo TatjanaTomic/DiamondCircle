@@ -10,19 +10,21 @@ public class Player {
     private final String name;
     private final FigureColor color;
     private final List<Figure> figures;
-    private final int ID;
 
+    private static int _id = 1;
+    private final int ID;
     private boolean hasFigures = true;
     private int currentFigureID;
     private Figure currentFigure;
 
-    public Player(int ID, String name, FigureColor color, List<Figure> figures) {
-        this.ID = ID;
+    public Player(String name, FigureColor color, List<Figure> figures) {
+        ID = _id;
         this.name = name;
         this.color = color;
         this.figures = figures;
         currentFigure = figures.get(0);
         currentFigureID = 0;
+        _id++;
     }
 
     public int getID() {
@@ -56,10 +58,17 @@ public class Player {
 
         if(currentFigureID == 3) {
             hasFigures = false;
+            currentFigure = null;
+            currentFigureID = -1;
             return;
         }
 
         currentFigureID += 1;
         currentFigure = figures.get(currentFigureID);
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

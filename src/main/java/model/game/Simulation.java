@@ -28,6 +28,9 @@ public class Simulation implements Runnable {
     private final int n = Game.n; // number of holes that will be generated
     private final List<Coordinates> pathForHoles = new ArrayList<>();
 
+    private Player currentPlayer;
+    private Card currentCard;
+
     public boolean isStarted = false;
     public boolean isFinished = false;
 
@@ -51,6 +54,14 @@ public class Simulation implements Runnable {
         return players;
     }
 
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public Card getCurrentCard() {
+        return currentCard;
+    }
+
     @Override
     public void run() {
 
@@ -67,11 +78,11 @@ public class Simulation implements Runnable {
                     System.out.print("Potez: " + move);
 
                     // dolazi na red sljedeci igrac
-                    Player currentPlayer = nextPlayer();
+                    currentPlayer = nextPlayer();
                     System.out.print("    Player: " + currentPlayer.getName());
 
                     // izvlaci kartu
-                    Card currentCard = Deck.getInstance().takeCard();
+                    currentCard = Deck.getInstance().takeCard();
                     System.out.print("    Card: " + currentCard.getClass().getSimpleName());
                     showCard(currentCard);
 
@@ -82,6 +93,7 @@ public class Simulation implements Runnable {
                     System.out.println("    Figure: " + currentFigure.getClass().getSimpleName());
 
                     if(currentCard.getClass().getSimpleName().equals(SPECIAL_CARD)) {
+                        DiamondCircleApplication.mainController.setDescription(true);
                         specialCardOnMove();
                     }
                     else {

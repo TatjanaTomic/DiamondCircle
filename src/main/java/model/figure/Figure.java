@@ -4,6 +4,7 @@ import com.sun.tools.javac.Main;
 import controller.MainViewController;
 import model.exception.IllegalStateOfGameException;
 import model.field.GameField;
+import model.game.DiamondCircleApplication;
 import model.game.Game;
 import model.player.Player;
 
@@ -13,9 +14,14 @@ public abstract class Figure implements IMoveable {
     private final String playerName;
     private final String imageName;
     protected GameField currentField;
+    protected GameField nextField;
     protected boolean startedPlaying = false;
     protected boolean finishedPlaying = false;
     protected int collectedDiamonds = 0;
+    protected int numberOfFields = 0;
+
+    protected static int _id = 1;
+    protected final int ID;
 
     protected static final String OFFSET_ERROR_MESSAGE = "Illegal value of offset!";
 
@@ -24,6 +30,8 @@ public abstract class Figure implements IMoveable {
         this.playerName = playerName;
         this.imageName = imageName;
         currentField = null;
+        ID = _id;
+        _id++;
     }
 
     public FigureColor getColor() {
@@ -42,12 +50,24 @@ public abstract class Figure implements IMoveable {
         collectedDiamonds++;
     }
 
+    public int getID() {
+        return ID;
+    }
+
     public void setCurrentField(GameField field) {
         currentField = field;
     }
 
+    public int getNumberOfFields() {
+        return numberOfFields;
+    }
+
     public GameField getCurrentField() {
         return currentField;
+    }
+
+    public GameField getNextField() {
+        return nextField;
     }
 
     public void move(int offset) throws IllegalStateOfGameException, InterruptedException {
@@ -56,7 +76,7 @@ public abstract class Figure implements IMoveable {
         }
 
         System.out.println(getClass().getSimpleName() + " Figure is moving - offset: " + offset + " - diamonds: " + collectedDiamonds);
-        int numberOfFields = calculateNumberOfFields(offset);
+        numberOfFields = calculateNumberOfFields(offset);
         System.out.println("number of fields (offset + diamonds): " + numberOfFields);
         collectedDiamonds = 0;
 
@@ -76,7 +96,7 @@ public abstract class Figure implements IMoveable {
             }
 
             synchronized (MainViewController.map) {
-                GameField nextField = getNextField(currentPathID);
+                nextField = calculateNextField(currentPathID);
 
                 if(currentField != null) {
                     if(currentField.isDiamondAdded()) {
@@ -84,6 +104,8 @@ public abstract class Figure implements IMoveable {
                     }
                     currentField.removeAddedFigure();
                 }
+
+                DiamondCircleApplication.mainController.setDescription(false);
 
                 currentField = nextField;
                 currentField.setAddedFigure(this);
@@ -109,13 +131,14 @@ public abstract class Figure implements IMoveable {
                 }
 
                 currentField = null;
+                nextField = null;
                 finishedPlaying = true;
                 return;
             }
         }
     }
 
-    private GameField getNextField(int currentFieldID) throws IllegalStateOfGameException {
+    private GameField calculateNextField(int currentFieldID) throws IllegalStateOfGameException {
         int nextFieldID = currentFieldID + 1;
         GameField nextField = MainViewController.getFieldByPathID(nextFieldID);
 
@@ -126,11 +149,16 @@ public abstract class Figure implements IMoveable {
         }
         else {
             if(nextField.isFigureAdded())
-                return getNextField(nextFieldID);
+                return calculateNextField(nextFieldID);
             else
                 return nextField;
         }
     }
 
     protected abstract int calculateNumberOfFields(int offset);
+
+    @Override
+    public String toString() {
+        return ID + " - " + getClass().getSimpleName();
+    }
 }

@@ -30,8 +30,10 @@ public class GameField extends Field {
     private boolean isFigureAdded = false;
     private Figure addedFigure = null;
 
-    public GameField(int pathID, String fieldContent, Coordinates coordinates, double width, double height, Color initialColor) {
-        super(pathID, coordinates, width, height);
+    private static int _id = 1;
+
+    public GameField(Coordinates coordinates, double width, double height, Color initialColor) {
+        super(_id++, coordinates, width, height);
 
         this.initialColor = initialColor;
         this.backgroundColor = initialColor;
@@ -40,11 +42,11 @@ public class GameField extends Field {
         rectangle.setStroke(this.initialBorderColor);
         rectangle.setFill(this.initialColor);
 
-        setInitialContent(pathID + fieldContent);
+        setInitialContent();
     }
 
-    public GameField(int pathID, String fieldContent, Coordinates coordinates, double width, double height, Color initialColor, boolean isStart, boolean isEnd) {
-        super(pathID, coordinates, width, height);
+    public GameField(Coordinates coordinates, double width, double height, Color initialColor, boolean isStart, boolean isEnd) {
+        super(_id++, coordinates, width, height);
 
         this.initialColor = initialColor;
         this.backgroundColor = initialColor;
@@ -62,10 +64,10 @@ public class GameField extends Field {
 
         rectangle.setFill(this.initialColor);
 
-        setInitialContent(pathID + fieldContent);
+        setInitialContent();
     }
 
-    private void setInitialContent(String fieldContent) {
+    private void setInitialContent() {
         diamondImage = new ImageView();
         diamondImage.setFitHeight(20);
         diamondImage.setFitWidth(20);

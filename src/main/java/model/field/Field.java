@@ -39,4 +39,8 @@ public abstract class Field extends AnchorPane {
         return coordinates;
     }
 
+    @Override
+    public String toString() {
+        return Integer.toString(ID);
+    }
 }

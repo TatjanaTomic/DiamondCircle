@@ -19,13 +19,12 @@ public abstract class SimulationBuilder {
         try {
             colors.addAll(Arrays.asList(FigureColor.values()));
 
-            int i = 1;
             // Dodaju se igraci i njihove figure
             for (String name : Game.playersNames) {
                 FigureColor color = GenerateColor();
                 List<Figure> figures = GenerateFigures(color, name);
 
-                players.add(new Player(i++, name, color, figures));
+                players.add(new Player(name, color, figures));
             }
 
             // Redoslijed igraca se odredjuje na slucajan nacin
