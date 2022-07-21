@@ -18,9 +18,11 @@ import model.field.Field;
 import model.field.GameField;
 import model.figure.Figure;
 import model.game.Game;
+import model.history.GameHistory;
 import model.player.Player;
+import model.util.LoggerUtil;
 
-import java.io.File;
+import java.io.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -72,6 +74,9 @@ public class MainViewController implements Initializable {
     private Button startStopButton;
 
     @FXML
+    private Button showResultsButton;
+
+    @FXML
     private ListView<Figure> figuresList;
 
     @FXML
@@ -93,6 +98,7 @@ public class MainViewController implements Initializable {
         numberOfGamesLabel.setText(NUMBER_OF_GAMES_TEXT + Game.numberOfGames);
         cardImageView.setImage(new Image(new File(IMAGES_PATH + DIAMOND_IMAGE).toURI().toString()));
         descriptionTextArea.setWrapText(true);
+        descriptionTextArea.setEditable(false);
 
         updateView();
         initializeMap();
@@ -266,4 +272,21 @@ public class MainViewController implements Initializable {
         Platform.runLater(() -> descriptionTextArea.setText(stringBuilder.toString()));
     }
 
+    @FXML
+    private void testDeserialization() {
+        String test = "." + File.separator + "history" + File.separator + "IGRA_03-59-03.txt";
+        try {
+            FileInputStream citac = new FileInputStream(test);
+            ObjectInputStream citanjeObjekta = new ObjectInputStream(citac);
+            GameHistory gameHistory = (GameHistory) citanjeObjekta.readObject();
+            System.out.println(gameHistory);
+            citanjeObjekta.close();
+            citac.close();
+
+        } catch (Exception e) {
+            LoggerUtil.logAsync(getClass(), e);
+        }
+
+
+    }
 }

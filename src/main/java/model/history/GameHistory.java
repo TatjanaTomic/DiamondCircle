@@ -8,11 +8,11 @@ public class GameHistory implements Serializable {
     private static final String TOTAL_TIME = "Ukupno vrijeme trajanja igre: ";
 
     private int time;
-    private final List<PlayerHistory> playersHistoryList;
+    private List<PlayerHistory> playersHistoryList;
 
-    public GameHistory() {
-        time = 0;
-        playersHistoryList = new LinkedList<>();
+    public GameHistory(int time, List<PlayerHistory> playersHistoryList) {
+        this.time = time;
+        this.playersHistoryList = playersHistoryList;
     }
 
     public void setTime(int value) {
@@ -27,8 +27,8 @@ public class GameHistory implements Serializable {
         return playersHistoryList;
     }
 
-    public void addPlayerHistory(PlayerHistory playerHistory) {
-        playersHistoryList.add(playerHistory);
+    public void setPlayersHistoryList(List<PlayerHistory> playersHistoryList) {
+        this.playersHistoryList = playersHistoryList;
     }
 
     @Override

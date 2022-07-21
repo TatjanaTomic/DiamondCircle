@@ -1,19 +1,20 @@
 package model.history;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PlayerHistory {
-    private static final String PLAYER = "Igrač ";
+public class PlayerHistory implements Serializable {
+    private static final String PLAYER = "Igrac ";
 
     private final int playerID;
     private final String playerName;
     private List<FigureHistory> figuresHistoryList;
 
-    public PlayerHistory(int playerID, String playerName) {
+    public PlayerHistory(int playerID, String playerName, List<FigureHistory> figuresHistoryList) {
         this.playerID = playerID;
         this.playerName = playerName;
-        figuresHistoryList = new LinkedList<>();
+        this.figuresHistoryList = figuresHistoryList;
     }
 
     public int getPlayerID() {
@@ -22,6 +23,14 @@ public class PlayerHistory {
 
     public String getPlayerName() {
         return playerName;
+    }
+
+    public List<FigureHistory> getFiguresHistoryList() {
+        return figuresHistoryList;
+    }
+
+    public void setFiguresHistoryList(List<FigureHistory> figuresHistoryList) {
+        this.figuresHistoryList = figuresHistoryList;
     }
 
     @Override

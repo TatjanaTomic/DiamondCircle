@@ -1,12 +1,13 @@
 package model.figure;
 
-import com.sun.tools.javac.Main;
 import controller.MainViewController;
 import model.exception.IllegalStateOfGameException;
 import model.field.GameField;
 import model.game.DiamondCircleApplication;
 import model.game.Game;
-import model.player.Player;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public abstract class Figure implements IMoveable {
 
@@ -23,12 +24,17 @@ public abstract class Figure implements IMoveable {
     protected static int _id = 1;
     protected final int ID;
 
+    protected final List<Integer> crossedFields;
+
+    protected boolean reachedToEnd;
+
     protected static final String OFFSET_ERROR_MESSAGE = "Illegal value of offset!";
 
     public Figure(FigureColor color, String playerName, String imageName) {
         this.color = color;
         this.playerName = playerName;
         this.imageName = imageName;
+        crossedFields = new LinkedList<>();
         currentField = null;
         ID = _id;
         _id++;
@@ -70,6 +76,18 @@ public abstract class Figure implements IMoveable {
         return nextField;
     }
 
+    public boolean isReachedToEnd() {
+        return reachedToEnd;
+    }
+
+    public void setReachedToEnd(boolean value) {
+        reachedToEnd = value;
+    }
+
+    public List<Integer> getCrossedFields() {
+        return crossedFields;
+    }
+
     public void move(int offset) throws IllegalStateOfGameException, InterruptedException {
         if(offset < 1 || offset > 4) {
             throw new IllegalStateOfGameException(OFFSET_ERROR_MESSAGE);
@@ -109,6 +127,7 @@ public abstract class Figure implements IMoveable {
 
                 currentField = nextField;
                 currentField.setAddedFigure(this);
+                crossedFields.add(currentField.getID());
 
                 if(currentField.isDiamondAdded()) {
                     currentField.setDiamondAdded(false);

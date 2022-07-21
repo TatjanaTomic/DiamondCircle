@@ -2,12 +2,13 @@ package model.history;
 
 import model.figure.FigureColor;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class FigureHistory {
+public class FigureHistory implements Serializable {
     private static final String FIGURE = "Figura ";
-    private static final String CROSSED_PATH = "pređeni put ";
+    private static final String CROSSED_PATH = "predjeni put ";
     private static final String REACHED_TO_END = "stigla do cilja ";
     private static final String YES = "DA";
     private static final String NO = "NE";
@@ -15,44 +16,44 @@ public class FigureHistory {
     private final int figureID;
     private final String figureType;
     private final FigureColor figureColor;
-    private boolean reachedToEnd;
+    private final boolean reachedToEnd;
     private final List<Integer> crossedFields;
 
-    public FigureHistory(int figureID, String figureType, FigureColor figureColor) {
+    public FigureHistory(int figureID, String figureType, FigureColor figureColor, boolean reachedToEnd, List<Integer> crossedFields) {
         this.figureID = figureID;
         this.figureType = figureType;
         this.figureColor = figureColor;
-        reachedToEnd = false;
-        crossedFields = new LinkedList<>();
+        this.reachedToEnd = reachedToEnd;
+        this.crossedFields = crossedFields;
     }
 
-    public int getFigureID() {
-        return figureID;
-    }
-
-    public String getFigureType() {
-        return figureType;
-    }
-
-    public FigureColor getFigureColor() {
-        return figureColor;
-    }
-
-    public boolean hasReachedToEnd() {
-        return reachedToEnd;
-    }
-
-    public void setReachedToEnd(boolean value) {
-        reachedToEnd = value;
-    }
-
-    public void addCrossedField(int fieldID) {
-        crossedFields.add(fieldID);
-    }
-
-    public List<Integer> getCrossedFields() {
-        return crossedFields;
-    }
+//    public int getFigureID() {
+//        return figureID;
+//    }
+//
+//    public String getFigureType() {
+//        return figureType;
+//    }
+//
+//    public FigureColor getFigureColor() {
+//        return figureColor;
+//    }
+//
+//    public boolean hasReachedToEnd() {
+//        return reachedToEnd;
+//    }
+//
+//    public void setReachedToEnd(boolean value) {
+//        reachedToEnd = value;
+//    }
+//
+//    public void addCrossedField(int fieldID) {
+//        crossedFields.add(fieldID);
+//    }
+//
+//    public List<Integer> getCrossedFields() {
+//        return crossedFields;
+//    }
 
     @Override
     public String toString() {

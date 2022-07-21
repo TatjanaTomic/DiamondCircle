@@ -9,7 +9,6 @@ import model.game.Game;
 public abstract class Field extends AnchorPane {
 
     protected Rectangle rectangle;
-
     protected final int ID; //ID at whole map
     protected final int pathID; //ID at path for playing
     private final Coordinates coordinates;

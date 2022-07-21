@@ -37,7 +37,7 @@ public class Game {
     public static List<Coordinates> emptyPath = new ArrayList<>();
     public static List<String> playersNames = new ArrayList<>();
 
-    private static TimeCounter timeCounter;
+    public static TimeCounter timeCounter;
     private static GhostFigure ghostFigure;
 
     public static Simulation simulation = null;
