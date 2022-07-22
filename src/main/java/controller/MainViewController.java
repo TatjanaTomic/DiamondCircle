@@ -50,14 +50,16 @@ public class MainViewController implements Initializable {
     private static final String THIRD_PLAYER = "Treci igrac: ";
     private static final String FOURTH_PLAYER = "Cetvrti igrac: ";
     private static final String HISTORY_TITLE = "Rezultati";
+    private static final String FIGURE_TITLE = "Predjeni put figure";
     private static final String HISTORY_FXML = "./view/HistoryView.fxml";
+    private static final String FIGURE_FXML = "./view/FigureView.fxml";
 
     private static final int numberOfFields = Game.dimension;
 
-    private final double mapWidth = 550.0;
-    private final double mapHeight = 550.0;
-    private final double fieldWidth = mapWidth / numberOfFields;
-    private final double fieldHeight = mapHeight / numberOfFields;
+    private static final double mapWidth = 550.0;
+    private static final double mapHeight = 550.0;
+    static final double fieldWidth = mapWidth / numberOfFields;
+    static final double fieldHeight = mapHeight / numberOfFields;
 
     public static final Field[][] map = new Field[numberOfFields][numberOfFields];
 
@@ -226,6 +228,8 @@ public class MainViewController implements Initializable {
         figuresList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
 
+    private Stage figureStage;
+
     private void itemClickedTest() {
         StringBuilder message = new StringBuilder();
         ObservableList<Figure> figures = figuresList.getSelectionModel().getSelectedItems();
@@ -241,6 +245,25 @@ public class MainViewController implements Initializable {
         }
         System.out.println(message);
 
+        if(figureStage != null) {
+            figureStage.close();
+        }
+
+        try {
+
+            FigureController.figure = figuresList.getSelectionModel().getSelectedItems().get(0);
+
+            FXMLLoader loader = new FXMLLoader(MainViewController.class.getClassLoader().getResource(FIGURE_FXML));
+            Parent root = loader.load();
+
+            figureStage = new Stage();
+            figureStage.setTitle(FIGURE_TITLE);
+            figureStage.setScene(new Scene(root));
+            figureStage.show();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
 
