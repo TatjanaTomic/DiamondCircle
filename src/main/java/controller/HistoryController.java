@@ -8,6 +8,8 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import model.history.GameHistory;
 import model.util.HistoryUtil;
 
@@ -17,6 +19,7 @@ import java.util.ResourceBundle;
 
 public class HistoryController implements Initializable {
 
+    private static final String FILE_ICON = "src/main/resources/view/images/file.png";
     private static final String ERROR_MESSAGE = "Pogresan format fajla.";
 
     @FXML
@@ -44,6 +47,11 @@ public class HistoryController implements Initializable {
                     setText(null);
                 }
                 else {
+                    ImageView imageView = new ImageView(new Image(new File(FILE_ICON).toURI().toString()));
+                    imageView.setFitWidth(35);
+                    imageView.setFitHeight(35);
+                    setGraphic(imageView);
+
                     setText(item.getName());
 
                     setOnMousePressed(e -> showSelectedFile());

@@ -11,13 +11,15 @@ public class TimeCounter implements Runnable {
     public void run() {
 
         while(!exit) {
-            DiamondCircleApplication.mainController.setTime(timeInSeconds++);
+            DiamondCircleApplication.mainController.setTime(timeInSeconds);
 
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 LoggerUtil.logAsync(getClass(), e);
             }
+
+            timeInSeconds++;
         }
     }
 
