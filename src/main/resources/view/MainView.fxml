@@ -20,20 +20,19 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </VBox.margin>
          <VBox>
-            <children>
-               <Label fx:id="numberOfGamesLabel">
-                  <font>
-                     <Font size="16.0" />
-                  </font>
-               </Label>
-               <Button fx:id="showResultsButton" onAction="#testDeserialization" mnemonicParsing="false" text="Prikaz liste fajlova sa rezultatima">
-                  <VBox.margin>
-                     <Insets top="20.0" />
-                  </VBox.margin>
-               </Button>
-            </children>
+            <Label fx:id="numberOfGamesLabel">
+               <font>
+                  <Font size="16.0"/>
+               </font>
+            </Label>
+            <Button fx:id="showResultsButton" onAction="#showHistory" mnemonicParsing="false"
+                    text="Prikaz liste fajlova sa rezultatima">
+               <VBox.margin>
+                  <Insets top="20.0"/>
+               </VBox.margin>
+            </Button>
          </VBox>
-         <TextFlow prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+         <TextFlow HBox.hgrow="ALWAYS" />
          <Label prefHeight="200.0" text="DiamondCircle" textAlignment="CENTER">
             <font>
                <Font name="Bauhaus 93" size="30.0" />
@@ -42,7 +41,7 @@
                <Insets right="50.0" />
             </HBox.margin>
          </Label>
-         <TextFlow prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+         <TextFlow HBox.hgrow="ALWAYS" />
          <Button fx:id="startStopButton" mnemonicParsing="false" onAction="#test" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #9b66ad;" text="Pokreni / Zaustavi" textFill="#ece0d1">
             <HBox.margin>
                <Insets right="10.0" top="10.0" />
@@ -50,31 +49,31 @@
          </Button>
       </HBox>
       <HBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="50.0">
-         <TextFlow prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+         <TextFlow HBox.hgrow="ALWAYS" />
          <Label fx:id="player1Label" textAlignment="CENTER">
             <font>
                <Font name="System Bold" size="12.0" />
             </font>
          </Label>
-         <TextFlow prefHeight="200.0" prefWidth="200.0" />
+         <TextFlow HBox.hgrow="ALWAYS" />
          <Label fx:id="player2Label" textAlignment="CENTER">
             <font>
                <Font name="System Bold" size="12.0" />
             </font>
          </Label>
-         <TextFlow prefHeight="200.0" prefWidth="200.0" />
+         <TextFlow HBox.hgrow="ALWAYS" />
          <Label fx:id="player3Label" textAlignment="CENTER">
             <font>
                <Font name="System Bold" size="12.0" />
             </font>
          </Label>
-         <TextFlow prefHeight="200.0" prefWidth="200.0" />
+         <TextFlow HBox.hgrow="ALWAYS" />
          <Label fx:id="player4Label" textAlignment="CENTER">
             <font>
                <Font name="System Bold" size="12.0" />
             </font>
          </Label>
-         <TextFlow prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+         <TextFlow HBox.hgrow="ALWAYS" />
       </HBox>
       <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" VBox.vgrow="ALWAYS">
          <ListView fx:id="figuresList" maxHeight="1.7976931348623157E308" prefWidth="250.0">
@@ -89,33 +88,31 @@
             </HBox.margin>
          </GridPane>
          <TextFlow HBox.hgrow="ALWAYS" />
-         <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0" HBox.hgrow="ALWAYS">
-            <children>
-               <Label fx:id="timeLabel">
+         <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity"
+               minWidth="-Infinity" prefWidth="250.0" HBox.hgrow="ALWAYS">
+            <HBox.margin>
+               <Insets bottom="20.0" right="20.0"/>
+            </HBox.margin>
+            <Label fx:id="timeLabel">
+               <VBox.margin>
+                  <Insets bottom="20.0"/>
+               </VBox.margin>
+            </Label>
+            <VBox alignment="TOP_CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="300.0"
+                  style="-fx-background-color: #ffffff;">
+               <VBox.margin>
+                  <Insets bottom="25.0"/>
+               </VBox.margin>
+               <Label text="Trenutna karta">
                   <VBox.margin>
-                     <Insets bottom="20.0" />
+                     <Insets bottom="10.0" top="10.0"/>
                   </VBox.margin>
                </Label>
-               <VBox alignment="TOP_CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="300.0" style="-fx-background-color: #ffffff;">
-                  <children>
-                     <Label text="Trenutna karta">
-                        <VBox.margin>
-                           <Insets bottom="10.0" top="10.0" />
-                        </VBox.margin>
-                     </Label>
-                     <ImageView fx:id="cardImageView" fitHeight="250.0" fitWidth="200.0" preserveRatio="true">
-                        <pickOnBounds>true</pickOnBounds>
-                     </ImageView>
-                  </children>
-                  <VBox.margin>
-                     <Insets bottom="25.0" />
-                  </VBox.margin>
-               </VBox>
-               <TextArea VBox.vgrow="ALWAYS" fx:id="descriptionTextArea"/>
-            </children>
-            <HBox.margin>
-               <Insets bottom="20.0" right="20.0" />
-            </HBox.margin>
+               <ImageView fx:id="cardImageView" fitHeight="250.0" fitWidth="200.0" preserveRatio="true">
+                  <pickOnBounds>true</pickOnBounds>
+               </ImageView>
+            </VBox>
+            <TextArea VBox.vgrow="ALWAYS" fx:id="descriptionTextArea"/>
          </VBox>
       </HBox>
 

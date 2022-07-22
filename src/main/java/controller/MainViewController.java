@@ -4,13 +4,17 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
+import javafx.stage.Stage;
 import model.exception.IllegalStateOfGameException;
 import model.field.Coordinates;
 import model.field.EmptyField;
@@ -20,7 +24,7 @@ import model.figure.Figure;
 import model.game.Game;
 import model.history.GameHistory;
 import model.player.Player;
-import model.util.LoggerUtil;
+import model.util.HistoryUtil;
 
 import java.io.*;
 import java.net.URL;
@@ -45,13 +49,15 @@ public class MainViewController implements Initializable {
     private static final String SECOND_PLAYER = "Drugi igrac: ";
     private static final String THIRD_PLAYER = "Treci igrac: ";
     private static final String FOURTH_PLAYER = "Cetvrti igrac: ";
+    private static final String HISTORY_TITLE = "Rezultati";
+    private static final String HISTORY_FXML = "./view/HistoryView.fxml";
 
     private static final int numberOfFields = Game.dimension;
 
     private final double mapWidth = 550.0;
     private final double mapHeight = 550.0;
-    private final double fieldWidth = mapWidth / (double) numberOfFields;
-    private final double fieldHeight = mapHeight / (double) numberOfFields;
+    private final double fieldWidth = mapWidth / numberOfFields;
+    private final double fieldHeight = mapHeight / numberOfFields;
 
     public static final Field[][] map = new Field[numberOfFields][numberOfFields];
 
@@ -87,7 +93,6 @@ public class MainViewController implements Initializable {
     @FXML
     private ImageView cardImageView;
 
-    // TODO : Uradi refresh izgleda !!!
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -226,10 +231,19 @@ public class MainViewController implements Initializable {
         ObservableList<Figure> figures = figuresList.getSelectionModel().getSelectedItems();
 
         for(Figure f : figures) {
-            message.append(f.getClass().getSimpleName()).append(" ").append(f.getPlayerName());
+            message.append("*****************************************").append('\n');
+            message.append(f.getColor()).append(" ").append(f.getClass().getSimpleName()).append(" ").append(f.getPlayerName()).append('\n');
+            message.append("Predjeni put figure: ");
+            for(var i : f.getCrossedFields()) {
+                message.append(i).append(" - ");
+            }
+            message.append('\n').append("*****************************************").append('\n');
         }
-        //TODO : Odavde treba otvarati novi prozor za figuru
         System.out.println(message);
+
+
+
+
     }
 
     public void setCard(String cardName) {
@@ -272,21 +286,28 @@ public class MainViewController implements Initializable {
         Platform.runLater(() -> descriptionTextArea.setText(stringBuilder.toString()));
     }
 
-    @FXML
-    private void testDeserialization() {
-        String test = "." + File.separator + "history" + File.separator + "IGRA_03-59-03.txt";
-        try {
-            FileInputStream citac = new FileInputStream(test);
-            ObjectInputStream citanjeObjekta = new ObjectInputStream(citac);
-            GameHistory gameHistory = (GameHistory) citanjeObjekta.readObject();
-            System.out.println(gameHistory);
-            citanjeObjekta.close();
-            citac.close();
 
-        } catch (Exception e) {
-            LoggerUtil.logAsync(getClass(), e);
+    private Stage historyStage;
+
+    @FXML
+    private void showHistory() {
+
+        if(historyStage != null) {
+            historyStage.close();
         }
 
+        try {
+            FXMLLoader loader = new FXMLLoader(MainViewController.class.getClassLoader().getResource(HISTORY_FXML));
+            Parent root = loader.load();
+
+            historyStage = new Stage();
+            historyStage.setTitle(HISTORY_TITLE);
+            historyStage.setScene(new Scene(root));
+            historyStage.show();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 }

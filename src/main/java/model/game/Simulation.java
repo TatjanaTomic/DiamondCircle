@@ -12,6 +12,7 @@ import model.history.FigureHistory;
 import model.history.GameHistory;
 import model.history.PlayerHistory;
 import model.player.Player;
+import model.util.HistoryUtil;
 import model.util.TimeCounter;
 import model.util.LoggerUtil;
 
@@ -51,6 +52,10 @@ public class Simulation implements Runnable {
 
     public List<Player> getPlayers() {
         return players;
+    }
+
+    public List<Player> getPlayersFinished() {
+        return playersFinished;
     }
 
     public Player getCurrentPlayer() {
@@ -109,51 +114,13 @@ public class Simulation implements Runnable {
                 Game.numberOfGames++;
                 DiamondCircleApplication.mainController.updateNumberOfGames();
 
-                // TODO : Treba zaustaviti i ostale tredove
-                // TODO : Serijalizovati istoriju igre
-
-                testSerialization();
+                HistoryUtil.serialize(this);
 
                 DiamondCircleApplication.mainController.resetView();
                 Game.finishGame();
                 break;
             }
         }
-    }
-
-    private void testSerialization() {
-        List<PlayerHistory> playersHistoryList = new LinkedList<>();
-        for (Player p : playersFinished) {
-            List<FigureHistory> figuresHistoryList = new LinkedList<>();
-            for (Figure f : p.getFigures()) {
-                figuresHistoryList.add(new FigureHistory(f.getID(), f.getClass().getSimpleName(),
-                        f.getColor(), f.isReachedToEnd(), f.getCrossedFields()));
-            }
-
-            playersHistoryList.add(new PlayerHistory(p.getID(), p.getName(), figuresHistoryList));
-        }
-        GameHistory gameHistory = new GameHistory(Game.timeCounter.getTimeInSeconds(), playersHistoryList);
-
-        SimpleDateFormat sdf = new SimpleDateFormat("hh-mm-ss");
-        String fileName = "IGRA_" + sdf.format(new Date()) + ".txt";
-
-        try {
-            FileOutputStream pisac = new FileOutputStream("." + File.separator + "history" + File.separator + fileName);
-            ObjectOutputStream upisObjekta = new ObjectOutputStream(pisac);
-            upisObjekta.writeObject(gameHistory.toString());
-            upisObjekta.close();
-            pisac.close();
-        } catch (Exception e) {
-            LoggerUtil.logAsync(getClass(), e);
-        }
-
-
-
-
-
-
-
-
     }
 
     private Player nextPlayer() {

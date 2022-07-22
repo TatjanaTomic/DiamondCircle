@@ -36,7 +36,7 @@ public class PlayerHistory implements Serializable {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(PLAYER).append(playerID).append(" - ").append(playerName);
+        stringBuilder.append(PLAYER).append(playerID).append(" - ").append(playerName).append('\n');
         for (var figuresHistoryUnit : figuresHistoryList) {
             stringBuilder.append(figuresHistoryUnit.toString());
         }
