@@ -3,7 +3,6 @@ package model.history;
 import model.figure.FigureColor;
 
 import java.io.Serializable;
-import java.util.LinkedList;
 import java.util.List;
 
 public class FigureHistory implements Serializable {
@@ -26,34 +25,6 @@ public class FigureHistory implements Serializable {
         this.reachedToEnd = reachedToEnd;
         this.crossedFields = crossedFields;
     }
-
-//    public int getFigureID() {
-//        return figureID;
-//    }
-//
-//    public String getFigureType() {
-//        return figureType;
-//    }
-//
-//    public FigureColor getFigureColor() {
-//        return figureColor;
-//    }
-//
-//    public boolean hasReachedToEnd() {
-//        return reachedToEnd;
-//    }
-//
-//    public void setReachedToEnd(boolean value) {
-//        reachedToEnd = value;
-//    }
-//
-//    public void addCrossedField(int fieldID) {
-//        crossedFields.add(fieldID);
-//    }
-//
-//    public List<Integer> getCrossedFields() {
-//        return crossedFields;
-//    }
 
     @Override
     public String toString() {

@@ -7,12 +7,14 @@ import model.figure.FigureColor;
 import java.util.List;
 
 public class Player {
+
+    private static int _id = 1;
+
     private final String name;
     private final FigureColor color;
     private final List<Figure> figures;
-
-    private static int _id = 1;
     private final int ID;
+
     private boolean hasFigures = true;
     private int currentFigureID;
     private Figure currentFigure;

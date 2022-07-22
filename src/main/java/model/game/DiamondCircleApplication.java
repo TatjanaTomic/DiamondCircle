@@ -2,6 +2,7 @@ package model.game;
 
 import controller.MainViewController;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -31,8 +32,12 @@ public class DiamondCircleApplication extends Application {
         primaryStage.setTitle(TITLE);
         primaryStage.setScene(new Scene(root));
         primaryStage.setMaximized(true);
-        primaryStage.setMinHeight(800);
+        primaryStage.setMinHeight(750);
         primaryStage.setMinWidth(1250);
+        primaryStage.setOnCloseRequest(t -> {
+            Platform.exit();
+            System.exit(0);
+        });
         primaryStage.show();
 
     }

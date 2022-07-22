@@ -24,6 +24,8 @@ public abstract class Field extends AnchorPane {
         getChildren().addAll(rectangle, labelID);
         setTopAnchor(labelID, 1.0);
         setLeftAnchor(labelID, 1.0);
+
+        setCache(false);
     }
 
     public int getID() {

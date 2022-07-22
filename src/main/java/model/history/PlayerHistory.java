@@ -1,7 +1,6 @@
 package model.history;
 
 import java.io.Serializable;
-import java.util.LinkedList;
 import java.util.List;
 
 public class PlayerHistory implements Serializable {
@@ -9,27 +8,11 @@ public class PlayerHistory implements Serializable {
 
     private final int playerID;
     private final String playerName;
-    private List<FigureHistory> figuresHistoryList;
+    private final List<FigureHistory> figuresHistoryList;
 
     public PlayerHistory(int playerID, String playerName, List<FigureHistory> figuresHistoryList) {
         this.playerID = playerID;
         this.playerName = playerName;
-        this.figuresHistoryList = figuresHistoryList;
-    }
-
-    public int getPlayerID() {
-        return playerID;
-    }
-
-    public String getPlayerName() {
-        return playerName;
-    }
-
-    public List<FigureHistory> getFiguresHistoryList() {
-        return figuresHistoryList;
-    }
-
-    public void setFiguresHistoryList(List<FigureHistory> figuresHistoryList) {
         this.figuresHistoryList = figuresHistoryList;
     }
 

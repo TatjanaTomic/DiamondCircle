@@ -22,9 +22,7 @@ import model.field.Field;
 import model.field.GameField;
 import model.figure.Figure;
 import model.game.Game;
-import model.history.GameHistory;
 import model.player.Player;
-import model.util.HistoryUtil;
 
 import java.io.*;
 import java.net.URL;
@@ -50,9 +48,9 @@ public class MainViewController implements Initializable {
     private static final String THIRD_PLAYER = "Treci igrac: ";
     private static final String FOURTH_PLAYER = "Cetvrti igrac: ";
     private static final String HISTORY_TITLE = "Rezultati";
-    private static final String FIGURE_TITLE = "Predjeni put figure";
+    private static final String FIGURE_TITLE = "Predjeni put figure ";
     private static final String HISTORY_FXML = "./view/HistoryView.fxml";
-    private static final String FIGURE_FXML = "./view/FigureView.fxml";
+    private static final String FIGURE_FXML = "view/FigurePathView.fxml";
 
     private static final int numberOfFields = Game.dimension;
 
@@ -95,6 +93,13 @@ public class MainViewController implements Initializable {
     @FXML
     private ImageView cardImageView;
 
+    //TODO : Obrisi system.out.println-ove
+    //TODO : Organizuj kod po nekoj konvenciji
+    //TODO : Izdvoji sve stringove
+    //TODO : Trenutni broj odigranih igara - da li se trebaju prikazivati samo rezultati od posljednjeg pokretanja
+    // aplikacije ili i od prethodnih, tj. da li svaki put pri pokretanju history folder mora biti prazan ?
+    //TODO : Dovrsi GUI
+    //TODO : Broj rupa random ?
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -231,19 +236,6 @@ public class MainViewController implements Initializable {
     private Stage figureStage;
 
     private void itemClickedTest() {
-        StringBuilder message = new StringBuilder();
-        ObservableList<Figure> figures = figuresList.getSelectionModel().getSelectedItems();
-
-        for(Figure f : figures) {
-            message.append("*****************************************").append('\n');
-            message.append(f.getColor()).append(" ").append(f.getClass().getSimpleName()).append(" ").append(f.getPlayerName()).append('\n');
-            message.append("Predjeni put figure: ");
-            for(var i : f.getCrossedFields()) {
-                message.append(i).append(" - ");
-            }
-            message.append('\n').append("*****************************************").append('\n');
-        }
-        System.out.println(message);
 
         if(figureStage != null) {
             figureStage.close();
@@ -251,14 +243,16 @@ public class MainViewController implements Initializable {
 
         try {
 
-            FigureController.figure = figuresList.getSelectionModel().getSelectedItems().get(0);
+            Figure selectedFigure = figuresList.getSelectionModel().getSelectedItems().get(0);
+            FigurePathController.figure = selectedFigure;
 
             FXMLLoader loader = new FXMLLoader(MainViewController.class.getClassLoader().getResource(FIGURE_FXML));
             Parent root = loader.load();
 
             figureStage = new Stage();
-            figureStage.setTitle(FIGURE_TITLE);
+            figureStage.setTitle(FIGURE_TITLE + selectedFigure.toString());
             figureStage.setScene(new Scene(root));
+            figureStage.setResizable(false);
             figureStage.show();
         }
         catch (IOException e) {

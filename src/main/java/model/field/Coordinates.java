@@ -17,8 +17,4 @@ public class Coordinates {
         return y;
     }
 
-    public static int calculateDistance(Coordinates start, Coordinates end){
-        return Math.abs(start.getX() - end.getX()) + Math.abs(start.getY() - end.getY());
-    }
-
 }

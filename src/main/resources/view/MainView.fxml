@@ -15,9 +15,9 @@
 
 <AnchorPane prefHeight="-Infinity" prefWidth="-Infinity" style="-fx-background-color: #e5ceed;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainViewController">
    <VBox prefHeight="-Infinity" prefWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-      <HBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="-Infinity">
+      <HBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="-Infinity">
          <VBox.margin>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </VBox.margin>
          <VBox>
             <Label fx:id="numberOfGamesLabel">
@@ -28,7 +28,7 @@
             <Button fx:id="showResultsButton" onAction="#showHistory" mnemonicParsing="false"
                     text="Prikaz liste fajlova sa rezultatima">
                <VBox.margin>
-                  <Insets top="20.0"/>
+                  <Insets top="15.0"/>
                </VBox.margin>
             </Button>
          </VBox>
@@ -48,7 +48,7 @@
             </HBox.margin>
          </Button>
       </HBox>
-      <HBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="50.0">
+      <HBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="40.0">
          <TextFlow HBox.hgrow="ALWAYS" />
          <Label fx:id="player1Label" textAlignment="CENTER">
             <font>

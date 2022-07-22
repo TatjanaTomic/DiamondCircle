@@ -13,6 +13,12 @@ import java.util.Properties;
 
 public abstract class ConfigUtil {
 
+    private static final String FILE = "File ";
+    private static final String NOT_EXISTS = " does not exist!";
+    private static final String WRONG_FORMAT = " is not well formatted.";
+    private static final String CANNOT_LOAD = "Unable to load ";
+    private static final String CONFIG_FILE = " config file.";
+
     public static JSONArray ReadMatrixConfiguration(Path path) throws MissingConfigurationException, WrongConfigurationDefinitionException {
 
         Object jsonConfiguration;
@@ -25,9 +31,9 @@ public abstract class ConfigUtil {
             return (JSONArray) jsonConfiguration;
 
         } catch (FileNotFoundException e) {
-            throw new MissingConfigurationException("File " + path.getFileName() + " does not exist!");
+            throw new MissingConfigurationException(FILE + path.getFileName() + NOT_EXISTS);
         } catch (Exception e) {
-            throw new WrongConfigurationDefinitionException("Unable to load " + path.getFileName() + " config file");
+            throw new WrongConfigurationDefinitionException(CANNOT_LOAD + path.getFileName() + CONFIG_FILE);
         }
     }
 
@@ -35,7 +41,7 @@ public abstract class ConfigUtil {
 
         InputStream inputStream = ConfigUtil.class.getClassLoader().getResourceAsStream(path.toString());
         if(inputStream == null) {
-            throw new MissingConfigurationException("File " + path.getFileName() + " does not exist.");
+            throw new MissingConfigurationException(FILE + path.getFileName() + NOT_EXISTS);
         }
 
         try {
@@ -44,7 +50,7 @@ public abstract class ConfigUtil {
             
             return properties;
         }catch (Exception e) {
-            throw new WrongConfigurationDefinitionException("File " + path.getFileName() + " is not well formatted.");
+            throw new WrongConfigurationDefinitionException(FILE + path.getFileName() + WRONG_FORMAT);
         }
     }
 }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+
+<AnchorPane prefHeight="600.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FigurePathController">
+    <HBox AnchorPane.TopAnchor="25" AnchorPane.bottomAnchor="25" AnchorPane.leftAnchor="25" AnchorPane.rightAnchor="25">
+        <VBox prefWidth="150">
+            <ImageView fx:id="figureImage" />
+            <Label fx:id="figureLabel" />
+            <Rectangle fx:id="reachedFieldRectangle" height="50" width="50">
+            <VBox.margin>
+               <Insets top="100.0" />
+            </VBox.margin></Rectangle>
+            <Label fx:id="reachedFieldLabel" />
+            <Rectangle fx:id="skippedFieldRectangle" height="50" width="50">
+            <VBox.margin>
+               <Insets top="25.0" />
+            </VBox.margin></Rectangle>
+            <Label fx:id="skippedFieldLabel" wrapText="true" prefWidth="120"/>
+        </VBox>
+
+        <GridPane fx:id="figurePathGridPane" />
+    </HBox>
+
+</AnchorPane>
