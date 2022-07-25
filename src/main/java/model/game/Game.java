@@ -23,13 +23,11 @@ public class Game {
     private static final Path playersPath = Path.of("players.properties");
     private static final Path matrixConfigs = Path.of("src/main/resources/view/matrixConfigs/");
 
-    private static final String N_ERROR_MESSAGE = "N can be 7, 8, 9 or 10!";
     private static final String DIM_ERROR_MESSAGE = "Dimension of matrix can be 7, 8, 9 or 10!";
     private static final String PLAYERS_ERROR_MESSAGE = "Number of players can be 2, 3 or 4!";
     private static final String NAMES_FORMAT_ERROR_MESSAGE = "Players names are not well formatted!";
     private static final String NAMES_UNIQUE_ERROR_MESSAGE = "Players names must be unique!";
 
-    public static int n;
     public static int dimension;
     public static int numberOfPlayers;
     public static int numberOfGames = 0;
@@ -104,7 +102,6 @@ public class Game {
         try {
             numberOfPlayers = Integer.parseInt(configProperties.getProperty("numberOfPlayers"));
             dimension = Integer.parseInt(configProperties.getProperty("dimension"));
-            n = Integer.parseInt(configProperties.getProperty("n"));
         }
         catch (Exception e) {
             throw new WrongConfigurationDefinitionException();
@@ -116,11 +113,6 @@ public class Game {
 
         if(dimension < 7 || dimension > 10) {
             throw new WrongConfigurationDefinitionException(DIM_ERROR_MESSAGE);
-        }
-
-        //TODO : Provjeri koliko može biti n
-        if(n < 7 || n > 10) {
-            throw new WrongConfigurationDefinitionException(N_ERROR_MESSAGE);
         }
 
     }

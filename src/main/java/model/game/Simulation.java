@@ -8,18 +8,10 @@ import model.exception.IllegalStateOfGameException;
 import model.field.Coordinates;
 import model.field.GameField;
 import model.figure.*;
-import model.history.FigureHistory;
-import model.history.GameHistory;
-import model.history.PlayerHistory;
 import model.player.Player;
 import model.util.HistoryUtil;
-import model.util.TimeCounter;
 import model.util.LoggerUtil;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Simulation implements Runnable {
@@ -31,7 +23,6 @@ public class Simulation implements Runnable {
     private final List<Player> players;
     private final List<Player> playersInGame;
     private final List<Player> playersFinished;
-    private final int n = Game.n; // number of holes that will be generated
     private final List<Coordinates> pathForHoles = new ArrayList<>();
 
     private Player currentPlayer;
@@ -141,10 +132,14 @@ public class Simulation implements Runnable {
 
     private void specialCardOnMove() throws InterruptedException, IllegalStateOfGameException {
 
+        final int minimum = 1;
+        final int maximum = Game.gamePath.size() / 2;
+        int numberOfHoles = (new Random()).nextInt(maximum - minimum + 1) + minimum;
+
         // set holes
         Collections.shuffle(pathForHoles);
         synchronized (MainViewController.map) {
-            for(int i = 0; i < n; i++) {
+            for(int i = 0; i < numberOfHoles; i++) {
                 Coordinates c = pathForHoles.get(i);
                 GameField gameField = (GameField) MainViewController.map[c.getX()][c.getY()];
                 gameField.setHoleAdded(true);
