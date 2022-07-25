@@ -78,7 +78,7 @@ public abstract class HistoryUtil {
                         f.getColor(), f.isReachedToEnd(), f.getCrossedFields()));
             }
 
-            playersHistoryList.add(new PlayerHistory(p.getID(), p.getName(), figuresHistoryList));
+            playersHistoryList.add(new PlayerHistory(p.getName(), figuresHistoryList));
         }
 
         return new GameHistory(Game.timeCounter.getTimeInSeconds(), playersHistoryList);
