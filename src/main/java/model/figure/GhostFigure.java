@@ -56,7 +56,7 @@ public class GhostFigure implements Runnable {
                 Thread.sleep(5000);
 
             } catch (Exception e) {
-                LoggerUtil.logAsync(getClass(), e);
+                LoggerUtil.log(getClass(), e);
             }
         }
     }

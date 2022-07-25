@@ -196,5 +196,4 @@ public class Simulation implements Runnable {
     public void stop() {
         exit = true;
     }
-
 }

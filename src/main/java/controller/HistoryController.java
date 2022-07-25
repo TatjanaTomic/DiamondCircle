@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -58,6 +59,8 @@ public class HistoryController implements Initializable {
                 }
             }
         });
+        filesList.setEditable(false);
+        filesList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         fileContentTextArea.setEditable(false);
         fileContentTextArea.setWrapText(true);
@@ -69,10 +72,10 @@ public class HistoryController implements Initializable {
         GameHistory gameHistory = HistoryUtil.deserialize(selectedFile.getName());
 
         if(gameHistory == null) {
-            fileContentTextArea.setText(ERROR_MESSAGE);
+            Platform.runLater(() -> fileContentTextArea.setText(ERROR_MESSAGE));
         }
         else {
-            fileContentTextArea.setText(gameHistory.toString());
+            Platform.runLater(() -> fileContentTextArea.setText(gameHistory.toString()));
         }
     }
 }

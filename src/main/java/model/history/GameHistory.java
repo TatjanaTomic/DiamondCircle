@@ -20,7 +20,7 @@ public class GameHistory implements Serializable {
         for (var playersHistoryUnit : playersHistoryList) {
             stringBuilder.append(playersHistoryUnit.toString());
         }
-        stringBuilder.append(TOTAL_TIME).append(time);
+        stringBuilder.append(TOTAL_TIME).append(time).append('s');
 
         return stringBuilder.toString();
     }

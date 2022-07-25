@@ -107,7 +107,7 @@ public class GameField extends Field {
         }
 
         diamondAdded = value;
-        diamondImage.setVisible(value);
+        Platform.runLater(() -> diamondImage.setVisible(value));
     }
 
     public boolean isHoleAdded() {
@@ -121,9 +121,9 @@ public class GameField extends Field {
     public void setHoleAdded(boolean value) {
         holeAdded = value;
         if (value) {
-            rectangle.setFill(Color.BLACK);
+            Platform.runLater(() -> rectangle.setFill(Color.BLACK));
         } else {
-            rectangle.setFill(this.backgroundColor);
+            Platform.runLater(() -> rectangle.setFill(this.backgroundColor));
         }
     }
 

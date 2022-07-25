@@ -16,7 +16,7 @@ public class TimeCounter implements Runnable {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
-                LoggerUtil.logAsync(getClass(), e);
+                LoggerUtil.log(getClass(), e);
             }
 
             timeInSeconds++;

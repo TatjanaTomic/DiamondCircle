@@ -9,7 +9,9 @@ import org.json.simple.parser.JSONParser;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Properties;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
@@ -37,9 +39,10 @@ public abstract class LoggerUtil {
 
     public static void log(Class<?> C, Exception exception) {
         Logger logger = Logger.getLogger(C.getName());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh-mm-ss");
 
         try {
-            String filePath = logsDirectory + C.getSimpleName() + "-" + LocalDateTime.now().toLocalTime().toString().replace(':', '_') + LOG;
+            String filePath = logsDirectory + C.getSimpleName() + "-" + simpleDateFormat.format(new Date()) + LOG;
             Handler handler = new FileHandler(filePath);
 
             logger.addHandler(handler);

@@ -47,7 +47,7 @@ public abstract class HistoryUtil {
             objectOutputStream.close();
             fileOutputStream.close();
         } catch (Exception e) {
-            LoggerUtil.logAsync(HistoryUtil.class, e);
+            LoggerUtil.log(HistoryUtil.class, e);
         }
     }
 
@@ -63,7 +63,7 @@ public abstract class HistoryUtil {
             fileInputStream.close();
 
         } catch (Exception e) {
-            LoggerUtil.logAsync(HistoryUtil.class, e);
+            LoggerUtil.log(HistoryUtil.class, e);
         }
 
         return gameHistory;
