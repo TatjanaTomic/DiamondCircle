@@ -15,12 +15,8 @@ import model.util.LoggerUtil;
 import java.util.*;
 
 public class Simulation implements Runnable {
-
-    public static int move = 0;
-
     private static final String SPECIAL_CARD = "SpecialCard";
 
-    private final List<Player> players;
     private final List<Player> playersInGame;
     private final List<Player> playersFinished;
     private final List<Coordinates> pathForHoles = new ArrayList<>();
@@ -34,7 +30,6 @@ public class Simulation implements Runnable {
     private volatile boolean exit = false;
 
     public Simulation(List<Player> players) {
-        this.players = players;
         this.playersInGame = players;
         this.playersFinished = new LinkedList<>();
 
@@ -42,7 +37,7 @@ public class Simulation implements Runnable {
     }
 
     public List<Player> getPlayers() {
-        return players;
+        return playersInGame;
     }
 
     public List<Player> getPlayersFinished() {
@@ -68,24 +63,17 @@ public class Simulation implements Runnable {
 
                 // sljedeci kod je u sustini jedan potez
                 try {
-                    move++;
-                    System.out.println();
-                    System.out.print("Potez: " + move);
-
                     // dolazi na red sljedeci igrac
                     currentPlayer = nextPlayer();
-                    System.out.print("    Player: " + currentPlayer.getName());
 
                     // izvlaci kartu
                     currentCard = Deck.getInstance().takeCard();
-                    System.out.print("    Card: " + currentCard.getClass().getSimpleName());
                     showCard(currentCard);
 
                     // dohvati figuru kojom igrac trenutno igra
                     if(!currentPlayer.hasFiguresForPlaying())
                         throw new IllegalStateOfGameException("Player " + currentPlayer.getID() + " has no figures for playing!");
                     Figure currentFigure = currentPlayer.getCurrentFigure();
-                    System.out.println("    Figure: " + currentFigure.getClass().getSimpleName());
 
                     if(currentCard.getClass().getSimpleName().equals(SPECIAL_CARD)) {
                         DiamondCircleApplication.mainController.setDescription(true);

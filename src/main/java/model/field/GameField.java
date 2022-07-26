@@ -20,6 +20,7 @@ public class GameField extends Field {
     private static int blueComponent = 215;
 
     private final Color backgroundColor;
+    private static final Color PURPLE_COLOR = Color.rgb(100,15,115);
 
     private ImageView diamondImage;
     private ImageView figureImage;
@@ -50,12 +51,12 @@ public class GameField extends Field {
         this.isEnd = isEnd;
 
         if(isStart) {
-            rectangle.setStroke(Color.GOLD);
+            rectangle.setStroke(PURPLE_COLOR);
             backgroundColor = Color.WHITESMOKE;
         }
         else if(isEnd) {
-            rectangle.setStroke(Color.WHITE);
-            backgroundColor = Color.rgb(100,15,115);
+            rectangle.setStroke(Color.GRAY);
+            backgroundColor = PURPLE_COLOR;
         }
         else {
             rectangle.setStroke(Color.BLACK);
@@ -93,29 +94,20 @@ public class GameField extends Field {
         return diamondAdded;
     }
 
-    // Ovu funkciju pozivam sa setDiamondAdded(false) u tri slucaja:
-    // 1. kad figura dolazi na polje pa ako zatekne dijamant ona ga pokupi
-    // 2. kada figura odlazi sa polja, ako se u medjuvremenu postavio dijamant, ona ga pokupi
-    // 3. ako figura stoji duze vrijeme na jednom polju i za vrijeme njenog stajanja se pojavi i sklanja dijamant, takodje ga ona kupi
-    public void setDiamondAdded(boolean value) {
-
-        if(diamondAdded && !value && isFigureAdded) {
-            addedFigure.collectDiamond();
-            System.out.println("***Collected one diamond, figure: " + addedFigure.getColor() +
-                    addedFigure.getClass().getSimpleName() +
-                    ", field " + ID);
-        }
-
-        diamondAdded = value;
-        Platform.runLater(() -> diamondImage.setVisible(value));
-    }
-
     public boolean isHoleAdded() {
         return holeAdded;
     }
 
     public boolean isEndField() {
         return isEnd;
+    }
+
+    public boolean isFigureAdded() {
+        return isFigureAdded;
+    }
+
+    public Figure getAddedFigure() {
+        return addedFigure;
     }
 
     public void setHoleAdded(boolean value) {
@@ -127,12 +119,18 @@ public class GameField extends Field {
         }
     }
 
-    public boolean isFigureAdded() {
-        return isFigureAdded;
-    }
+    // Ovu funkciju pozivam sa setDiamondAdded(false) u tri slucaja:
+    // 1. kad figura dolazi na polje pa ako zatekne dijamant ona ga pokupi
+    // 2. kada figura odlazi sa polja, ako se u medjuvremenu postavio dijamant, ona ga pokupi
+    // 3. ako figura stoji duze vrijeme na jednom polju i za vrijeme njenog stajanja se pojavi i sklanja dijamant, takodje ga ona kupi
+    public void setDiamondAdded(boolean value) {
 
-    public Figure getAddedFigure() {
-        return addedFigure;
+        if(diamondAdded && !value && isFigureAdded) {
+            addedFigure.collectDiamond();
+        }
+
+        diamondAdded = value;
+        Platform.runLater(() -> diamondImage.setVisible(value));
     }
 
     public void setAddedFigure(Figure figure) throws IllegalStateOfGameException {

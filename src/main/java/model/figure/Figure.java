@@ -9,7 +9,7 @@ import model.game.Game;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class Figure implements IMoveable {
+public abstract class Figure implements IMovable {
 
     private final FigureColor color;
     private final String playerName;
@@ -20,13 +20,11 @@ public abstract class Figure implements IMoveable {
     protected boolean finishedPlaying = false;
     protected int collectedDiamonds = 0;
     protected int numberOfFields = 0;
-
-    protected static int _id = 1;
+    protected final List<Integer> crossedFields;
+    protected boolean reachedToEnd;
     protected final int ID;
 
-    protected final List<Integer> crossedFields;
-
-    protected boolean reachedToEnd;
+    protected static int _id = 1;
 
     protected static final String OFFSET_ERROR_MESSAGE = "Illegal value of offset!";
 
@@ -60,10 +58,6 @@ public abstract class Figure implements IMoveable {
         return ID;
     }
 
-    public void setCurrentField(GameField field) {
-        currentField = field;
-    }
-
     public int getNumberOfFields() {
         return numberOfFields;
     }
@@ -93,15 +87,12 @@ public abstract class Figure implements IMoveable {
             throw new IllegalStateOfGameException(OFFSET_ERROR_MESSAGE);
         }
 
-        System.out.println(getClass().getSimpleName() + " Figure is moving - offset: " + offset + " - diamonds: " + collectedDiamonds);
         numberOfFields = calculateNumberOfFields(offset);
-        System.out.println("number of fields (offset + diamonds): " + numberOfFields);
         collectedDiamonds = 0;
 
         for(int i = 0; i < numberOfFields; i++) {
             int currentPathID;
             if(finishedPlaying) {
-                //TODO : Da li treba exception ili da na neki nacin zavrsim pomjeranje ?
                 throw new IllegalStateOfGameException("Cannot move figure that finished playing!");
             }
 
@@ -134,8 +125,6 @@ public abstract class Figure implements IMoveable {
                 }
             }
 
-            System.out.println("i: " + i);
-
             Thread.sleep(1000);
 
             if(currentField.isEndField()) {
@@ -162,8 +151,6 @@ public abstract class Figure implements IMoveable {
         GameField nextField = MainViewController.getFieldByPathID(nextFieldID);
 
         if(nextField == null) {
-            System.out.println("########## nextField is NULL    ID: " + nextFieldID + "    player: " + getPlayerName()
-                    + "    figure: " + getClass().getSimpleName() + " " + getColor());
             throw new IllegalStateOfGameException();
         }
         else {

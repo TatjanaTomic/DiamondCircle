@@ -97,10 +97,9 @@ public class MainViewController implements Initializable {
     //TODO : Obrisi system.out.println-ove
     //TODO : Organizuj kod po nekoj konvenciji
     //TODO : Izdvoji sve stringove
-    //TODO : Trenutni broj odigranih igara - da li se trebaju prikazivati samo rezultati od posljednjeg pokretanja
-    // aplikacije ili i od prethodnih, tj. da li svaki put pri pokretanju history folder mora biti prazan ?
-    //TODO : Dovrsi GUI
-    //TODO : Broj rupa random ?
+    //TODO : Dovrsi GUI - dodaj stilove
+    //TODO : Za figuru treba pratiti vrijeme igranja
+    //TODO : Uraditi pauziranje tredova
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

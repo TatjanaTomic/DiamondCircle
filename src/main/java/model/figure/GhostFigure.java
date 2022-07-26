@@ -38,8 +38,6 @@ public class GhostFigure implements Runnable {
 
                 synchronized (MainViewController.map) {
 
-                    System.out.println("POSTAVLJANJE DIJAMANATA " + LocalDateTime.now());
-
                     for (Coordinates c : Game.gamePath) {
                         GameField gameField = (GameField) MainViewController.map[c.getX()][c.getY()];
                         gameField.setDiamondAdded(false);

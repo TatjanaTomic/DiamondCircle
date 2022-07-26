@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import model.field.Coordinates;
@@ -28,11 +29,11 @@ public class FigurePathController implements Initializable {
     private static final String IMAGES_PATH = "src/main/resources/view/images/";
     private static final String REACHED_FIELD = "Predjeno polje";
     private static final String SKIPPED_FIELD = "Preskoceno (nedostignuto) polje";
-
-    public static Figure figure;
-    private static final String PURPLE_COLOR = "#C45499";
+    private static final String PURPLE_COLOR = "#640f73";
     private static final String LIGHT_GRAY_COLOR = "LightGray";
     private static final String DARK_GRAY_COLOR = "Gray";
+
+    public static Figure figure;
 
     @FXML
     private ImageView figureImage;
