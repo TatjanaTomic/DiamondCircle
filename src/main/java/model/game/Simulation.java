@@ -102,13 +102,9 @@ public class Simulation implements Runnable {
             }
 
             if(!hasPlayersForPlaying()) {
-                Game.numberOfGames++;
-                DiamondCircleApplication.mainController.updateNumberOfGames();
-
                 HistoryUtil.serialize(this);
-
-                DiamondCircleApplication.mainController.resetView();
                 Game.finishGame();
+                DiamondCircleApplication.mainController.resetView();
                 break;
             }
         }

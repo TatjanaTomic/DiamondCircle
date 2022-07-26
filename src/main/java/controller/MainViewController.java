@@ -23,6 +23,7 @@ import model.field.GameField;
 import model.figure.Figure;
 import model.game.Game;
 import model.player.Player;
+import model.util.HistoryWatcher;
 
 import java.io.*;
 import java.net.URL;
@@ -114,6 +115,8 @@ public class MainViewController implements Initializable {
 
         updateView();
         initializeMap();
+
+
     }
 
     public void updateView() {
@@ -320,6 +323,8 @@ public class MainViewController implements Initializable {
             historyStage = new Stage();
             historyStage.setTitle(HISTORY_TITLE);
             historyStage.setScene(new Scene(root));
+            historyStage.setMinWidth(600);
+            historyStage.setMinHeight(400);
             historyStage.show();
         }
         catch (IOException e) {

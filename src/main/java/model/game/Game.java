@@ -1,20 +1,18 @@
 package model.game;
 
-import controller.MainViewController;
 import model.exception.ErrorStartingGameException;
 import model.exception.MissingConfigurationException;
 import model.exception.WrongConfigurationDefinitionException;
 import model.field.Coordinates;
-import model.field.Field;
-import model.figure.Figure;
 import model.figure.GhostFigure;
-import model.player.Player;
 import model.util.ConfigUtil;
+import model.util.HistoryWatcher;
 import model.util.LoggerUtil;
 import model.util.TimeCounter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.util.*;
 
@@ -55,7 +53,10 @@ public class Game {
 
             simulation = SimulationBuilder.build();
 
+            new HistoryWatcher().start();
+
             DiamondCircleApplication.main(args);
+
         }
         catch (Exception e) {
             LoggerUtil.log(Game.class, e);

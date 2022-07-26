@@ -46,7 +46,7 @@ public abstract class LoggerUtil {
             Handler handler = new FileHandler(filePath);
 
             logger.addHandler(handler);
-            logger.log(Level.SEVERE, exception.getMessage(), exception);
+            logger.log(Level.SEVERE, exception.getMessage());
 
             handler.close();
         } catch (IOException e) {
