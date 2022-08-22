@@ -24,9 +24,6 @@ public class Simulation implements Runnable {
     private Player currentPlayer;
     private Card currentCard;
 
-    public boolean isStarted = false;
-    public boolean isFinished = false;
-
     private volatile boolean exit = false;
 
     public Simulation(List<Player> players) {
@@ -54,8 +51,6 @@ public class Simulation implements Runnable {
 
     @Override
     public void run() {
-
-        isStarted = true;
 
         while(!exit) {
 

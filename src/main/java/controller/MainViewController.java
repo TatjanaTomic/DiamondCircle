@@ -12,7 +12,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import model.exception.IllegalStateOfGameException;
@@ -23,7 +22,6 @@ import model.field.GameField;
 import model.figure.Figure;
 import model.game.Game;
 import model.player.Player;
-import model.util.HistoryWatcher;
 
 import java.io.*;
 import java.net.URL;
@@ -33,6 +31,8 @@ public class MainViewController implements Initializable {
 
     private static final String IMAGES_PATH = "src/main/resources/view/images/";
     private static final String DIAMOND_IMAGE = "diamond2.png";
+    private static final String HISTORY_FXML = "./view/HistoryView.fxml";
+    private static final String FIGURE_FXML = "view/FigurePathView.fxml";
     private static final String NUMBER_OF_GAMES_TEXT = "Trenutni broj odigranih igara: ";
     private static final String TIME_LABEL_TEXT = "Vrijeme trajanja igre: ";
     private static final String INITIAL_TIME = "0s";
@@ -50,8 +50,7 @@ public class MainViewController implements Initializable {
     private static final String FOURTH_PLAYER = "Cetvrti igrac: ";
     private static final String HISTORY_TITLE = "Rezultati";
     private static final String FIGURE_TITLE = "Predjeni put figure ";
-    private static final String HISTORY_FXML = "./view/HistoryView.fxml";
-    private static final String FIGURE_FXML = "view/FigurePathView.fxml";
+    private static final String ID_ERROR_MESSAGE = "Illegal value of field path ID!";
 
     private static final int numberOfFields = Game.dimension;
 
@@ -81,13 +80,8 @@ public class MainViewController implements Initializable {
     private Button startStopButton;
 
     @FXML
-    private Button showResultsButton;
-
-    @FXML
     private ListView<Figure> figuresList;
 
-    @FXML
-    private Pane mapPane;
     @FXML
     private GridPane mapGridPane;
 
@@ -95,7 +89,6 @@ public class MainViewController implements Initializable {
     private ImageView cardImageView;
 
     //TODO : Obrisi system.out.println-ove
-    //TODO : Organizuj kod po nekoj konvenciji
     //TODO : Izdvoji sve stringove
     //TODO : Dovrsi GUI - dodaj stilove
     //TODO : Za figuru treba pratiti vrijeme igranja
@@ -190,7 +183,7 @@ public class MainViewController implements Initializable {
     public static GameField getFieldByPathID(int fieldPathID) throws IllegalStateOfGameException {
 
         if(fieldPathID < 1 || fieldPathID > Game.gamePath.size())
-            throw new IllegalStateOfGameException("Illegal value of field path ID!");
+            throw new IllegalStateOfGameException(ID_ERROR_MESSAGE);
 
         for(int i = 0; i < numberOfFields; i++) {
             for(int j = 0; j < numberOfFields; j++ ) {
@@ -260,8 +253,6 @@ public class MainViewController implements Initializable {
         catch (IOException e) {
             e.printStackTrace();
         }
-
-
 
     }
 

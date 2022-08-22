@@ -11,22 +11,24 @@ import java.util.List;
 
 public abstract class Figure implements IMovable {
 
-    private final FigureColor color;
-    private final String playerName;
-    private final String imageName;
+    protected static final String OFFSET_ERROR_MESSAGE = "Illegal value of offset!";
+    protected static final String MOVE_FIGURE_ERROR_MESSAGE = "Cannot move figure that finished playing!";
+    protected static int _id = 1;
+
+    protected final int ID;
+    protected final List<Integer> crossedFields;
+
     protected GameField currentField;
     protected GameField nextField;
     protected boolean startedPlaying = false;
     protected boolean finishedPlaying = false;
+    protected boolean reachedToEnd;
     protected int collectedDiamonds = 0;
     protected int numberOfFields = 0;
-    protected final List<Integer> crossedFields;
-    protected boolean reachedToEnd;
-    protected final int ID;
 
-    protected static int _id = 1;
-
-    protected static final String OFFSET_ERROR_MESSAGE = "Illegal value of offset!";
+    private final FigureColor color;
+    private final String playerName;
+    private final String imageName;
 
     public Figure(FigureColor color, String playerName, String imageName) {
         this.color = color;
@@ -93,7 +95,7 @@ public abstract class Figure implements IMovable {
         for(int i = 0; i < numberOfFields; i++) {
             int currentPathID;
             if(finishedPlaying) {
-                throw new IllegalStateOfGameException("Cannot move figure that finished playing!");
+                throw new IllegalStateOfGameException(MOVE_FIGURE_ERROR_MESSAGE);
             }
 
             if(!startedPlaying) {

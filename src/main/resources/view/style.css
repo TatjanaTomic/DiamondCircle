@@ -1,0 +1,20 @@
+.purple-button {
+    -fx-padding: 5px;
+    -fx-background-color: #9b66ad;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+}
+
+.main-title {
+    -fx-font-family: "Bauhaus 93";
+    -fx-font-size: 30;
+    -fx-text-alignment: center;
+    -fx-pref-height: 200;
+    -fx-text-fill: #640f73;
+}
+
+.player-label {
+    -fx-text-alignment: center;
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+}

@@ -21,6 +21,7 @@ public class GameField extends Field {
 
     private final Color backgroundColor;
     private static final Color PURPLE_COLOR = Color.rgb(100,15,115);
+    private static final Color DARK_PURPLE_COLOR = Color.rgb(70,5,80);
 
     private ImageView diamondImage;
     private ImageView figureImage;
@@ -39,10 +40,10 @@ public class GameField extends Field {
 
         backgroundColor = Color.rgb(redComponent, greenComponent, blueComponent);
         rectangle.setFill(backgroundColor);
-        rectangle.setStroke(Color.BLACK);
+        rectangle.setStroke(DARK_PURPLE_COLOR);
 
         setInitialContent();
-        changeColor();
+        changeColorComponents();
     }
 
     public GameField(Coordinates coordinates, double width, double height, boolean isStart, boolean isEnd) {
@@ -51,17 +52,17 @@ public class GameField extends Field {
         this.isEnd = isEnd;
 
         if(isStart) {
-            rectangle.setStroke(PURPLE_COLOR);
+            rectangle.setStroke(DARK_PURPLE_COLOR);
             backgroundColor = Color.WHITESMOKE;
         }
         else if(isEnd) {
-            rectangle.setStroke(Color.GRAY);
+            rectangle.setStroke(PURPLE_COLOR);
             backgroundColor = PURPLE_COLOR;
         }
         else {
-            rectangle.setStroke(Color.BLACK);
+            rectangle.setStroke(DARK_PURPLE_COLOR);
             backgroundColor = Color.rgb(redComponent, greenComponent, blueComponent);
-            changeColor();
+            changeColorComponents();
         }
         rectangle.setFill(backgroundColor);
 
@@ -128,7 +129,7 @@ public class GameField extends Field {
         if(diamondAdded && !value && isFigureAdded) {
             addedFigure.collectDiamond();
         }
-
+        
         diamondAdded = value;
         Platform.runLater(() -> diamondImage.setVisible(value));
     }
@@ -156,7 +157,7 @@ public class GameField extends Field {
         Platform.runLater(() -> figureImage.setImage(null));
     }
 
-    private void changeColor() {
+    private void changeColorComponents() {
         if(Game.dimension == 7) {
             redComponent -= 3;
             greenComponent -= 5;

@@ -1,18 +1,12 @@
 package model.util;
 
-import model.exception.MissingConfigurationException;
-import model.exception.WrongConfigurationDefinitionException;
 import org.apache.commons.io.FileUtils;
-import org.json.simple.JSONArray;
-import org.json.simple.parser.JSONParser;
 
 import java.io.*;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+
 import java.util.Date;
-import java.util.Properties;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -22,6 +16,7 @@ public abstract class LoggerUtil {
 
     private static final String logsDirectory = "." + File.separator + "logs" + File.separator;
     private static final String LOG = ".log";
+    private static final String TIME_FORMAT = "hh-mm-ss";
 
     public static void createLogsDirectory() {
         Path logsPath = Path.of(logsDirectory);
@@ -39,7 +34,7 @@ public abstract class LoggerUtil {
 
     public static void log(Class<?> C, Exception exception) {
         Logger logger = Logger.getLogger(C.getName());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh-mm-ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(TIME_FORMAT);
 
         try {
             String filePath = logsDirectory + C.getSimpleName() + "-" + simpleDateFormat.format(new Date()) + LOG;

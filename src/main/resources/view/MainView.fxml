@@ -13,6 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 
+<?import java.net.URL?>
 <AnchorPane prefHeight="-Infinity" prefWidth="-Infinity" style="-fx-background-color: #e5ceed;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainViewController">
    <VBox prefHeight="-Infinity" prefWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <HBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="-Infinity">
@@ -25,24 +26,22 @@
                   <Font size="16.0"/>
                </font>
             </Label>
-            <Button fx:id="showResultsButton" onAction="#showHistory" mnemonicParsing="false"
-                    text="Prikaz liste fajlova sa rezultatima">
+            <Button fx:id="showResultsButton" onAction="#showHistory" mnemonicParsing="false" textFill="#ece0d1"
+                    text="Prikaz liste fajlova sa rezultatima" styleClass="purple-button">
                <VBox.margin>
                   <Insets top="15.0"/>
                </VBox.margin>
             </Button>
          </VBox>
          <TextFlow HBox.hgrow="ALWAYS" />
-         <Label prefHeight="200.0" text="DiamondCircle" textAlignment="CENTER">
-            <font>
-               <Font name="Bauhaus 93" size="30.0" />
-            </font>
+         <Label text="DiamondCircle" styleClass="main-title">
             <HBox.margin>
                <Insets right="50.0" />
             </HBox.margin>
          </Label>
          <TextFlow HBox.hgrow="ALWAYS" />
-         <Button fx:id="startStopButton" mnemonicParsing="false" onAction="#test" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #9b66ad;" text="Pokreni / Zaustavi" textFill="#ece0d1">
+         <Button fx:id="startStopButton" mnemonicParsing="false" onAction="#test" prefHeight="50.0" prefWidth="150.0"
+                 text="Pokreni / Zaustavi" textFill="#ece0d1" styleClass="purple-button">
             <HBox.margin>
                <Insets right="10.0" top="10.0" />
             </HBox.margin>
@@ -50,29 +49,13 @@
       </HBox>
       <HBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="40.0">
          <TextFlow HBox.hgrow="ALWAYS" />
-         <Label fx:id="player1Label" textAlignment="CENTER">
-            <font>
-               <Font name="System Bold" size="12.0" />
-            </font>
-         </Label>
+         <Label fx:id="player1Label" styleClass="player-label" />
          <TextFlow HBox.hgrow="ALWAYS" />
-         <Label fx:id="player2Label" textAlignment="CENTER">
-            <font>
-               <Font name="System Bold" size="12.0" />
-            </font>
-         </Label>
+         <Label fx:id="player2Label" styleClass="player-label" />
          <TextFlow HBox.hgrow="ALWAYS" />
-         <Label fx:id="player3Label" textAlignment="CENTER">
-            <font>
-               <Font name="System Bold" size="12.0" />
-            </font>
-         </Label>
+         <Label fx:id="player3Label" styleClass="player-label" />
          <TextFlow HBox.hgrow="ALWAYS" />
-         <Label fx:id="player4Label" textAlignment="CENTER">
-            <font>
-               <Font name="System Bold" size="12.0" />
-            </font>
-         </Label>
+         <Label fx:id="player4Label" styleClass="player-label" />
          <TextFlow HBox.hgrow="ALWAYS" />
       </HBox>
       <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" VBox.vgrow="ALWAYS">
@@ -117,4 +100,7 @@
       </HBox>
 
    </VBox>
+   <stylesheets>
+      <URL value="@style.css" />
+   </stylesheets>
 </AnchorPane>

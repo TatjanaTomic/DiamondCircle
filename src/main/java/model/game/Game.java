@@ -12,7 +12,6 @@ import model.util.TimeCounter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.util.*;
 
