@@ -58,6 +58,7 @@ public class GameField extends Field {
         else if(isEnd) {
             rectangle.setStroke(PURPLE_COLOR);
             backgroundColor = PURPLE_COLOR;
+            labelID.setTextFill(Color.SILVER);
         }
         else {
             rectangle.setStroke(DARK_PURPLE_COLOR);

@@ -8,6 +8,7 @@ import model.game.Game;
 public abstract class Field extends AnchorPane {
 
     protected Rectangle rectangle;
+    protected Label labelID;
     protected final int ID; //ID at whole map
     protected final int pathID; //ID at path for playing
 
@@ -16,7 +17,7 @@ public abstract class Field extends AnchorPane {
         this.pathID = pathID;
 
         rectangle = new Rectangle(width, height);
-        Label labelID = new Label(Integer.toString(ID));
+        labelID = new Label(Integer.toString(ID));
 
         getChildren().addAll(rectangle, labelID);
         setTopAnchor(labelID, 1.0);

@@ -5,6 +5,11 @@
     -fx-font-weight: bold;
 }
 
+.purple-button:hover {
+    -fx-background-color: #640f73;
+    -fx-font-size: 13;
+}
+
 .main-title {
     -fx-font-family: "Bauhaus 93";
     -fx-font-size: 30;
@@ -18,3 +23,14 @@
     -fx-font-weight: bold;
     -fx-font-size: 14;
 }
+
+.card-pane {
+    -fx-background-color: white;
+    -fx-border-color: #9b66ad;
+    -fx-border-width: 2;
+}
+
+list-cell {
+    -fx-background-insets: 10 10 10 10;
+}
+

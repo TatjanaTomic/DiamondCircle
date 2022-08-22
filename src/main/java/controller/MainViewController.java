@@ -220,6 +220,11 @@ public class MainViewController implements Initializable {
                     setText(item.toString());
                     setTextFill(Paint.valueOf(item.getColor().toString()));
 
+                    String listItemStyle = "-fx-border-color: gray; -fx-border-width: 1.5;" +
+                            "-fx-border-radius: 0; -fx-padding: 7px;" +
+                            "-fx-cursor: hand; -fx-background-color: silver; -fx-font-weight: bold; -fx-border-insets: 10px;";
+                    setStyle(listItemStyle);
+
                     setOnMousePressed(e -> itemClickedTest());
                 }
             }
