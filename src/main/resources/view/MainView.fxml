@@ -23,13 +23,13 @@
          <VBox>
             <Label fx:id="numberOfGamesLabel">
                <font>
-                  <Font size="16.0"/>
+                  <Font size="14.0"/>
                </font>
             </Label>
-            <Button onAction="#showHistory" mnemonicParsing="false" textFill="#ece0d1"
-                    text="Prikaz liste fajlova sa rezultatima" styleClass="purple-button">
+            <Button onAction="#showHistory" mnemonicParsing="false" text="Prikaz liste fajlova sa rezultatima"
+                    styleClass="purple-button" prefWidth="250">
                <VBox.margin>
-                  <Insets top="15.0"/>
+                  <Insets top="7.0"/>
                </VBox.margin>
             </Button>
          </VBox>
@@ -41,7 +41,7 @@
          </Label>
          <TextFlow HBox.hgrow="ALWAYS" />
          <Button fx:id="startStopButton" mnemonicParsing="false" onAction="#startStopGame" prefHeight="50.0" prefWidth="150.0"
-                 text="Pokreni / Zaustavi" textFill="#ece0d1" styleClass="purple-button">
+                 text="Pokreni / Zaustavi" styleClass="purple-button">
             <HBox.margin>
                <Insets right="10.0" top="10.0" />
             </HBox.margin>
@@ -59,7 +59,7 @@
          <TextFlow HBox.hgrow="ALWAYS" />
       </HBox>
       <HBox minHeight="-Infinity" minWidth="-Infinity" VBox.vgrow="ALWAYS">
-         <ListView fx:id="figuresList" prefWidth="250.0">
+         <ListView fx:id="figuresList" prefWidth="250.0" styleClass="purple-border-style">
             <HBox.margin>
                <Insets bottom="20.0" left="20.0" />
             </HBox.margin>
@@ -82,7 +82,7 @@
                </VBox.margin>
             </Label>
             <VBox alignment="TOP_CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="300.0"
-                  styleClass="card-pane">
+                  styleClass="purple-border-style">
                <VBox.margin>
                   <Insets bottom="25.0"/>
                </VBox.margin>
@@ -95,7 +95,7 @@
                   <pickOnBounds>true</pickOnBounds>
                </ImageView>
             </VBox>
-            <TextArea VBox.vgrow="ALWAYS" fx:id="descriptionTextArea"/>
+            <TextArea VBox.vgrow="ALWAYS" fx:id="descriptionTextArea" styleClass="purple-border-style" />
          </VBox>
       </HBox>
 

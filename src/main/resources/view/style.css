@@ -1,8 +1,12 @@
 .purple-button {
-    -fx-padding: 5px;
     -fx-background-color: #9b66ad;
     -fx-cursor: hand;
     -fx-font-weight: bold;
+    -fx-border-color: #640f73;
+    -fx-border-width: 1;
+    -fx-border-radius: 7;
+    -fx-background-radius: 8;
+    -fx-text-fill: #fff;
 }
 
 .purple-button:hover {
@@ -24,13 +28,19 @@
     -fx-font-size: 14;
 }
 
-.card-pane {
+.purple-border-style {
     -fx-background-color: white;
     -fx-border-color: #9b66ad;
-    -fx-border-width: 2;
+    -fx-border-width: 1.5;
 }
 
-list-cell {
-    -fx-background-insets: 10 10 10 10;
+.list-item-style {
+    -fx-border-color: gray;
+    -fx-border-width: 1;
+    -fx-padding: 7px;
+    -fx-cursor: hand;
+    -fx-background-color: silver;
+    -fx-font-weight: bold;
+    -fx-border-insets: 5px;
+    -fx-background-insets: 5px;
 }
-

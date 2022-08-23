@@ -89,9 +89,7 @@ public class MainViewController implements Initializable {
     @FXML
     private ImageView cardImageView;
 
-    //TODO : Obrisi system.out.println-ove
     //TODO : Izdvoji sve stringove
-    //TODO : Dovrsi GUI - dodaj stilove
     //TODO : Za figuru treba pratiti vrijeme igranja
     //TODO : Uraditi pauziranje tredova
 
@@ -108,8 +106,6 @@ public class MainViewController implements Initializable {
 
         updateView();
         initializeMap();
-
-
     }
 
     public void updateView() {
@@ -221,10 +217,7 @@ public class MainViewController implements Initializable {
                     setText(item.toString());
                     setTextFill(Paint.valueOf(item.getColor().toString()));
 
-                    String listItemStyle = "-fx-border-color: gray; -fx-border-width: 1.5;" +
-                            "-fx-border-radius: 0; -fx-padding: 7px;" +
-                            "-fx-cursor: hand; -fx-background-color: silver; -fx-font-weight: bold; -fx-border-insets: 10px;";
-                    setStyle(listItemStyle);
+                    getStyleClass().add("list-item-style");
 
                     setOnMousePressed(e -> itemClickedTest());
                 }
