@@ -140,9 +140,9 @@ public class Simulation implements Runnable {
         }
     }
 
-    public void figureFinishedPlaying(Figure figure, boolean isSuccessfull) throws IllegalStateOfGameException {
+    public void figureFinishedPlaying(Figure figure, boolean isSuccessful) throws IllegalStateOfGameException {
         Player player = getPlayerByName(figure.getPlayerName());
-        figure.setReachedToEnd(isSuccessfull);
+        figure.finishGameForFigure(isSuccessful);
 
         assert player != null;
         if(!player.getCurrentFigure().equals(figure)) {

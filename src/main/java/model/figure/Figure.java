@@ -5,6 +5,7 @@ import model.exception.IllegalStateOfGameException;
 import model.field.GameField;
 import model.game.DiamondCircleApplication;
 import model.game.Game;
+import model.util.TimeCounter;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -25,6 +26,8 @@ public abstract class Figure implements IMovable {
     protected boolean reachedToEnd;
     protected int collectedDiamonds = 0;
     protected int numberOfFields = 0;
+    protected int startTimeInSeconds;
+    protected int endTimeInSeconds;
 
     private final FigureColor color;
     private final String playerName;
@@ -76,13 +79,11 @@ public abstract class Figure implements IMovable {
         return reachedToEnd;
     }
 
-    public void setReachedToEnd(boolean value) {
-        reachedToEnd = value;
-    }
-
     public List<Integer> getCrossedFields() {
         return crossedFields;
     }
+
+    protected abstract int calculateNumberOfFields(int offset);
 
     public void move(int offset) throws IllegalStateOfGameException, InterruptedException {
         if(offset < 1 || offset > 4) {
@@ -101,6 +102,7 @@ public abstract class Figure implements IMovable {
             if(!startedPlaying) {
                 startedPlaying = true;
                 currentPathID = 0;
+                startTimeInSeconds = Game.timeCounter.getTimeInSeconds();
             }
             else {
                 currentPathID = currentField.getPathID();
@@ -133,16 +135,12 @@ public abstract class Figure implements IMovable {
                 if(Game.simulation == null)
                     throw new IllegalStateOfGameException();
 
-                // figura je stigla do cilja, igra je za nju uspjesno zavrsena
-                Game.simulation.figureFinishedPlaying(this, true);
-
                 synchronized (MainViewController.map) {
                     currentField.removeAddedFigure();
                 }
 
-                currentField = null;
-                nextField = null;
-                finishedPlaying = true;
+                // figura je stigla do cilja, igra je za nju uspjesno zavrsena
+                Game.simulation.figureFinishedPlaying(this, true);
                 return;
             }
         }
@@ -163,7 +161,26 @@ public abstract class Figure implements IMovable {
         }
     }
 
-    protected abstract int calculateNumberOfFields(int offset);
+    public void finishGameForFigure(boolean isSuccessful) {
+        currentField = null;
+        nextField = null;
+        finishedPlaying = true;
+        endTimeInSeconds = Game.timeCounter.getTimeInSeconds();
+        reachedToEnd = isSuccessful;
+    }
+
+    public int getTimeInGame() {
+        if (!startedPlaying) {
+            return 0;
+        }
+
+        if (finishedPlaying) {
+            return endTimeInSeconds - startTimeInSeconds;
+        }
+        else {
+            return Game.timeCounter.getTimeInSeconds() - startTimeInSeconds;
+        }
+    }
 
     @Override
     public String toString() {

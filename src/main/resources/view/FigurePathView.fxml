@@ -9,20 +9,35 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 
+<?import javafx.scene.text.Font?>
 <AnchorPane prefHeight="600.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FigurePathController">
     <HBox AnchorPane.TopAnchor="25" AnchorPane.bottomAnchor="25" AnchorPane.leftAnchor="25" AnchorPane.rightAnchor="25">
         <VBox prefWidth="150">
             <ImageView fx:id="figureImage" />
-            <Label fx:id="figureLabel" />
+            <Label fx:id="figureLabel" >
+                <font>
+                    <Font name="System Bold" size="13.0" />
+                </font>
+            </Label>
+            <Label fx:id="timeLabel" wrapText="true" prefWidth="120">
+                <font>
+                    <Font size="13.0"/>
+                </font>
+                <VBox.margin>
+                    <Insets top="35.0" />
+                </VBox.margin>
+            </Label>
             <Rectangle fx:id="reachedFieldRectangle" height="50" width="50">
-            <VBox.margin>
-               <Insets top="100.0" />
-            </VBox.margin></Rectangle>
+                <VBox.margin>
+                   <Insets top="100.0" />
+                </VBox.margin>
+            </Rectangle>
             <Label fx:id="reachedFieldLabel" />
             <Rectangle fx:id="skippedFieldRectangle" height="50" width="50">
-            <VBox.margin>
-               <Insets top="25.0" />
-            </VBox.margin></Rectangle>
+                <VBox.margin>
+                   <Insets top="25.0" />
+                </VBox.margin>
+            </Rectangle>
             <Label fx:id="skippedFieldLabel" wrapText="true" prefWidth="120"/>
         </VBox>
 
