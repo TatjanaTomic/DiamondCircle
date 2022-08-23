@@ -28,6 +28,7 @@ public class FigurePathController implements Initializable {
 
     private static final String IMAGES_PATH = "src/main/resources/view/images/";
     private static final String TIME_IN_GAME = "Vrijeme provedeno u igri: ";
+    private static final String SECONDS = "s";
     private static final String REACHED_FIELD = "Predjeno polje";
     private static final String SKIPPED_FIELD = "Preskoceno (nedostignuto) polje";
     private static final String PURPLE_COLOR = "#640f73";
@@ -64,7 +65,7 @@ public class FigurePathController implements Initializable {
         figureImage.setFitWidth(50);
 
         figureLabel.setText(figure.toString());
-        timeLabel.setText(TIME_IN_GAME + figure.getTimeInGame() + "s");
+        timeLabel.setText(TIME_IN_GAME + figure.getTimeInGame() + SECONDS);
 
         reachedFieldRectangle.setFill(Paint.valueOf(PURPLE_COLOR));
         reachedFieldLabel.setText(REACHED_FIELD);
@@ -100,7 +101,7 @@ public class FigurePathController implements Initializable {
                             rectangle.setFill(Paint.valueOf(PURPLE_COLOR));
                             Label labelID = (Label) field.getChildren().get(1);
                             labelID.setTextFill(Color.WHITESMOKE);
-                            timeLabel.setText(TIME_IN_GAME + figure.getTimeInGame() + "s");
+                            timeLabel.setText(TIME_IN_GAME + figure.getTimeInGame() + SECONDS);
                         });
                     }
                 }

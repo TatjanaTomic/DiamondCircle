@@ -5,6 +5,7 @@ import java.util.List;
 
 public class GameHistory implements Serializable {
     private static final String TOTAL_TIME = "Ukupno vrijeme trajanja igre: ";
+    private static final String SECONDS = "s";
 
     private final int time;
     private final List<PlayerHistory> playersHistoryList;
@@ -20,7 +21,7 @@ public class GameHistory implements Serializable {
         for (var playersHistoryUnit : playersHistoryList) {
             stringBuilder.append(playersHistoryUnit.toString());
         }
-        stringBuilder.append(TOTAL_TIME).append(time).append('s');
+        stringBuilder.append(TOTAL_TIME).append(time).append(SECONDS);
 
         return stringBuilder.toString();
     }

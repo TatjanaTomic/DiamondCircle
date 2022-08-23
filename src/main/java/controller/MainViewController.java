@@ -36,6 +36,7 @@ public class MainViewController implements Initializable {
     private static final String NUMBER_OF_GAMES_TEXT = "Trenutni broj odigranih igara: ";
     private static final String TIME_LABEL_TEXT = "Vrijeme trajanja igre: ";
     private static final String INITIAL_TIME = "0s";
+    private static final String SECONDS = "s";
     private static final String CURRENT_PLAYER = "Na potezu je igrac: ";
     private static final String CURRENT_FIGURE = "Trenutna figura: ";
     private static final String SPECIAL_CARD = "Specijalna karta - postavalju se rupe";
@@ -267,7 +268,7 @@ public class MainViewController implements Initializable {
     }
 
     public void setTime(int timeInSeconds) {
-        Platform.runLater(() -> timeLabel.setText(TIME_LABEL_TEXT + timeInSeconds + "s"));
+        Platform.runLater(() -> timeLabel.setText(TIME_LABEL_TEXT + timeInSeconds + SECONDS));
     }
 
     public void updateNumberOfGames() {
