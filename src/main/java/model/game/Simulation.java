@@ -16,13 +16,14 @@ import java.util.*;
 
 public class Simulation implements Runnable {
     private static final String SPECIAL_CARD = "SpecialCard";
+    private static final String PLAYER = "Player ";
+    private static final String NO_FIGURES_ERROR_MESSAGE = " has no figures for playing!";
 
     private final List<Player> playersInGame;
     private final List<Player> playersFinished;
     private final List<Coordinates> pathForHoles = new ArrayList<>();
 
     private Player currentPlayer;
-    private Card currentCard;
 
     private volatile boolean exit = false;
 
@@ -45,10 +46,6 @@ public class Simulation implements Runnable {
         return currentPlayer;
     }
 
-    public Card getCurrentCard() {
-        return currentCard;
-    }
-
     @Override
     public void run() {
 
@@ -62,12 +59,12 @@ public class Simulation implements Runnable {
                     currentPlayer = nextPlayer();
 
                     // izvlaci kartu
-                    currentCard = Deck.getInstance().takeCard();
+                    Card currentCard = Deck.getInstance().takeCard();
                     showCard(currentCard);
 
                     // dohvati figuru kojom igrac trenutno igra
                     if(!currentPlayer.hasFiguresForPlaying())
-                        throw new IllegalStateOfGameException("Player " + currentPlayer.getID() + " has no figures for playing!");
+                        throw new IllegalStateOfGameException(PLAYER + currentPlayer.getName() + NO_FIGURES_ERROR_MESSAGE);
                     Figure currentFigure = currentPlayer.getCurrentFigure();
 
                     if(currentCard.getClass().getSimpleName().equals(SPECIAL_CARD)) {

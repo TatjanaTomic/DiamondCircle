@@ -24,6 +24,9 @@ public class Game {
     private static final String PLAYERS_ERROR_MESSAGE = "Number of players can be 2, 3 or 4!";
     private static final String NAMES_FORMAT_ERROR_MESSAGE = "Players names are not well formatted!";
     private static final String NAMES_UNIQUE_ERROR_MESSAGE = "Players names must be unique!";
+    private static final String MATRIX = "matrix";
+    private static final String GAME_PATH_JSON = "gamePath.json";
+    private static final String EMPTY_PATH_JSON = "emptyPath.json";
 
     public static int dimension;
     public static int numberOfPlayers;
@@ -36,10 +39,6 @@ public class Game {
     private static GhostFigure ghostFigure;
 
     public static Simulation simulation = null;
-
-    private static Thread timeCounterThread;
-    private static Thread ghostFigureThread;
-    private static Thread gameThread;
 
     public static void main(String[] args) {
 
@@ -77,13 +76,9 @@ public class Game {
         timeCounter = new TimeCounter();
         ghostFigure = new GhostFigure();
 
-        timeCounterThread = new Thread(timeCounter);
-        ghostFigureThread = new Thread(ghostFigure);
-        gameThread = new Thread(simulation);
-
-        timeCounterThread.start();
-        ghostFigureThread.start();
-        gameThread.start();
+        new Thread(timeCounter).start();
+        new Thread(ghostFigure).start();
+        new Thread(simulation).start();
     }
 
     public static void finishGame() {
@@ -123,7 +118,6 @@ public class Game {
 
         List<String> playersNames = new ArrayList<>();
 
-        //TODO : Ako je u fajlu upisano vise imena nego sto je broj igraca u config fajlu, taj "visak" se ignorise, da li je to okej ?
         for(int i = 1; i <= numberOfPlayers; i++) {
             String name = playersProperties.getProperty("player" + i);
             if(name == null)
@@ -140,8 +134,8 @@ public class Game {
 
     private static void loadMatrixConfiguration() throws MissingConfigurationException, WrongConfigurationDefinitionException{
 
-        JSONArray gamePathJson = ConfigUtil.ReadMatrixConfiguration(matrixConfigs.resolve("matrix" + dimension + "gamePath.json"));
-        JSONArray emptyPathJson = ConfigUtil.ReadMatrixConfiguration(matrixConfigs.resolve("matrix" + dimension + "emptyPath.json"));
+        JSONArray gamePathJson = ConfigUtil.ReadMatrixConfiguration(matrixConfigs.resolve(MATRIX + dimension + GAME_PATH_JSON));
+        JSONArray emptyPathJson = ConfigUtil.ReadMatrixConfiguration(matrixConfigs.resolve(MATRIX + dimension + EMPTY_PATH_JSON));
 
         for (Object object: gamePathJson)
             gamePath.add(parseCoordinates((JSONObject) object));

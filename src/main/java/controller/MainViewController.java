@@ -175,7 +175,7 @@ public class MainViewController implements Initializable {
         }
     }
 
-    public void test() {
+    public void startStopGame() {
         Game.StartResumeGame();
         startStopButton.setDisable(true);
     }

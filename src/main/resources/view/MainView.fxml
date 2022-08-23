@@ -40,7 +40,7 @@
             </HBox.margin>
          </Label>
          <TextFlow HBox.hgrow="ALWAYS" />
-         <Button fx:id="startStopButton" mnemonicParsing="false" onAction="#test" prefHeight="50.0" prefWidth="150.0"
+         <Button fx:id="startStopButton" mnemonicParsing="false" onAction="#startStopGame" prefHeight="50.0" prefWidth="150.0"
                  text="Pokreni / Zaustavi" textFill="#ece0d1" styleClass="purple-button">
             <HBox.margin>
                <Insets right="10.0" top="10.0" />
