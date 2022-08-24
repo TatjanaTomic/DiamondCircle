@@ -38,7 +38,6 @@ public class HistoryController implements Initializable {
         files.addAll(data);
 
         filesList.setItems(files);
-        filesList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         filesList.setCellFactory(param -> new ListCell<>() {
             @Override
             protected void updateItem(File item, boolean empty) {

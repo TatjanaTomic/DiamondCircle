@@ -22,6 +22,7 @@ import model.field.GameField;
 import model.figure.Figure;
 import model.game.Game;
 import model.player.Player;
+import model.util.LoggerUtil;
 
 import java.io.*;
 import java.net.URL;
@@ -89,8 +90,6 @@ public class MainViewController implements Initializable {
     @FXML
     private ImageView cardImageView;
 
-    //TODO : Izdvoji sve stringove
-    //TODO : Za figuru treba pratiti vrijeme igranja
     //TODO : Uraditi pauziranje tredova
 
     @Override
@@ -250,7 +249,7 @@ public class MainViewController implements Initializable {
             figureStage.show();
         }
         catch (IOException e) {
-            e.printStackTrace();
+            LoggerUtil.logAsync(getClass(), e);
         }
 
     }
@@ -317,7 +316,7 @@ public class MainViewController implements Initializable {
             historyStage.show();
         }
         catch (IOException e) {
-            e.printStackTrace();
+            LoggerUtil.logAsync(getClass(), e);
         }
 
     }
