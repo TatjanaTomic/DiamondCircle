@@ -65,7 +65,7 @@ public class Player {
             return;
         }
 
-        currentFigureID += 1;
+        currentFigureID++;
         currentFigure = figures.get(currentFigureID);
     }
 

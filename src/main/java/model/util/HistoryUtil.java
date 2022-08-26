@@ -24,7 +24,7 @@ public abstract class HistoryUtil {
     public static File[] getHistoryFiles() {
         File historyDirectory = new File(historyPath);
 
-        if(!historyDirectory.exists()) {
+        if (!historyDirectory.exists()) {
             historyDirectory.mkdir();
         }
 
