@@ -2,15 +2,14 @@ package model.util;
 
 import model.game.DiamondCircleApplication;
 
-public class TimeCounter implements Runnable {
+public class TimeCounter extends Thread {
 
     private int timeInSeconds = 0;
-    private volatile boolean exit = false;
 
     @Override
     public void run() {
 
-        while(!exit) {
+        while(isAlive()) {
             DiamondCircleApplication.mainController.updateTime(timeInSeconds);
 
             try {
@@ -25,9 +24,5 @@ public class TimeCounter implements Runnable {
 
     public int getTimeInSeconds() {
         return timeInSeconds;
-    }
-
-    public void stop() {
-        exit = true;
     }
 }

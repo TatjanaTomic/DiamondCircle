@@ -11,14 +11,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class GhostFigure implements Runnable {
+public class GhostFigure extends Thread {
 
     private static final int minimum = 2;
     private static final int maximum = Game.dimension;
 
     private final List<Coordinates> pathForDiamonds = new ArrayList<>();
-
-    private volatile boolean exit = false;
 
     public GhostFigure() {
         // It won't set diamond on end field
@@ -28,14 +26,13 @@ public class GhostFigure implements Runnable {
     @Override
     public void run() {
 
-        while(!exit) {
+        while(isAlive()) {
             try {
-                Random random = new Random();
-                int numberOfDiamonds = random.nextInt(maximum - minimum + 1) + minimum;
-
-                Collections.shuffle(pathForDiamonds);
-
                 synchronized (MainViewController.map) {
+
+                    int numberOfDiamonds = new Random().nextInt(maximum - minimum + 1) + minimum;
+
+                    Collections.shuffle(pathForDiamonds);
 
                     for (Coordinates c : Game.gamePath) {
                         GameField gameField = (GameField) MainViewController.map[c.getX()][c.getY()];
@@ -56,9 +53,5 @@ public class GhostFigure implements Runnable {
                 LoggerUtil.log(getClass(), e);
             }
         }
-    }
-
-    public void stop() {
-        exit = true;
     }
 }

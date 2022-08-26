@@ -64,6 +64,8 @@ public class MainViewController implements Initializable {
 
     public static final Field[][] map = new Field[numberOfFields][numberOfFields];
 
+    public static boolean paused = false;
+
     @FXML
     private Label numberOfGamesLabel;
     @FXML
@@ -184,7 +186,6 @@ public class MainViewController implements Initializable {
 
     public void startStopGame() {
         Game.StartResumeGame();
-        startStopButton.setDisable(true);
     }
 
     public static GameField getFieldByPathID(int fieldPathID) throws IllegalStateOfGameException {
@@ -218,7 +219,7 @@ public class MainViewController implements Initializable {
 
     private Stage figureStage;
 
-    private void itemClickedTest() {
+    private void figureClicked() {
 
         if(figureStage != null) {
             figureStage.close();
@@ -301,7 +302,7 @@ public class MainViewController implements Initializable {
                         setStyle(currentFigureStyle);
                     }
 
-                    setOnMousePressed(e -> itemClickedTest());
+                    setOnMousePressed(e -> figureClicked());
                 }
             }
         });

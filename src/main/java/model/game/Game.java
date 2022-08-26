@@ -1,5 +1,6 @@
 package model.game;
 
+import controller.MainViewController;
 import model.exception.ErrorStartingGameException;
 import model.exception.MissingConfigurationException;
 import model.exception.WrongConfigurationDefinitionException;
@@ -35,10 +36,9 @@ public class Game {
     public static List<Coordinates> emptyPath = new ArrayList<>();
     public static List<String> playersNames = new ArrayList<>();
 
+    public static Simulation simulation = null;
     public static TimeCounter timeCounter;
     private static GhostFigure ghostFigure;
-
-    public static Simulation simulation = null;
 
     public static void main(String[] args) {
 
@@ -70,15 +70,15 @@ public class Game {
             }
             catch (ErrorStartingGameException e) {
                 LoggerUtil.log(Game.class, e);
-                return;
             }
         }
+
         timeCounter = new TimeCounter();
         ghostFigure = new GhostFigure();
 
-        new Thread(timeCounter).start();
-        new Thread(ghostFigure).start();
-        new Thread(simulation).start();
+        simulation.start();
+        ghostFigure.start();
+        timeCounter.start();
     }
 
     public static void finishGame() {

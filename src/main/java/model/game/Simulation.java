@@ -15,7 +15,7 @@ import model.util.LoggerUtil;
 
 import java.util.*;
 
-public class Simulation implements Runnable {
+public class Simulation extends Thread {
     private static final String PLAYER = "Player ";
     private static final String NO_FIGURES_ERROR_MESSAGE = " has no figures for playing!";
 
@@ -24,8 +24,6 @@ public class Simulation implements Runnable {
     private final List<Coordinates> pathForHoles = new ArrayList<>();
 
     private Player currentPlayer;
-
-    private volatile boolean exit = false;
 
     public Simulation(List<Player> players) {
         this.playersInGame = players;
@@ -49,7 +47,7 @@ public class Simulation implements Runnable {
     @Override
     public void run() {
 
-        while(!exit) {
+        while(isAlive()) {
 
             while(hasPlayersForPlaying()) {
 
@@ -166,7 +164,4 @@ public class Simulation implements Runnable {
         return null;
     }
 
-    public void stop() {
-        exit = true;
-    }
 }
