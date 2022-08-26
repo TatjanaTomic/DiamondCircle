@@ -108,6 +108,11 @@ public abstract class Figure implements IMovable {
             }
 
             synchronized (MainViewController.map) {
+
+                if(Game.paused) {
+                    MainViewController.map.wait();
+                }
+
                 nextField = calculateNextField(currentPathID);
 
                 if(currentField != null) {
@@ -135,6 +140,11 @@ public abstract class Figure implements IMovable {
                     throw new IllegalStateOfGameException();
 
                 synchronized (MainViewController.map) {
+
+                    if(Game.paused) {
+                        MainViewController.map.wait();
+                    }
+
                     currentField.removeAddedFigure();
                 }
 

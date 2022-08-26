@@ -54,6 +54,9 @@ public class MainViewController implements Initializable {
     private static final String HISTORY_TITLE = "Rezultati";
     private static final String FIGURE_TITLE = "Predjeni put figure ";
     private static final String ID_ERROR_MESSAGE = "Illegal value of field path ID!";
+    private static final String NEW_GAME = "Nova igra";
+    private static final String PAUSE = "Pauza";
+    private static final String RESUME = "Nastavak";
 
     private static final int numberOfFields = Game.dimension;
 
@@ -63,8 +66,6 @@ public class MainViewController implements Initializable {
     static final double fieldHeight = mapHeight / numberOfFields;
 
     public static final Field[][] map = new Field[numberOfFields][numberOfFields];
-
-    public static boolean paused = false;
 
     @FXML
     private Label numberOfGamesLabel;
@@ -93,8 +94,6 @@ public class MainViewController implements Initializable {
     @FXML
     private ImageView cardImageView;
 
-    //TODO : Uraditi pauziranje tredova
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -114,6 +113,8 @@ public class MainViewController implements Initializable {
         timeLabel.setText(TIME_LABEL_TEXT + INITIAL_TIME);
         timeLabel.getStyleClass().remove("purple-border-style");
 
+        updateButtonText();
+
         initializePlayersLabels();
         initializeFiguresList();
     }
@@ -122,6 +123,8 @@ public class MainViewController implements Initializable {
         cardImageView.setImage(new Image(new File(IMAGES_PATH + DIAMOND_IMAGE).toURI().toString()));
         descriptionTextArea.setText(GAME_FINISHED);
         timeLabel.getStyleClass().add("purple-border-style");
+
+        updateButtonText();
 
         for(int i = 0; i < numberOfFields; i++) {
             for(int j = 0; j < numberOfFields; j++ ) {
@@ -136,8 +139,6 @@ public class MainViewController implements Initializable {
             String basicStyle = "-fx-border-color: #e5ceed;";
             playersLabels[i].setStyle(basicStyle);
         }
-
-        updateListView(-1);
 
         startStopButton.setDisable(false);
     }
@@ -212,7 +213,28 @@ public class MainViewController implements Initializable {
         }
         figuresList.setItems(figures);
 
-        updateListView(-1);
+        figuresList.setCellFactory(param -> new ListCell<>() {
+            @Override
+            protected void updateItem(Figure item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setBackground(Background.EMPTY);
+                } else {
+                    ImageView imageView = new ImageView(new Image(new File(IMAGES_PATH + item.getImageName()).toURI().toString()));
+                    imageView.setFitWidth(35);
+                    imageView.setFitHeight(35);
+                    setGraphic(imageView);
+
+                    setText(item.toString());
+                    setTextFill(Paint.valueOf(item.getColor().toString()));
+
+                    getStyleClass().add("list-item-style");
+
+                    setOnMousePressed(e -> figureClicked());
+                }
+            }
+        });
 
         figuresList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
@@ -258,10 +280,23 @@ public class MainViewController implements Initializable {
         Platform.runLater(() -> numberOfGamesLabel.setText(NUMBER_OF_GAMES_TEXT + Game.numberOfGames));
     }
 
-    public void updateCurrentPlayerAndFigure() {
+    public void updateButtonText() {
+        if(Game.finished || !Game.started) {
+            Platform.runLater(() -> startStopButton.setText(NEW_GAME));
+            return;
+        }
+
+        if(Game.paused) {
+            Platform.runLater(() -> startStopButton.setText(RESUME));
+        }
+        else {
+            Platform.runLater(() -> startStopButton.setText(PAUSE));
+        }
+    }
+
+    public void updateCurrentPlayer() {
         Label[] playersLabels = {player1Label, player2Label, player3Label, player4Label};
         Player currentPlayer = Game.simulation.getCurrentPlayer();
-        int currentFigureID = currentPlayer.getCurrentFigure().getID();
 
         Platform.runLater(() -> {
             for(int i = 0; i < Game.numberOfPlayers; i++) {
@@ -271,38 +306,6 @@ public class MainViewController implements Initializable {
                 } else {
                     String basicStyle = "-fx-border-color: #e5ceed;";
                     playersLabels[i].setStyle(basicStyle);
-                }
-            }
-            updateListView(currentFigureID);
-        });
-
-
-    }
-
-    private void updateListView(int currentFigureID) {
-        figuresList.setCellFactory(param -> new ListCell<>() {
-            @Override
-            protected void updateItem(Figure item, boolean empty) {
-                super.updateItem(item, empty);
-
-                if (empty || item == null) {
-                    setBackground(Background.EMPTY);
-                } else {
-                    ImageView imageView = new ImageView(new Image(new File(IMAGES_PATH + item.getImageName()).toURI().toString()));
-                    imageView.setFitWidth(35);
-                    imageView.setFitHeight(35);
-                    setGraphic(imageView);
-
-                    setText(item.toString());
-                    setTextFill(Paint.valueOf(item.getColor().toString()));
-
-                    getStyleClass().add("list-item-style");
-                    if(currentFigureID == item.getID()) {
-                        String currentFigureStyle = "-fx-border-color: " + item.getColor() + "; -fx-border-width: 2;";
-                        setStyle(currentFigureStyle);
-                    }
-
-                    setOnMousePressed(e -> figureClicked());
                 }
             }
         });

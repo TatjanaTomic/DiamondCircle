@@ -40,6 +40,10 @@ public class Game {
     public static TimeCounter timeCounter;
     private static GhostFigure ghostFigure;
 
+    public static boolean paused = false;
+    public static boolean started = false;
+    public static boolean finished = false;
+
     public static void main(String[] args) {
 
         try {
@@ -63,28 +67,41 @@ public class Game {
 
     public static void StartResumeGame() {
 
-        if(simulation == null) {
-            try {
-                simulation = SimulationBuilder.build();
-                DiamondCircleApplication.mainController.updateView();
+        if(!started) {
+            if (simulation == null) {
+                try {
+                    simulation = SimulationBuilder.build();
+                    DiamondCircleApplication.mainController.updateView();
+                } catch (ErrorStartingGameException e) {
+                    LoggerUtil.log(Game.class, e);
+                }
             }
-            catch (ErrorStartingGameException e) {
-                LoggerUtil.log(Game.class, e);
+
+            timeCounter = new TimeCounter();
+            ghostFigure = new GhostFigure();
+
+            simulation.start();
+            ghostFigure.start();
+            timeCounter.start();
+
+            started = true;
+            finished = false;
+        }
+        else {
+            paused = !paused;
+
+            synchronized (MainViewController.map) {
+                MainViewController.map.notifyAll();
             }
         }
 
-        timeCounter = new TimeCounter();
-        ghostFigure = new GhostFigure();
-
-        simulation.start();
-        ghostFigure.start();
-        timeCounter.start();
+        DiamondCircleApplication.mainController.updateButtonText();
     }
 
     public static void finishGame() {
-        simulation.stop();
-        ghostFigure.stop();
-        timeCounter.stop();
+        started = false;
+        paused = false;
+        finished = true;
         simulation = null;
         ghostFigure = null;
         timeCounter = null;

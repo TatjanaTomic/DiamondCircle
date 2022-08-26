@@ -47,7 +47,7 @@ public class Simulation extends Thread {
     @Override
     public void run() {
 
-        while(isAlive()) {
+        while(!Game.finished) {
 
             while(hasPlayersForPlaying()) {
 
@@ -65,7 +65,7 @@ public class Simulation extends Thread {
                         throw new IllegalStateOfGameException(PLAYER + currentPlayer.getName() + NO_FIGURES_ERROR_MESSAGE);
                     Figure currentFigure = currentPlayer.getCurrentFigure();
 
-                    DiamondCircleApplication.mainController.updateCurrentPlayerAndFigure();
+                    DiamondCircleApplication.mainController.updateCurrentPlayer();
 
                     if(currentCard instanceof SpecialCard) {
                         DiamondCircleApplication.mainController.updateDescription(true);
@@ -115,6 +115,11 @@ public class Simulation extends Thread {
         // set holes
         Collections.shuffle(pathForHoles);
         synchronized (MainViewController.map) {
+
+            if(Game.paused) {
+                MainViewController.map.wait();
+            }
+
             for(int i = 0; i < numberOfHoles; i++) {
                 Coordinates c = pathForHoles.get(i);
                 GameField gameField = (GameField) MainViewController.map[c.getX()][c.getY()];
@@ -126,6 +131,11 @@ public class Simulation extends Thread {
 
         // unset holes
         synchronized (MainViewController.map) {
+
+            if(Game.paused) {
+                MainViewController.map.wait();
+            }
+
             for (Coordinates c : Game.gamePath) {
                 GameField gameField = (GameField) MainViewController.map[c.getX()][c.getY()];
                 if(gameField.isHoleAdded() && gameField.isFigureAdded() && !(gameField.getAddedFigure() instanceof HoveringFigure)) {

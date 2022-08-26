@@ -26,9 +26,13 @@ public class GhostFigure extends Thread {
     @Override
     public void run() {
 
-        while(isAlive()) {
+        while(!Game.finished) {
             try {
                 synchronized (MainViewController.map) {
+
+                    if(Game.paused) {
+                        MainViewController.map.wait();
+                    }
 
                     int numberOfDiamonds = new Random().nextInt(maximum - minimum + 1) + minimum;
 
