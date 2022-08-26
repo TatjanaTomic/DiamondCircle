@@ -26,12 +26,16 @@
     -fx-text-alignment: center;
     -fx-font-weight: bold;
     -fx-font-size: 14;
+    -fx-border-width: 2;
+    -fx-border-color: #e5ceed;
+    -fx-padding: 2px;
 }
 
 .purple-border-style {
     -fx-background-color: white;
     -fx-border-color: #9b66ad;
     -fx-border-width: 1.5;
+    -fx-padding: 2px;
 }
 
 .list-item-style {

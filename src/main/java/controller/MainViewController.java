@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
@@ -117,6 +118,7 @@ public class MainViewController implements Initializable {
     public void resetView() {
         cardImageView.setImage(new Image(new File(IMAGES_PATH + DIAMOND_IMAGE).toURI().toString()));
         descriptionTextArea.setText(GAME_FINISHED);
+        timeLabel.getStyleClass().add("purple-border-style");
 
         for(int i = 0; i < numberOfFields; i++) {
             for(int j = 0; j < numberOfFields; j++ ) {
@@ -128,9 +130,11 @@ public class MainViewController implements Initializable {
 
         Label[] playersLabels = {player1Label, player2Label, player3Label, player4Label};
         for(int i = 0; i < Game.numberOfPlayers; i++) {
-            String basicStyle = "-fx-border-color: #e5ceed; -fx-border-width: 2; -fx-padding: 2px;";
+            String basicStyle = "-fx-border-color: #e5ceed;";
             playersLabels[i].setStyle(basicStyle);
         }
+
+        updateListView(-1);
 
         startStopButton.setDisable(false);
     }
@@ -206,28 +210,7 @@ public class MainViewController implements Initializable {
         }
         figuresList.setItems(figures);
 
-        figuresList.setCellFactory(param -> new ListCell<>() {
-            @Override
-            protected void updateItem(Figure item, boolean empty) {
-                super.updateItem(item, empty);
-
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    ImageView imageView = new ImageView(new Image(new File(IMAGES_PATH + item.getImageName()).toURI().toString()));
-                    imageView.setFitWidth(35);
-                    imageView.setFitHeight(35);
-                    setGraphic(imageView);
-
-                    setText(item.toString());
-                    setTextFill(Paint.valueOf(item.getColor().toString()));
-
-                    getStyleClass().add("list-item-style");
-
-                    setOnMousePressed(e -> itemClickedTest());
-                }
-            }
-        });
+        updateListView(-1);
 
         figuresList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
@@ -276,20 +259,52 @@ public class MainViewController implements Initializable {
     public void updateCurrentPlayerAndFigure() {
         Label[] playersLabels = {player1Label, player2Label, player3Label, player4Label};
         Player currentPlayer = Game.simulation.getCurrentPlayer();
+        int currentFigureID = currentPlayer.getCurrentFigure().getID();
 
         Platform.runLater(() -> {
             for(int i = 0; i < Game.numberOfPlayers; i++) {
                 if(playersLabels[i].getText().contains(currentPlayer.getName())) {
-                    String style = "-fx-border-color: " + Game.simulation.getCurrentPlayer().getColor() + "; -fx-border-width: 2; -fx-padding: 2px;";
+                    String style = "-fx-border-color: " + Game.simulation.getCurrentPlayer().getColor() + ";";
                     playersLabels[i].setStyle(style);
                 } else {
-                    String basicStyle = "-fx-border-color: #e5ceed; -fx-border-width: 2; -fx-padding: 2px;";
+                    String basicStyle = "-fx-border-color: #e5ceed;";
                     playersLabels[i].setStyle(basicStyle);
+                }
+            }
+            updateListView(currentFigureID);
+        });
+
+
+    }
+
+    private void updateListView(int currentFigureID) {
+        figuresList.setCellFactory(param -> new ListCell<>() {
+            @Override
+            protected void updateItem(Figure item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setBackground(Background.EMPTY);
+                } else {
+                    ImageView imageView = new ImageView(new Image(new File(IMAGES_PATH + item.getImageName()).toURI().toString()));
+                    imageView.setFitWidth(35);
+                    imageView.setFitHeight(35);
+                    setGraphic(imageView);
+
+                    setText(item.toString());
+                    setTextFill(Paint.valueOf(item.getColor().toString()));
+
+                    getStyleClass().add("list-item-style");
+                    if(currentFigureID == item.getID()) {
+                        String currentFigureStyle = "-fx-border-color: " + item.getColor() + "; -fx-border-width: 2;";
+                        setStyle(currentFigureStyle);
+                    }
+
+                    setOnMousePressed(e -> itemClickedTest());
                 }
             }
         });
     }
-
     public void setDescription(boolean isSpecialCard) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(CURRENT_PLAYER);
