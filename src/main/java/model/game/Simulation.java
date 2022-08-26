@@ -70,7 +70,7 @@ public class Simulation implements Runnable {
                     DiamondCircleApplication.mainController.updateCurrentPlayerAndFigure();
 
                     if(currentCard instanceof SpecialCard) {
-                        DiamondCircleApplication.mainController.setDescription(true);
+                        DiamondCircleApplication.mainController.updateDescription(true);
                         specialCardOnMove();
                     }
                     else {
@@ -105,7 +105,7 @@ public class Simulation implements Runnable {
     }
 
     private void showCard(Card currentCard) {
-        DiamondCircleApplication.mainController.setCard(currentCard.getImageName());
+        DiamondCircleApplication.mainController.updateCard(currentCard.getImageName());
     }
 
     private void specialCardOnMove() throws InterruptedException, IllegalStateOfGameException {

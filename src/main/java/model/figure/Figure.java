@@ -5,7 +5,6 @@ import model.exception.IllegalStateOfGameException;
 import model.field.GameField;
 import model.game.DiamondCircleApplication;
 import model.game.Game;
-import model.util.TimeCounter;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -118,7 +117,7 @@ public abstract class Figure implements IMovable {
                     currentField.removeAddedFigure();
                 }
 
-                DiamondCircleApplication.mainController.setDescription(false);
+                DiamondCircleApplication.mainController.updateDescription(false);
 
                 currentField = nextField;
                 currentField.setAddedFigure(this);

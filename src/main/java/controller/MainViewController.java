@@ -110,6 +110,7 @@ public class MainViewController implements Initializable {
 
     public void updateView() {
         timeLabel.setText(TIME_LABEL_TEXT + INITIAL_TIME);
+        timeLabel.getStyleClass().remove("purple-border-style");
 
         initializePlayersLabels();
         initializeFiguresList();
@@ -243,12 +244,12 @@ public class MainViewController implements Initializable {
 
     }
 
-    public void setCard(String cardName) {
+    public void updateCard(String cardName) {
         Platform.runLater(() -> cardImageView.setImage(new Image
                 (new File(IMAGES_PATH + cardName).toURI().toString())));
     }
 
-    public void setTime(int timeInSeconds) {
+    public void updateTime(int timeInSeconds) {
         Platform.runLater(() -> timeLabel.setText(TIME_LABEL_TEXT + timeInSeconds + SECONDS));
     }
 
@@ -305,7 +306,8 @@ public class MainViewController implements Initializable {
             }
         });
     }
-    public void setDescription(boolean isSpecialCard) {
+    
+    public void updateDescription(boolean isSpecialCard) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(CURRENT_PLAYER);
         if(isSpecialCard) {
