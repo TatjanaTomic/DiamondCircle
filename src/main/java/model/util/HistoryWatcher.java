@@ -3,7 +3,6 @@ package model.util;
 import model.game.DiamondCircleApplication;
 import model.game.Game;
 
-import java.io.File;
 import java.nio.file.*;
 import java.util.Objects;
 

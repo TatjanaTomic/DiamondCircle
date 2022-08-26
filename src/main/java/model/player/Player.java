@@ -73,4 +73,18 @@ public class Player {
     public String toString() {
         return name;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if(other == null) {
+            return false;
+        }
+
+        if(!getClass().equals(other.getClass())) {
+            return false;
+        }
+
+        Player otherPlayer = (Player) other;
+        return name.equals(otherPlayer.getName());
+    }
 }

@@ -4,6 +4,7 @@ import controller.MainViewController;
 import model.card.Card;
 import model.card.Deck;
 import model.card.SimpleCard;
+import model.card.SpecialCard;
 import model.exception.IllegalStateOfGameException;
 import model.field.Coordinates;
 import model.field.GameField;
@@ -15,7 +16,6 @@ import model.util.LoggerUtil;
 import java.util.*;
 
 public class Simulation implements Runnable {
-    private static final String SPECIAL_CARD = "SpecialCard";
     private static final String PLAYER = "Player ";
     private static final String NO_FIGURES_ERROR_MESSAGE = " has no figures for playing!";
 
@@ -67,7 +67,9 @@ public class Simulation implements Runnable {
                         throw new IllegalStateOfGameException(PLAYER + currentPlayer.getName() + NO_FIGURES_ERROR_MESSAGE);
                     Figure currentFigure = currentPlayer.getCurrentFigure();
 
-                    if(currentCard.getClass().getSimpleName().equals(SPECIAL_CARD)) {
+                    DiamondCircleApplication.mainController.updateCurrentPlayerAndFigure();
+
+                    if(currentCard instanceof SpecialCard) {
                         DiamondCircleApplication.mainController.setDescription(true);
                         specialCardOnMove();
                     }

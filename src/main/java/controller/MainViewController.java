@@ -126,6 +126,12 @@ public class MainViewController implements Initializable {
             }
         }
 
+        Label[] playersLabels = {player1Label, player2Label, player3Label, player4Label};
+        for(int i = 0; i < Game.numberOfPlayers; i++) {
+            String basicStyle = "-fx-border-color: #e5ceed; -fx-border-width: 2; -fx-padding: 2px;";
+            playersLabels[i].setStyle(basicStyle);
+        }
+
         startStopButton.setDisable(false);
     }
 
@@ -164,10 +170,10 @@ public class MainViewController implements Initializable {
         player3Label.setText(THIRD_PLAYER);
         player4Label.setText(FOURTH_PLAYER);
 
-        for(int i = 1; i <= Game.numberOfPlayers; i++) {
-            String initialText = playersLabels[i-1].getText();
-            playersLabels[i-1].setText(initialText + Game.simulation.getPlayers().get(i-1));
-            playersLabels[i-1].setTextFill(Paint.valueOf(Game.simulation.getPlayers().get(i-1).getColor().toString()));
+        for(int i = 0; i < Game.numberOfPlayers; i++) {
+            String initialText = playersLabels[i].getText();
+            playersLabels[i].setText(initialText + Game.simulation.getPlayers().get(i));
+            playersLabels[i].setTextFill(Paint.valueOf(Game.simulation.getPlayers().get(i).getColor().toString()));
         }
     }
 
@@ -265,6 +271,23 @@ public class MainViewController implements Initializable {
 
     public void updateNumberOfGames() {
         Platform.runLater(() -> numberOfGamesLabel.setText(NUMBER_OF_GAMES_TEXT + Game.numberOfGames));
+    }
+
+    public void updateCurrentPlayerAndFigure() {
+        Label[] playersLabels = {player1Label, player2Label, player3Label, player4Label};
+        Player currentPlayer = Game.simulation.getCurrentPlayer();
+
+        Platform.runLater(() -> {
+            for(int i = 0; i < Game.numberOfPlayers; i++) {
+                if(playersLabels[i].getText().contains(currentPlayer.getName())) {
+                    String style = "-fx-border-color: " + Game.simulation.getCurrentPlayer().getColor() + "; -fx-border-width: 2; -fx-padding: 2px;";
+                    playersLabels[i].setStyle(style);
+                } else {
+                    String basicStyle = "-fx-border-color: #e5ceed; -fx-border-width: 2; -fx-padding: 2px;";
+                    playersLabels[i].setStyle(basicStyle);
+                }
+            }
+        });
     }
 
     public void setDescription(boolean isSpecialCard) {
